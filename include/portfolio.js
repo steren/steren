@@ -1,7 +1,4 @@
 var types = [];
-var inputs;
-
-var works;
 
 function filterClick(input) {
 	// Get the group and type of the button clicked
@@ -74,7 +71,6 @@ $(document).ready(function() {
 	});
 	
 	// Attach 'refresh' to filters
-	inputs = $(".filter");
-	inputs.click(filterClick);
+	$(".filter").click(filterClick);
 
 });
