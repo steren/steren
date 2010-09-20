@@ -1,0 +1,17 @@
+.work {
+	margin : 1em 0;
+	padding : 0.5em;
+	width : 8em;
+	height: 8em;
+	float: left;
+}
+
+.work p {
+	margin: 0;
+}
+.work .video {
+	display:none;
+}
+.work .description {
+	display:none;
+}
