@@ -1,9 +1,24 @@
 .work {
-	margin : 1em 0;
-	padding : 0.5em;
-	width : 8em;
-	height: 8em;
+	margin : 10px;
+	padding : 6px;
+	width : 120px;
+	height: 120px;
 	float: left;
+
+	transition-property: width, height,;	
+	-moz-transition-property: width, height;
+	-webkit-transition-property: width, height;
+	-o-transition-property: width, height;
+
+	transition-duration: 1s; 	
+	-moz-transition-duration: 1s; 
+	-webkit-transition-duration: 1s; 
+	-o-transition-duration: 1s; 
+}
+
+.work:hover {
+	width : 150px;
+	height: 150px;
 }
 
 .work p {
