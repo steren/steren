@@ -3,7 +3,7 @@
  * This script is licensed under GPLv3: modify it as long as you attribute and share it
  */
 
-/** two dimentional array containing current state (type[group][type]) */
+/** two dimentional array containing current state (types[group][type]) */
 var types = [];
 
 function filterClick(input) {
@@ -62,21 +62,25 @@ $(document).ready(function() {
 
 	// Populate types
 	$(".filter").each( function(i, filter) {
-		var groupAndType = filter.id;
-		groupAndType = groupAndType.split(':');
+		var groupAndType = filter.id.split(':');
+		
 		var type = groupAndType[1];
 		var typeGroup = groupAndType[0];
-		types[typeGroup];
+		
+		var value = $(filter).hasClass("active") ? 1 : 0;
+		
 		if(types[typeGroup] == null) {
-			group = [];
-			group[type] = 1;
+			var group = [];
+			group[type] = value;
 			types[typeGroup] = group;
 		} else {
-			types[typeGroup][type]= 1;
+			types[typeGroup][type]= value;
 		}
 	});
 	
-	// Attach 'refresh' to filters
+	refresh();
+	
+	// Attach 'filterClick' to filters
 	$(".filter").click(filterClick);
 
 });
