@@ -8,6 +8,8 @@ h1 {
 
 #alert {
 	margin: 1em 0;
+	background-color: #F6F6F6;
+	padding: 5px 0;
 }
 
 #works {
@@ -30,6 +32,9 @@ h1 {
 	margin: 0 1em 0 0;
 }
 
+#filters {
+	margin: 0 0 20px;
+}
 
 .filterGroup {
 	border : 1px dotted #DDDDDD;
