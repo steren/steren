@@ -46,6 +46,6 @@ h1 {
 	cursor: pointer;
 
 }
-#filters .active {
+.filter.active {
 	background-color: #EEEEEE;
 }
