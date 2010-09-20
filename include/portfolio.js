@@ -4,13 +4,13 @@ var inputs;
 var works;
 
 function filterClick(input) {
-	//get the group and type of the 
+	// Get the group and type of the button clicked
 	var groupAndType = input.target.id;
 	groupAndType = groupAndType.split(':');
 	var type = groupAndType[1];
 	var typeGroup = groupAndType[0];
 
-	//Change the value
+	// Change the value
 	if (types[typeGroup][type] == 0) {
 		types[typeGroup][type] = 1;
 		$(input.target).addClass('active');
@@ -57,7 +57,7 @@ function refresh() {
 
 $(document).ready(function() {
 
-	//populate types
+	// Populate types
 	$(".filter").each( function(i, filter) {
 		var groupAndType = filter.id;
 		groupAndType = groupAndType.split(':');
@@ -73,7 +73,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	//attach 'refresh' to filters
+	// Attach 'refresh' to filters
 	inputs = $(".filter");
 	inputs.click(filterClick);
 
