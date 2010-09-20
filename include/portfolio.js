@@ -1,3 +1,9 @@
+/**
+ * Copyright 2010 Steren Giannini steren.giannini@gmail.com
+ * This script is licensed under GPLv3: modify it as long as you attribute and share it
+ */
+
+/** two dimentional array containing current state (type[group][type]) */
 var types = [];
 
 function filterClick(input) {
