@@ -8,13 +8,13 @@ style shared by all websites
 	font-size: 150%;
 }
 
-#steren-websites .current a {
-	background-color: #EEEEEE;
-	cursor: default;
+#steren-websites a {
+	text-decoration: none;
 }
 
 #steren-websites .current a {
-	text-decoration: none;
+	background-color: #EEEEEE;
+	cursor: default;
 }
 
 #steren-websites ul {
