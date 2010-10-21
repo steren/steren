@@ -1,5 +1,5 @@
-#container {
-	padding: 2em 5em;
+#wrapper {
+	padding: 2em;
 }
 
 h1 {
@@ -54,3 +54,67 @@ h1 {
 .filter.active {
 	background-color: #EEEEEE;
 }
+
+/*
+ * Works displayed as icons
+ */
+
+.work {
+	margin : 10px;
+	padding : 6px;
+	width : 120px;
+	height: 120px;
+	
+	float:left;
+
+	transition-property: width, height,;	
+	-moz-transition-property: width, height;
+	-webkit-transition-property: width, height, position;
+	-o-transition-property: width, height;
+
+	transition-duration: 1s; 	
+	-moz-transition-duration: 1s; 
+	-webkit-transition-duration: 1s; 
+	-o-transition-duration: 1s; 
+}
+/*
+.work:hover {
+	width : 150px;
+	height: 150px;
+}
+*/
+.work p {
+	margin: 0;
+}
+.work .video {
+	display:none;
+}
+.work .description {
+	display:none;
+}
+
+/*
+ * Works displayed as Sections
+ */
+
+/*
+.work {
+	border : 1px solid #DDDDDD;
+	margin : 1em 0;
+	padding : 0.5em;
+}
+.work .title {
+	font-size : 1.3em;
+	margin: 0 0 0.5em;
+	border-bottom:1px solid #DDDDDD;
+}
+.work p {
+	margin: 0;
+}
+.work .video {
+	display:none;
+}
+*/
+
+
+

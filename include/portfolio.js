@@ -50,9 +50,9 @@ function refresh() {
 		}
 
 		if(result == 0) {
-			$(work).hide('normal');
+			$(work).hide();//.hide('normal');
 		} else {
-			$(work).show('normal');
+			$(work).show();//.show('normal');
 		}
 
 	});

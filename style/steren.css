@@ -27,3 +27,8 @@ style shared by all websites
 	display: inline;
 	padding-left: 0.5em;
 }
+
+#wrapper {
+	margin:0 auto;
+	width:940px;
+}
