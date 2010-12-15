@@ -25,6 +25,14 @@ function filterClick(input) {
 	refresh();
 }
 
+function show($element) {
+	$element.removeClass('hidden');
+}
+
+function hide($element) {
+	$element.addClass('hidden');
+}
+
 function refresh() {
 	$(".work").each( function(i, work) {
 		var classes = work.className;
@@ -32,15 +40,18 @@ function refresh() {
 		
 		var resultArray = [];
 
-		for(j=1; j<classes.length; j++) {
+		for(j=0; j<classes.length; j++) {
 			groupAndType = classes[j].split(':');
-			type = groupAndType[1];
-			typeGroup = groupAndType[0];
+			// only consider the group and type classes
+			if(groupAndType[1] != null) {
+				type = groupAndType[1];
+				typeGroup = groupAndType[0];
 
-			if( resultArray[typeGroup] != null ) {
-				resultArray[typeGroup] += types[typeGroup][type];
-			} else {
-				resultArray[typeGroup] = types[typeGroup][type];
+				if( resultArray[typeGroup] != null ) {
+					resultArray[typeGroup] += types[typeGroup][type];
+				} else {
+					resultArray[typeGroup] = types[typeGroup][type];
+				}
 			}
 		}
 
@@ -50,9 +61,9 @@ function refresh() {
 		}
 
 		if(result == 0) {
-			$(work).hide();//.hide('normal');
+			hide($(work));
 		} else {
-			$(work).show();//.show('normal');
+			show($(work));
 		}
 
 	});

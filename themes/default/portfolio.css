@@ -108,17 +108,7 @@ h2 {
 	width : 120px;
 	height: 120px;
 	
-	float:left;
-
-	transition-property: width, height,;	
-	-moz-transition-property: width, height;
-	-webkit-transition-property: width, height, position;
-	-o-transition-property: width, height;
-
-	transition-duration: 1s; 	
-	-moz-transition-duration: 1s; 
-	-webkit-transition-duration: 1s; 
-	-o-transition-duration: 1s; 
+	float : left;
 }
 /*
 .work:hover {
@@ -126,6 +116,11 @@ h2 {
 	height: 150px;
 }
 */
+
+.work.hidden {
+	display: none;
+}
+
 .work p {
 	margin: 0;
 }
