@@ -1,5 +1,5 @@
 /*
- style shared by all websites
+ Steren websites
 */
 
 #steren-websites {
@@ -49,18 +49,6 @@ h2 {
 	clear:both;
 }
 
-#alert {
-	margin: 1em 0;
-	background-color: #F6F6F6;
-	padding: 5px 0;
-}
-
-#works {
-	float: left;
-	margin: 0 0 0 1em;
-	max-width: 50em;
-}
-
 .work {
 	border : 1px solid #DDDDDD;
 }
@@ -69,12 +57,12 @@ h2 {
 	margin: 0 0 0.5em;
 	border-bottom:1px solid #DDDDDD;
 }
-
+/*
 #pannel {
 	float: left;
 	margin: 0 1em 0 0;
 }
-
+*/
 #filters {
 	margin: 0 0 20px;
 }
@@ -101,7 +89,6 @@ h2 {
 /*
  * Works displayed as icons
  */
-/*
 .work {
 	margin : 10px;
 	padding : 6px;
@@ -123,12 +110,11 @@ h2 {
 .work .description {
 	display:none;
 }
-*/
+
 /*
  * Works displayed as Sections
  */
-
-
+/*
 .work {
 	border : 1px solid #DDDDDD;
 	margin : 1em 0;
@@ -145,6 +131,5 @@ h2 {
 .work .video {
 	display:none;
 }
-
-
+*/
 
