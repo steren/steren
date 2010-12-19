@@ -10,7 +10,7 @@ var workTemplate = 	['<div data-id="{{id}}" class="work seriousness:{{seriousnes
 					'<p class="date">{{date}}</p>',
 					'<p class="description">{{description}}</p>',
 					'{{#links}}',
-						'<p><a href="{{href}}">{{value}}</a></p>',
+						'<p class="link"><a href="{{href}}">{{value}}</a></p>',
 					'{{/links}}',
 					'</div>'].join('');
 

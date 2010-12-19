@@ -142,10 +142,12 @@ var data = [
 			category:'Short movies',
 			date:'2008',
 			description:'Absurd american trailer parodies',
-			links: [{href:'http://www.youtube.com/view_play_list?p=1EF78AC82296661C', value:'Episodes as a Youtube playlist'},
-				{href:'http://www.youtube.com/watch?v=_qOPk4TKBwY', value:'The Attack Of The Jambon Volant 2 on Youtube'},
-				{href:'http://www.youtube.com/watch?v=-c4UzbL7J-o', value:'The Attack Of The Jambon Volant 3 on Youtube'},
-				{href:'http://www.youtube.com/watch?v=QoSFuK3qAW4', value:'Jambon Volant: Origins on Youtube'}]
+			links: [{href:'http://www.youtube.com/view_play_list?p=1EF78AC82296661C', value:'Episodes as a Youtube playlist'}
+				//,
+				//{href:'http://www.youtube.com/watch?v=_qOPk4TKBwY', value:'The Attack Of The Jambon Volant 2 on Youtube'},
+				//{href:'http://www.youtube.com/watch?v=-c4UzbL7J-o', value:'The Attack Of The Jambon Volant 3 on Youtube'},
+				//{href:'http://www.youtube.com/watch?v=QoSFuK3qAW4', value:'Jambon Volant: Origins on Youtube'}
+				]
 		},
 		{
 			id:'mobileinfantry',
@@ -153,8 +155,8 @@ var data = [
 			seriousness:'serious',
 			type:'graphic',
 			participation:'contribution',
-			title:'Mobile Infantry - Training Camp',
-			category:'Half Life Modification',
+			title:'Mobile Infantry',
+			category:'Half-life Mod',
 			date:'2002',
 			description:'Level Design for an Half Life modification based on the Starship Troopers universe.',
 			links: [{href:'http://www.youtube.com/watch?v=1LC1Ud0rVnI', value:'Mobile Infantry - Training Camp on Youtube'}]

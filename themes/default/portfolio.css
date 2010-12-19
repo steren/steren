@@ -45,21 +45,11 @@ h2 {
 	clear:both;
 }
 
-.work {
-	border : 1px solid #DDDDDD;
-}
-.work .title {
-	font-size : 1.3em;
-	margin: 0 0 0.5em;
-	border-bottom:1px solid #DDDDDD;
-}
-
 #pannel {
 	float: left;
 	width:260px;
 	margin: 0 1em 0 0;
 }
-
 #works {
 	float: right;
 	width: 640px;
@@ -68,7 +58,6 @@ h2 {
 #filters {
 	margin: 0 0 20px;
 }
-
 .filterGroup {
 	border : 1px dotted #DDDDDD;
 	margin: 0.5em;
@@ -82,10 +71,21 @@ h2 {
 .filter {
 	padding: 0.5em;
 	cursor: pointer;
-
 }
 .filter.active {
 	background-color: #EEEEEE;
+}
+
+.work {
+	border : 1px solid #DDDDDD;
+}
+.work .title {
+	font-size : 1.2em;
+	margin: 0 0 0.5em;
+	border-bottom:1px solid #DDDDDD;
+}
+.work .link {
+	font-size : .8em;
 }
 
 /*
@@ -112,6 +112,8 @@ h2 {
 .work .description {
 	display:none;
 }
+
+
 
 /*
  * Works displayed as Sections
