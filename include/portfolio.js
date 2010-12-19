@@ -64,11 +64,13 @@ function refresh() {
 		}
 	}
 	
-	$('#works').quicksand( $('#worksTarget div'), function(){});
+	$('#works').quicksand( $('#worksTarget div'), {useScaling: true});
 
 }
 
 $(document).ready(function() {
+
+
 
 	// Populate types
 	$(".filter").each( function(i, filter) {
@@ -100,3 +102,4 @@ $(document).ready(function() {
 	// Attach 'filterClick' to filters
 	$(".filter").click(filterClick);
 });
+
