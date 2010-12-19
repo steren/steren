@@ -28,16 +28,12 @@
 	padding-left: 0.5em;
 }
 
-#wrapper {
-	margin:0 auto;
-	width:940px;
-}
-
-
 /*
  Portfolio
 */
 #wrapper {
+	margin:0 auto;
+	width:940px;
 	padding: 2em;
 }
 
@@ -57,12 +53,18 @@ h2 {
 	margin: 0 0 0.5em;
 	border-bottom:1px solid #DDDDDD;
 }
-/*
+
 #pannel {
 	float: left;
+	width:260px;
 	margin: 0 1em 0 0;
 }
-*/
+
+#works {
+	float: right;
+	width: 640px;
+}
+
 #filters {
 	margin: 0 0 20px;
 }
