@@ -101,7 +101,7 @@ h2 {
 /*
  * Works displayed as icons
  */
-
+/*
 .work {
 	margin : 10px;
 	padding : 6px;
@@ -110,13 +110,6 @@ h2 {
 	
 	float : left;
 }
-/*
-.work:hover {
-	width : 150px;
-	height: 150px;
-}
-*/
-
 .work.hidden {
 	display: none;
 }
@@ -130,12 +123,12 @@ h2 {
 .work .description {
 	display:none;
 }
-
+*/
 /*
  * Works displayed as Sections
  */
 
-/*
+
 .work {
 	border : 1px solid #DDDDDD;
 	margin : 1em 0;
@@ -152,7 +145,6 @@ h2 {
 .work .video {
 	display:none;
 }
-*/
 
 
 

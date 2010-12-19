@@ -3,6 +3,14 @@
  * This script is licensed under GPLv3: modify it as long as you attribute and share it
  */
 
+/** The Work template */
+var workTemplate = 	['<div data-id="{{id}}" class="work seriousness:{{seriousness}} type:{{type}} participation:{{participation}}">',
+					'<p class="title">{{title}}</p>',
+					'<p class="category">{{category}}</p>',
+					'<p class="date">{{date}}</p>',
+					'<p class="description">{{description}}</p>',
+					'</div>'].join('');
+
 /** two dimentional array containing current state (types[group][type]) */
 var types = [];
 
@@ -25,48 +33,39 @@ function filterClick(input) {
 	refresh();
 }
 
-function show($element) {
-	$element.removeClass('hidden');
-}
-
-function hide($element) {
-	$element.addClass('hidden');
-}
-
 function refresh() {
-	$(".work").each( function(i, work) {
-		var classes = work.className;
-		classes = classes.split(' ');
-		
+	$('#worksTarget').html('');
+	// ite rate on every work
+	for( var i =0; i < data.length; i++ ) {
+		var work = data[i];
+		// this array will contain the resutl value for every filter group
 		var resultArray = [];
 
-		for(j=0; j<classes.length; j++) {
-			groupAndType = classes[j].split(':');
-			// only consider the group and type classes
-			if(groupAndType[1] != null) {
-				type = groupAndType[1];
-				typeGroup = groupAndType[0];
-
+		// for each filter group
+		for( var j = 0; j < filterGroups.length; j++ ) {
+				var typeGroup = filterGroups[j];
+				var type = work[typeGroup];
+			
 				if( resultArray[typeGroup] != null ) {
 					resultArray[typeGroup] += types[typeGroup][type];
 				} else {
 					resultArray[typeGroup] = types[typeGroup][type];
 				}
-			}
 		}
-
+		
 		var result = 1;
 		for( val in resultArray ) {
 			result *= resultArray[val];
 		}
-
-		if(result == 0) {
-			hide($(work));
-		} else {
-			show($(work));
+		
+		if(result != 0) {
+			var html = Mustache.to_html(workTemplate, work);
+			$('#worksTarget').append(html);
 		}
+	}
+	
+	$('#works').quicksand( $('#worksTarget div'), function(){});
 
-	});
 }
 
 $(document).ready(function() {
@@ -88,10 +87,16 @@ $(document).ready(function() {
 			types[typeGroup][type]= value;
 		}
 	});
-	
+
+	// generate all works	
+	for(i in data) {
+		var html = Mustache.to_html(workTemplate, data[i]);
+		$('#works').append(html);
+	}
+
+	// refresh to take into account the filters initial values
 	refresh();
 	
 	// Attach 'filterClick' to filters
 	$(".filter").click(filterClick);
-
 });
