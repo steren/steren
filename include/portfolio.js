@@ -68,13 +68,22 @@ function refresh() {
 	}
 	
 	$('#works').quicksand( $('#worksTarget div'), {useScaling: true});
+}
 
+function sortData() {
+	data.sort(function(a, b) {
+		reversed = true;
+		var valA = a.date;
+		var valB = b.date;
+		if (reversed) {
+		  return (valA < valB) ? 1 : (valA > valB) ? -1 : 0;				
+		} else {		
+		  return (valA < valB) ? -1 : (valA > valB) ? 1 : 0;	
+		}
+	});
 }
 
 $(document).ready(function() {
-
-
-
 	// Populate types
 	$(".filter").each( function(i, filter) {
 		var groupAndType = filter.id.split(':');
@@ -100,6 +109,7 @@ $(document).ready(function() {
 	}
 
 	// refresh to take into account the filters initial values
+	sortData();
 	refresh();
 	
 	// Attach 'filterClick' to filters
