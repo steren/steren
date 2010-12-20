@@ -17,6 +17,9 @@ var workTemplate = 	['<div data-id="{{id}}" class="work seriousness:{{seriousnes
 /** two dimentional array containing current state (types[group][type]) */
 var types = [];
 
+/** data are sorted by */
+var sortBy = 'date';
+
 function filterClick(input) {
 	// Get the group and type of the button clicked
 	var groupAndType = input.target.id;
@@ -36,9 +39,19 @@ function filterClick(input) {
 	refresh();
 }
 
+function sortClick(input) {
+	$(".sort").removeClass('active');
+	$(input.target).addClass('active');
+	sortBy = input.target.id;
+	refresh();
+}
+
 function refresh() {
+	// sort depending on the sort option selected
+	sortData();
+	
 	$('#worksTarget').html('');
-	// ite rate on every work
+	// iterate on every work
 	for( var i =0; i < data.length; i++ ) {
 		var work = data[i];
 		// this array will contain the resutl value for every filter group
@@ -73,8 +86,8 @@ function refresh() {
 function sortData() {
 	data.sort(function(a, b) {
 		reversed = true;
-		var valA = a.date;
-		var valB = b.date;
+		var valA = a[sortBy];
+		var valB = b[sortBy];
 		if (reversed) {
 		  return (valA < valB) ? 1 : (valA > valB) ? -1 : 0;				
 		} else {		
@@ -101,18 +114,18 @@ $(document).ready(function() {
 			types[typeGroup][type]= value;
 		}
 	});
-
+	
 	// generate all works	
 	for(i in data) {
 		var html = Mustache.to_html(workTemplate, data[i]);
 		$('#works').append(html);
 	}
 
+	$(".filter").click(filterClick);
+	$(".sort").click(sortClick);
+
 	// refresh to take into account the filters initial values
-	sortData();
 	refresh();
 	
-	// Attach 'filterClick' to filters
-	$(".filter").click(filterClick);
 });
 
