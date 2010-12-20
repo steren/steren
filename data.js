@@ -150,6 +150,48 @@ var data = [
 				]
 		},
 		{
+			id:'trezinlove',
+			completion: 'done',
+			seriousness:'stupid',
+			type:'graphic',
+			participation:'full',
+			title:'Trez in Love',
+			category:'Short movie',
+			date:'2008',
+			description:'Parody of american music videos.',
+			links: [{href:'http://www.youtube.com/watch?v=4u0loF_Usec', value:'Trez in Love on Youtube'}]
+		},
+		{
+			id:'holytupperware',
+			completion: 'done',
+			seriousness:'stupid',
+			type:'graphic',
+			participation:'full',
+			title:'The Holy Tupperware',
+			category:'Short movies',
+			date:'2004',
+			description:'',
+			links: [{href:'http://www.youtube.com/view_play_list?p=E144529EA9F01696', value:'Episodes as a Youtube playlist'}
+				//,
+				//{href:'http://www.youtube.com/watch?v=kOG3ntVKZ-A', value:'La Richetonite on Youtube'},
+				//{href:'http://www.youtube.com/watch?v=BcVWSW74upQ', value:'Le Prophète on Youtube'},
+				//{href:'http://www.youtube.com/watch?v=8BiPmFglzjY', value:'La Communauté on Youtube'},
+				//{href:'http://www.youtube.com/watch?v=Kqe0m8Z5NLQ', value:'Finalité finale on Youtube'}
+				]
+		},
+		{
+			id:'tpe',
+			completion: 'done',
+			seriousness:'serious',
+			type:'graphic',
+			participation:'full',
+			title:'TPE Energie Nucléaire',
+			category:'Educational film',
+			date:'2004',
+			description:'Short videos and serious game around the nuclear energy.',
+			links: [{href:'http://www.youtube.com/view_play_list?p=BF471ABDA0ABD278', value:'Videos as a Youtube playlist'}]
+		},
+		{
 			id:'mobileinfantry',
 			completion: 'done',
 			seriousness:'serious',
