@@ -3,6 +3,7 @@ var filterGroups = ['seriousness', 'type', 'participation']; //'completion',
 var data = [
 		{
 			id:'beansight',
+			featured:true,
 			size:10,
 			completion: 'wip',
 			seriousness:'serious',
@@ -29,6 +30,7 @@ var data = [
 		},
 		{
 			id:'cadeaux',
+			featured:true,
 			size:2,
 			completion: 'wip',
 			seriousness:'not-so-serious',
@@ -80,6 +82,7 @@ var data = [
 		},
 		{
 			id:'capoda',
+			featured:true,
 			size:5,
 			completion: 'done',
 			seriousness:'serious',

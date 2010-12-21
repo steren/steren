@@ -117,15 +117,21 @@ $(document).ready(function() {
 	
 	// generate all works	
 	for(i in data) {
-		var html = Mustache.to_html(workTemplate, data[i]);
-		$('#works').append(html);
+		if(data[i].featured == true) {
+			var html = Mustache.to_html(workTemplate, data[i]);
+			$('#works').append(html);
+		}
 	}
 
 	$(".filter").click(filterClick);
 	$(".sort").click(sortClick);
-
-	// refresh to take into account the filters initial values
-	refresh();
 	
+	$("#displayWorks").click( function() {
+		$("#filters").slideDown("slow");
+		$("#displayWorks").slideUp("slow");
+		refresh();
+		return false;
+	});
+
 });
 
