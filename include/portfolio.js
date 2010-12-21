@@ -128,9 +128,14 @@ $(document).ready(function() {
 	
 	$("#displayWorks").click( function() {
 		$("#filters").slideDown("slow");
-		$("#displayWorks").slideUp("slow");
+		$("#displayWorks").hide("normal");
 		refresh();
 		return false;
+	});
+	
+	$("#displayMoreWebsites").click( function() {
+		$("#displayMoreWebsites").hide('normal');
+		$("#minorLinks").slideDown('normal');
 	});
 
 });

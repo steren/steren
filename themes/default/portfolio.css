@@ -88,6 +88,9 @@ h2 {
 	font-size : .8em;
 }
 
+.pannelSection {
+	padding-bottom: 1em;
+}
 /*
  * Works displayed as icons
  */
