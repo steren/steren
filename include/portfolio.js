@@ -116,9 +116,17 @@ $(document).ready(function() {
 	});
 	
 
-	// generate all works	
+	// generate initial
+	$('#works').append('<h2>Work in progress</h2>');
 	for(i in data) {
-		if(data[i].featured == true) {
+		if(data[i].completion == 'wip' && data[i].featured) {
+			var html = Mustache.to_html(workTemplate, data[i]);
+			$('#works').append(html);
+		}
+	}
+	$('#works').append('<h2>Finished works</h2>');
+	for(i in data) {
+		if(data[i].completion == 'done' && data[i].featured) {
 			var html = Mustache.to_html(workTemplate, data[i]);
 			$('#works').append(html);
 		}
@@ -126,7 +134,7 @@ $(document).ready(function() {
 	
 	// Center the elements
 	// TODO calculate the margin to center the elements
-	var worksMargin = 180 - 60; // 60 = height of an item
+	var worksMargin = 100 - 60; // 60 = height of an item
 	$('#worksContainer').css('margin-top', worksMargin + 'px');
 
 	$('.filter').click(filterClick);
