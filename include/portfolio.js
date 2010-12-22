@@ -116,21 +116,26 @@ $(document).ready(function() {
 	});
 	
 
-	// generate initial
-	$('#works').append('<h2>Work in progress</h2>');
+	// generate features works
+	var etc = '<div class="etc"><p>...</p></div>';
+	var $works = $('#works'); 
+	$works.append('<h2>Work in progress</h2>');
 	for(i in data) {
 		if(data[i].completion == 'wip' && data[i].featured) {
 			var html = Mustache.to_html(workTemplate, data[i]);
-			$('#works').append(html);
+			$works.append(html);
 		}
 	}
-	$('#works').append('<h2>Finished works</h2>');
+	// TODO only display etc if there are other works
+	$works.append(etc);
+	$works.append('<h2>Finished works</h2>');
 	for(i in data) {
 		if(data[i].completion == 'done' && data[i].featured) {
 			var html = Mustache.to_html(workTemplate, data[i]);
-			$('#works').append(html);
+			$works.append(html);
 		}
 	}
+	$works.append(etc);
 	
 	// Center the elements
 	// TODO calculate the margin to center the elements

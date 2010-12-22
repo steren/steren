@@ -122,7 +122,10 @@ a.displayMore {
 .work .description {
 	display:none;
 }
-
+.etc {
+	padding-top: 110px;
+	font-size: 2em;
+}
 
 
 /*
