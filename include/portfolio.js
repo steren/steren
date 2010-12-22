@@ -117,7 +117,7 @@ $(document).ready(function() {
 	
 
 	// generate features works
-	var etc = '<div class="etc"><p>...</p></div>';
+	var etc = '<div class="etc"><a class="displayMore displayWorks" href="#">...</a></div>';
 	var $works = $('#works'); 
 	$works.append('<h2>Work in progress</h2>');
 	for(i in data) {
@@ -146,7 +146,7 @@ $(document).ready(function() {
 	$('.sort').click(sortClick);
 	
 
-	$('#displayWorks').click( function() {
+	$('.displayWorks').click( function() {
 		$('#worksContainer').css('margin-top','0');
 		$("#filters").slideDown("slow");
 		$("#displayWorks").hide("normal");
@@ -154,7 +154,7 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	$('#displayMoreWebsites').click( function() {
+	$('.displayMoreWebsites').click( function() {
 		$("#displayMoreWebsites").hide('normal');
 		$("#minorLinks").slideDown('normal');
 	});
