@@ -98,6 +98,11 @@ a.displayMore {
 	font-size: 0.9em;
 			
 }
+.etc {
+	padding-top: 100px;
+	font-size: 3em;
+}
+
 /*
  * Works displayed as icons
  */
@@ -121,10 +126,6 @@ a.displayMore {
 }
 .work .description {
 	display:none;
-}
-.etc {
-	padding-top: 110px;
-	font-size: 2em;
 }
 
 
