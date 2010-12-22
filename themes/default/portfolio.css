@@ -50,7 +50,7 @@ h2 {
 	width:260px;
 	margin: 0 1em 0 0;
 }
-#works {
+#worksContainer {
 	float: right;
 	width: 640px;
 }
@@ -87,9 +87,17 @@ h2 {
 .work .link {
 	font-size : .8em;
 }
-
 .pannelSection {
 	padding-bottom: 1em;
+}
+.displayMore {
+	text-align: right;
+	clear: both;
+}
+a.displayMore {
+	text-decoration: none;
+	font-size: 0.9em;
+			
 }
 /*
  * Works displayed as icons

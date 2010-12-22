@@ -45,24 +45,20 @@
 
 <div id="pannel">
 	<div class="pannelSection">
-	<div><a id="displayWorks" href="#">more works...</a></div>
 	<menu id="filters" style="display:none;">
 		<h2 >filters</h2>
-
 		<div class="group" id="type">
 			<p>
 			<span class="button filter active" id="type:code">Code</span>
 			<span class="button filter active" id="type:graphic">Graphic</span>
 			</p>
 		</div>
-
 		<div class="group" id="participation">
 			<p>
 			<span class="button filter active" id="participation:lead">Leader</span>
 			<span class="button filter active" id="participation:contribution">Contributor</span>
 			</p>
 		</div>
-
 		<div class="group" id="seriousness">
 			<p>
 			<span class="button filter active" id="seriousness:serious" >Serious</span>
@@ -70,9 +66,7 @@
 			<span class="button filter" id="seriousness:stupid" >Stupid</span>
 			</ul>
 		</div>
-
 		<h2 >Sort by</h2>
-
 		<div class="group">
 			<p>
 			<span class="button sort active" id="date">Date</span>
@@ -85,46 +79,29 @@
 	<div class="pannelSection">
 		<h2>find me on</h2>
 		<ul>
-		    <li>
-		        <a href="http://twitter.com/steeren">Twitter</a>
-		    </li>
-		    <li>
-		    	<a href="http://www.linkedin.com/in/sterengiannini">LinkedIn</a>
-		    </li>
+		    <li><a href="http://twitter.com/steeren">Twitter</a></li>
+		    <li><a href="http://www.linkedin.com/in/sterengiannini">LinkedIn</a></li>
 		</ul>
 		<ul id="minorLinks" style="display:none;">
-		    <li>
-		    	<a href="http://identi.ca/steren">Identi.ca</a>
-		    </li>		    
-		    <li>
-		        <a href="http://wwww.viadeo.com/fr/profile/steren.giannini">Viadeo</a>
-		    </li>
-		    <li>
-		        <a href="http://www.youtube.com/user/panninini">Youtube</a>
-		    </li>
-		    <li>
-		        <a href="http://www.flickr.com/photos/steren/">Flickr</a> <a href="http://openclipart.org/media/people/Steren">Open Clipart Art</a>
-		    </li>
-		    <li>
-				<a href="http://www.lastfm.fr/user/Steren">Last.fm</a>
-			</li>
-		    <li>
-		        <a href="https://creativecommons.net/Steren">CC Network</a>
-		    </li>
-		    <li>
-				<a href="http://fr.wikipedia.org/wiki/Utilisateur:Pannini">Wikipedia fr</a>
-			</li>
-		    <li>
-				<a href="http://github.com/Steren">github</a>
-			</li>
+		    <li><a href="http://identi.ca/steren">Identi.ca</a></li>		    
+		    <li><a href="http://wwww.viadeo.com/fr/profile/steren.giannini">Viadeo</a></li>
+		    <li><a href="http://www.youtube.com/user/panninini">Youtube</a></li>
+		    <li><a href="http://www.flickr.com/photos/steren/">Flickr</a> <a href="http://openclipart.org/media/people/Steren">Open Clipart Art</a></li>
+		    <li><a href="http://www.lastfm.fr/user/Steren">Last.fm</a></li>
+		    <li><a href="https://creativecommons.net/Steren">CC Network</a></li>
+		    <li><a href="http://fr.wikipedia.org/wiki/Utilisateur:Pannini">Wikipedia fr</a></li>
+		    <li><a href="http://github.com/Steren">github</a></li>
 		</ul>
-		<a id="displayMoreWebsites" href="#">more links...</a>
+		<a class="displayMore" id="displayMoreWebsites" href="#">more links...</a>
 	</div>
 </div>
 
-<div id="works"></div>
+<div id="worksContainer">
+	<div id="works"></div>
+	<div class="displayMore"><a class="displayMore" id="displayWorks" href="#">more works...</a></div>
+	<div id="worksTarget" style="display:none;"></div>
+</div>
 
-<div id="worksTarget" style="display:none;"></div>
 
 </div>
 
@@ -360,7 +337,6 @@ var data = [
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script src="include/mustache.js" type="text/javascript" ></script>
 <script src="include/jquery.quicksand.min.js"></script>
-
 <script src="include/jquery-css-transform.js"></script>
 <script src="include/jquery-animate-css-rotate-scale.js"></script>
 
