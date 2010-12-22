@@ -115,6 +115,7 @@ $(document).ready(function() {
 		}
 	});
 	
+
 	// generate all works	
 	for(i in data) {
 		if(data[i].featured == true) {
@@ -122,21 +123,29 @@ $(document).ready(function() {
 			$('#works').append(html);
 		}
 	}
-
-	$(".filter").click(filterClick);
-	$(".sort").click(sortClick);
 	
-	$("#displayWorks").click( function() {
+	// Center the elements
+	// TODO calculate the margin to center the elements
+	var worksMargin = 180 - 60; // 60 = height of an item
+	$('#worksContainer').css('margin-top', worksMargin + 'px');
+
+	$('.filter').click(filterClick);
+	$('.sort').click(sortClick);
+	
+
+	$('#displayWorks').click( function() {
+		$('#worksContainer').css('margin-top','0');
 		$("#filters").slideDown("slow");
 		$("#displayWorks").hide("normal");
 		refresh();
 		return false;
 	});
 	
-	$("#displayMoreWebsites").click( function() {
+	$('#displayMoreWebsites').click( function() {
 		$("#displayMoreWebsites").hide('normal');
 		$("#minorLinks").slideDown('normal');
 	});
+	
 
 });
 
