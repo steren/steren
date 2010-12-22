@@ -139,7 +139,7 @@ $(document).ready(function() {
 	
 	// Center the elements
 	// TODO calculate the margin to center the elements
-	var worksMargin = 100 - 60; // 60 = height of an item
+	var worksMargin = 60 - 60; // 60 = height of an item
 	$('#worksContainer').css('margin-top', worksMargin + 'px');
 
 	$('.filter').click(filterClick);
