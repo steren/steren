@@ -35,8 +35,8 @@ function filterClick(input) {
 		types[typeGroup][type] = 0; 
 		$(input.target).removeClass('active');
 	};
-
 	refresh();
+	return false;
 }
 
 function sortClick(input) {
@@ -44,6 +44,7 @@ function sortClick(input) {
 	$(input.target).addClass('active');
 	sortBy = input.target.id;
 	refresh();
+	return false;
 }
 
 function refresh() {
@@ -154,9 +155,10 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	$('.displayMoreWebsites').click( function() {
+	$('#displayMoreWebsites').click( function() {
 		$("#displayMoreWebsites").hide('normal');
 		$("#minorLinks").slideDown('normal');
+		return false;
 	});
 	
 
