@@ -5,13 +5,14 @@
 
 /** The Work template */
 var workTemplate = 	['<div data-id="{{id}}" class="work seriousness:{{seriousness}} type:{{type}} participation:{{participation}}">',
-					'<p class="title">{{title}}</p>',
+					'<p class="title"><a href="{{#link}}{{href}}{{/link}}" title="{{#link}}{{value}}{{/link}}" target="_blank">{{title}}</a></p>',
 					'<p class="category">{{category}}</p>',
 					'<p class="date">{{date}}</p>',
 					'<p class="description">{{description}}</p>',
-					'{{#links}}',
-						'<p class="link"><a href="{{href}}">{{value}}</a></p>',
-					'{{/links}}',
+					'<img class="icon" src="images/icons/{{id}}.png" alt="{{title}}"/>',
+					//'{{#links}}',
+					//	'<p class="link"><a href="{{href}}">{{value}}</a></p>',
+					//'{{/links}}',
 					'</div>'].join('');
 
 /** two dimentional array containing current state (types[group][type]) */

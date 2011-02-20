@@ -84,7 +84,6 @@ h2 {
 }
 .work .title {
 	font-size : 1.2em;
-	margin: 0 0 0.5em;
 	border-bottom:1px solid #DDDDDD;
 }
 .work .link {
@@ -130,6 +129,15 @@ a.displayMore {
 }
 .work .description {
 	display:none;
+}
+.work .category {
+	display:none;
+}
+.work .date {
+	display:none;
+}
+.work .icon {
+	margin:0 10px;
 }
 
 
