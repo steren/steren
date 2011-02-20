@@ -128,8 +128,8 @@ $(document).ready(function() {
 		}
 	}
 	// TODO only display etc if there are other works
-	$works.append(etc);
-	$works.append('<h2>Finished works</h2>');
+	//$works.append(etc);
+	$works.append('<h2>Finished works (<a href="#" class="displayWorks">more</a>)</h2>');
 	for(i in data) {
 		if(data[i].completion == 'done' && data[i].featured) {
 			var html = Mustache.to_html(workTemplate, data[i]);
