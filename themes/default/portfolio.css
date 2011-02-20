@@ -45,6 +45,11 @@ h2 {
 	clear:both;
 }
 
+#brief {
+	width: 600px;
+	margin-bottom: 30px;
+}
+
 #pannel {
 	float: left;
 	width:260px;
