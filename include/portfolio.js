@@ -4,8 +4,8 @@
  */
 
 /** The Work template */
-var workTemplate = 	['<div data-id="{{id}}" class="work seriousness:{{seriousness}} type:{{type}} participation:{{participation}}">',
-					'<p class="title"><a href="{{#link}}{{href}}{{/link}}" title="{{#link}}{{value}}{{/link}}" target="_blank">{{title}}</a></p>',
+var workTemplate = 	['<a href="{{#link}}{{href}}{{/link}}" title="{{#link}}{{value}}{{/link}}" target="_blank" data-id="{{id}}" class="work seriousness:{{seriousness}} type:{{type}} participation:{{participation}}">',
+					'<p class="title">{{title}}</p>',
 					'<p class="category">{{category}}</p>',
 					'<p class="date">{{date}}</p>',
 					'<p class="description">{{description}}</p>',
@@ -13,7 +13,7 @@ var workTemplate = 	['<div data-id="{{id}}" class="work seriousness:{{seriousnes
 					//'{{#links}}',
 					//	'<p class="link"><a href="{{href}}">{{value}}</a></p>',
 					//'{{/links}}',
-					'</div>'].join('');
+					'</a>'].join('');
 
 /** two dimentional array containing current state (types[group][type]) */
 var types = [];
@@ -82,7 +82,7 @@ function refresh() {
 		}
 	}
 	
-	$('#works').quicksand( $('#worksTarget div'), {useScaling: true});
+	$('#works').quicksand( $('#worksTarget a'), {useScaling: true});
 }
 
 function sortData() {
