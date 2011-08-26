@@ -161,7 +161,7 @@ a.displayMore {
 	
 	float : left;
 }
-.work.hidden {
+.hidden {
 	display: none;
 }
 
@@ -184,6 +184,14 @@ a.displayMore {
 	margin:0 10px;
 }
 
+.social-links {
+    margin-left: 0;
+}
+.social-links li {
+    margin: 2px; 
+	list-style: none outside none;
+	float: left;   
+}
 
 /*
  * Works displayed as Sections
@@ -207,3 +215,25 @@ a.displayMore {
 }
 */
 
+/*
+ * Social Media icons by http://icondock.com/free/vector-social-media-icons
+ */
+.social-icon {
+    text-indent: -9999px;
+    display: block;
+    width: 32px;
+    height: 32px;
+    position: relative;
+    background: url("../../images/social/twitter-2.png") no-repeat left top transparent;    
+}
+
+.social-icon.flickr { background-image: url("../../images/social/flickr.png"); }
+.social-icon.github { background-image: url("../../images/social/github.png"); }
+.social-icon.identica { background-image: url("../../images/social/identi.png"); }
+.social-icon.lastfm { background-image: url("../../images/social/lastfm.png"); }
+.social-icon.linkedin { background-image: url("../../images/social/linkedin.png"); }
+.social-icon.slideshare { background-image: url("../../images/social/slideshare.png"); }
+.social-icon.twitter { background-image: url("../../images/social/twitter-2.png"); }
+.social-icon.vimeo { background-image: url("../../images/social/vimeo.png"); }
+.social-icon.wikipedia { background-image: url("../../images/social/wikipedia.png"); }
+.social-icon.youtube { background-image: url("../../images/social/youtube.png"); }
