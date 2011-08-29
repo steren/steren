@@ -132,7 +132,7 @@ hr {
 	margin : 10px;
 	padding : 6px;
 	width : 280px;
-	height: 150px;
+	height: 190px;
 	float : left;	
 }
 
@@ -170,11 +170,6 @@ hr {
 .work .date {
 	display:none;
 }
-.work .icon {
-	margin:0 10px;
-}
-
-
 
 .displayMore {
 	text-align: right;
