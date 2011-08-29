@@ -32,6 +32,10 @@
  Portfolio
 */
 
+.hidden {
+	display: none;
+}
+
 body {
     background-color: #dddddd;
     background-image: -moz-radial-gradient(center 45deg,circle cover, #ffffff, #cccccc);
@@ -42,7 +46,7 @@ body {
 #wrapper {
 	margin:0 auto;
 	width:940px;
-	padding: 2em;
+	padding-top: 2em;
 }
 
 a {
@@ -58,46 +62,58 @@ h1 {
 	margin-bottom: 1.5em;
     font-size: 2em;
     text-shadow: 0 1px 1px #FFFFFF;
-} 
+}
 
-h2 {
-	clear:both;
+hr {
+	clear : both;
 }
 
 #brief {
 	margin-bottom: 30px;
 }
 
-#pannel {
-	float: left;
-	width:260px;
-	margin: 0 1em 0 0;
-}
 #worksContainer {
-	float: right;
-	width: 660px;
+	clear: both;
+}
+#worksContainer h2 {
+	clear: both;
 }
 
-#filters {
-	margin: 0 0 20px;
+/*
+ * Filters
+ */
+.pannelSection {
+	padding-bottom: 2em;
 }
-.group {
-	border : 1px dotted #DDDDDD;
-	margin: 0.5em;
-	padding: 1em 0.5em ;
+
+.pannelSection h2 {
+	float:left;
+	padding-top: 0.5em;
+	margin: 0 1em 0 0;
 }
-.group p {
-	list-style-type: none;
-	padding: 0;
-	margin: 0em;
+
+.pannelSection ul {
+	float: left;
+	margin: 0 1em 0 0;
 }
-.button {
+.pannelSection .button {
+	list-style: none outside none;
+	float: left;   
 	padding: 0.5em;
+	margin: 0 0.1em;
 	cursor: pointer;
+    position: relative;
 }
-.button.active {
+.pannelSection .button.active {
 	background-color: #EEEEEE;
 }
+
+
+
+/*
+ * Works
+ */
+
 .work {
     background: #FFFFFF;
     -moz-border-radius: 2px; 
@@ -112,6 +128,12 @@ h2 {
     -moz-transition: background-color 0.3s ease-out;  
     -webkit-transition: background-color 0.3s ease-out;  
     transition: background-color 0.3s ease-out;
+    
+	margin : 10px;
+	padding : 6px;
+	width : 280px;
+	height: 150px;
+	float : left;	
 }
 
 .work:hover {
@@ -133,9 +155,27 @@ h2 {
 .work .link {
 	font-size : .8em;
 }
-.pannelSection {
-	padding-bottom: 1em;
+.work p {
+	margin: 0;
 }
+.work .video {
+	display:none;
+}
+.work .description {
+	font-size : 0.9em;
+}
+.work .category {
+	display:none;
+}
+.work .date {
+	display:none;
+}
+.work .icon {
+	margin:0 10px;
+}
+
+
+
 .displayMore {
 	text-align: right;
 	clear: both;
@@ -150,39 +190,6 @@ a.displayMore {
 	font-size: 3em;
 }
 
-/*
- * Works displayed as icons
- */
-.work {
-	margin : 10px;
-	padding : 6px;
-	width : 120px;
-	height: 120px;
-	
-	float : left;
-}
-.hidden {
-	display: none;
-}
-
-.work p {
-	margin: 0;
-}
-.work .video {
-	display:none;
-}
-.work .description {
-	display:none;
-}
-.work .category {
-	display:none;
-}
-.work .date {
-	display:none;
-}
-.work .icon {
-	margin:0 10px;
-}
 
 .social-links {
     margin-left: 0;
@@ -193,27 +200,6 @@ a.displayMore {
 	float: left;   
 }
 
-/*
- * Works displayed as Sections
- */
-/*
-.work {
-	border : 1px solid #DDDDDD;
-	margin : 1em 0;
-	padding : 0.5em;
-}
-.work .title {
-	font-size : 1.3em;
-	margin: 0 0 0.5em;
-	border-bottom:1px solid #DDDDDD;
-}
-.work p {
-	margin: 0;
-}
-.work .video {
-	display:none;
-}
-*/
 
 /*
  * Social Media icons by http://icondock.com/free/vector-social-media-icons

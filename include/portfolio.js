@@ -4,12 +4,13 @@
  */
 
 /** The Work template */
-var workTemplate = 	['<a href="{{#link}}{{href}}{{/link}}" title="{{#link}}{{value}}{{/link}}" target="_blank" data-id="{{id}}" class="work seriousness:{{seriousness}} type:{{type}} participation:{{participation}}">',
+var workTemplate = 	[
+					'<a href="{{#link}}{{href}}{{/link}}" title="{{#link}}{{value}}{{/link}}" target="_blank" data-id="{{id}}" class="work seriousness:{{seriousness}} type:{{type}} participation:{{participation}}">',
+					'<img class="icon" src="images/icons/{{id}}.png" alt="{{title}}"/>',
 					'<p class="title">{{title}}</p>',
 					'<p class="category">{{category}}</p>',
 					'<p class="date">{{date}}</p>',
 					'<p class="description">{{description}}</p>',
-					'<img class="icon" src="images/icons/{{id}}.png" alt="{{title}}"/>',
 					//'{{#links}}',
 					//	'<p class="link"><a href="{{href}}">{{value}}</a></p>',
 					//'{{/links}}',
@@ -121,7 +122,7 @@ $(document).ready(function() {
 	// generate features works
 	var etc = '<div class="etc"><a class="displayMore displayWorks" href="#">...</a></div>';
 	var $works = $('#works'); 
-	$works.append('<h2>Work in progress</h2>');
+	$works.append('<h2>Work in progress (<a href="#" class="displayWorks">more</a>)</h2>');
 	for(i in data) {
 		if(data[i].completion == 'wip' && data[i].featured) {
 			var html = Mustache.to_html(workTemplate, data[i]);
@@ -137,7 +138,7 @@ $(document).ready(function() {
 			$works.append(html);
 		}
 	}
-	$works.append(etc);
+	//$works.append(etc);
 	
 	// Center the elements
 	// TODO calculate the margin to center the elements
