@@ -100,6 +100,9 @@ function sortData() {
 }
 
 $(document).ready(function() {
+
+	$("#filters").fadeTo(0,0);
+
 	// Populate types
 	$(".filter").each( function(i, filter) {
 		var groupAndType = filter.id.split(':');
@@ -140,19 +143,12 @@ $(document).ready(function() {
 	}
 	//$works.append(etc);
 	
-	// Center the elements
-	// TODO calculate the margin to center the elements
-	var worksMargin = 60 - 60; // 60 = height of an item
-	$('#worksContainer').css('margin-top', worksMargin + 'px');
 
 	$('.filter').click(filterClick);
 	$('.sort').click(sortClick);
-	
 
 	$('.displayWorks').click( function() {
-		$('#worksContainer').css('margin-top','0');
-		$("#filters").slideDown("slow");
-		$("#displayWorks").hide("normal");
+		$("#filters").fadeTo("normal",1);
 		refresh();
 		return false;
 	});
