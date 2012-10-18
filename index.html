@@ -59,6 +59,7 @@ I <a href="http://blog.steren.fr/">blog</a>, <a href="http://twitter.com/steren"
 	<ul class="group" id="type">
 		<li class="button filter active" id="type:code">Code</li>
 		<li class="button filter active" id="type:graphic">Graphic</li>
+		<li class="button filter active" id="type:event">Event</li>
 	</ul>
 	<ul class="group" id="participation">
 		<li class="button filter active" id="participation:lead">Leader</li>
@@ -111,6 +112,20 @@ var filterGroups = ['seriousness', 'type', 'participation']; //'completion',
 
 var data = [
     	{
+			id:'musichackparis',
+			featured:false,
+			size:4,
+			completion: 'done',
+			seriousness:'serious',
+			type:'event',
+			participation:'lead',
+			title:'Music Hack Paris',
+			category:'hackathon',
+			date: 2012,
+			description:'Organization of a music hackathon in Paris with Google.',
+			link: {href:'http://musichackparis.org', value:'musichackparis.org'}
+		},
+    	{
 			id:'factory',
 			featured:true,
 			size:15,
@@ -124,11 +139,25 @@ var data = [
 			description:'Product manager of a multi-device application platform.',
 			link: {href:'http://factory.joshfire.com', value:'factory.joshfire.com'}
 		},    
+    	{
+			id:'hackdayparis',
+			featured:true,
+			size:5,
+			completion: 'wip',
+			seriousness:'serious',
+			type:'event',
+			participation:'lead',
+			title:'Hack Day Paris',
+			category:'hackathon',
+			date: 2011,
+			description:'Organization of two Hackathons in Paris, 150 participants.',
+			link: {href:'http://hackdayparis.org', value:'hackdayparis.org'}
+		},
 		{
 			id:'beansight',
 			featured:true,
 			size:10,
-			completion: 'wip',
+			completion: 'done',
 			seriousness:'serious',
 			type:'code',
 			participation:'lead',
@@ -137,6 +166,20 @@ var data = [
 			date: 2011,
 			description:'Co-founder of a web start-up that predicts the future.',
 			link: {href:'http://www.beansight.com', value:'beansight.com'}
+		},
+    	{
+			id:'hacklecamping',
+			featured:false,
+			size:2,
+			completion: 'done',
+			seriousness:'not-so-serious',
+			type:'event',
+			participation:'lead',
+			title:'Hack Le Camping',
+			category:'hackathon',
+			date: 2011,
+			description:'Organization of a public hackathon at Le Camping',
+			link: {href:'http://hacklecamping.wordpress.com/', value:'Hack Le Camping website'}
 		},
 		{
 			id:'colorclock',
@@ -152,26 +195,9 @@ var data = [
 			description:'Know the time just by looking at your wallpaper.',
 			link: {href:'http://labs.steren.fr/category/colorclock/', value:'blog'}
 		},
-
-/*
-		{
-			id:'divelog',
-			featured:true,
-			size:5,
-			completion: 'wip',
-			seriousness:'serious',
-			type:'code',
-			participation:'lead',
-			title:'Open Dive Log',
-			category:'web',
-			date: 2010,
-			description:'Founder of a web portal for scuba diving lovers.',
-			link: {href:'http://labs.steren.fr/category/open-divers/', value:'blog'}
-		},
-*/		
 		{
 			id:'cadeaux',
-			size:2,
+			size:3,
 			completion: 'wip',
 			seriousness:'not-so-serious',
 			type:'code',
@@ -184,7 +210,7 @@ var data = [
 		},
 		{
 			id:'swym',
-			size:9,
+			size:11,
 			completion: 'done',
 			seriousness:'serious',
 			type:'code',
@@ -237,7 +263,7 @@ var data = [
 		},
 		{
 			id:'inkscape',
-			featured:true,			
+			featured:false,			
 			size:5,
 			completion: 'done',
 			seriousness:'serious',
@@ -366,7 +392,8 @@ var data = [
 ];
 </script>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> -->
+<script src="include/jquery-1.4.2.min.js"></script>
 <script src="include/mustache.js" type="text/javascript" ></script>
 <script src="include/jquery.quicksand.min.js"></script>
 <script src="include/jquery-css-transform.js"></script>
