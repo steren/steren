@@ -13,7 +13,7 @@
 }
 
 #steren-websites .current a {
-	background-color: #EEEEEE;
+	background-color: #CECECE;
 	cursor: default;
 }
 
@@ -37,10 +37,7 @@
 }
 
 body {
-    background-color: #dddddd;
-    background-image: -moz-radial-gradient(center 45deg,circle cover, #ffffff, #cccccc);
-    background-image: -webkit-gradient(radial, 50% 50%, 0, 50% 50%,800, from(#ffffff), to(#cccccc));
-    background-image: radial-gradient(center 45deg,circle cover, #ffffff, #cccccc);   
+    background-color: #EEEEEE;
 }
 
 #wrapper {
@@ -137,7 +134,7 @@ hr {
 }
 
 .work:hover {
-    background-color: #EEEEEE;
+    background-color: #CECECE;
     
     /* transitions */
     -moz-transition: background-color 0.3s ease-out;  
@@ -169,6 +166,10 @@ hr {
 }
 .work .date {
 	display:none;
+}
+.work .icon {
+	width: 280px;
+	height: 140px;
 }
 
 .displayMore {
