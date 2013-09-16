@@ -3,7 +3,7 @@ var data = [
 	id:'factory',
 	featured:true,
 	size:15,
-	completion: 'wip',
+	completion: 'done',
 	seriousness:'serious',
 	type:'code',
 	participation:'lead',
@@ -12,7 +12,7 @@ var data = [
 	date: 2012,
 	description:'Product manager of a multi-device application platform.',
 	link: {href:'http://factory.joshfire.com', value:'factory.joshfire.com'}
-},    
+},
 {
     id:'sketchfab',
 	featured:true,
@@ -59,7 +59,7 @@ var data = [
 	id:'hackdayparis',
 	featured:true,
 	size:5,
-	completion: 'wip',
+	completion: 'done',
 	seriousness:'serious',
 	type:'event',
 	participation:'lead',
