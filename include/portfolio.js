@@ -75,11 +75,11 @@ function refresh() {
 		}
 		
 		var result = 1;
-		for( val in resultArray ) {
+		for( var val in resultArray ) {
 			result *= resultArray[val];
 		}
 		
-		if(result != 0) {
+		if(result !== 0) {
 			var html = Mustache.to_html(workTemplate, work);
 			$('#worksTarget').append(html);
 		}
@@ -126,24 +126,41 @@ $(document).ready(function() {
 
 	// generate features works
 	var etc = '<div class="etc"><a class="displayMore displayWorks" href="#">...</a></div>';
-	var $works = $('#works'); 
-	$works.append('<h2>Work in progress (<a href="#" class="displayWorks">more</a>)</h2>');
-	for(i in data) {
+
+	var $works = $('#works');
+
+	var wipTitle = '<h2>Work in progress (<a href="#" class="displayWorks">more</a>)</h2>';
+	var finishedTitle = '<h2>Finished works (<a href="#" class="displayWorks">more</a>)</h2>';
+	var featuredTitle = '<h2>Featured works: (<a href="#" class="displayWorks">click here to see more works</a>)</h2>';
+
+
+	var wipTotal = 0;
+	var finishedTotal = 0;
+	var wipHTML = '';
+	var finishedHTML = '';
+
+
+	for(var i in data) {
 		if(data[i].completion == 'wip' && data[i].featured) {
-			var html = Mustache.to_html(workTemplate, data[i]);
-			$works.append(html);
+			wipTotal++;
+			wipHTML += Mustache.to_html(workTemplate, data[i]);
+
 		}
 	}
-	// TODO only display etc if there are other works
-	//$works.append(etc);
-	$works.append('<h2>Finished works (<a href="#" class="displayWorks">more</a>)</h2>');
-	for(i in data) {
-		if(data[i].completion == 'done' && data[i].featured) {
-			var html = Mustache.to_html(workTemplate, data[i]);
-			$works.append(html);
+	for(var j in data) {
+		if(data[j].completion == 'done' && data[j].featured) {
+			finishedTotal++;
+			finishedHTML += Mustache.to_html(workTemplate, data[j]);
 		}
 	}
-	//$works.append(etc);
+
+	if(wipTotal < 2) {
+		$works.append(featuredTitle + wipHTML + finishedHTML);
+	} else {
+		$works.append(wipTitle + wipHTML + finishedTitle + finishedHTML);
+	}
+
+
 	
 
 	$('.filter').click(filterClick);
