@@ -3,6 +3,8 @@
  * This script is licensed under GPLv3: modify it as long as you attribute and share it
  */
 
+var filterGroups = ['seriousness', 'type', 'participation'];
+
 /** The Work template */
 var workTemplate = 	[
 					'<a href="{{#link}}{{href}}{{/link}}" title="{{#link}}{{value}}{{/link}}" target="_blank" data-id="{{id}}" class="work seriousness:{{seriousness}} type:{{type}} participation:{{participation}}">',
