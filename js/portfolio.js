@@ -8,7 +8,7 @@ var filterGroups = ['seriousness', 'type', 'participation'];
 /** The Work template */
 var workTemplate = 	[
 					'<a href="{{#link}}{{href}}{{/link}}" title="{{#link}}{{value}}{{/link}}" target="_blank" data-id="{{id}}" class="work seriousness:{{seriousness}} type:{{type}} participation:{{participation}}">',
-					'<img class="icon" src="images/icons/{{id}}.png" alt="{{title}}"/>',
+					'<img class="icon" src="img/icons/{{id}}.png" alt="{{title}}"/>',
 					'<p class="title">{{title}}</p>',
 					'<p class="category">{{category}}</p>',
 					'<p class="date">{{date}}</p>',
