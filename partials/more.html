@@ -1,0 +1,29 @@
+<menu class="pannelSection" id="filters">
+	<h2>Filters</h2>
+
+	<input type="checkbox" ng-model="type.code" 	>Code</input>
+	<input type="checkbox" ng-model="type.graphic"	>Graphic</input>
+	<input type="checkbox" ng-model="type.event"	>Event</input>
+
+	<input type="checkbox" ng-model="participation.lead" 			>Leader</input>
+	<input type="checkbox" ng-model="participation.contribution"	>Contributor</input>
+
+	<input type="checkbox" ng-model="seriousness.serious"			>Serious</input>
+	<input type="checkbox" ng-model="seriousness.notsoserious" 	>Not So Serious</input>
+	<input type="checkbox" ng-model="seriousness.stupid"			>Stupid</input>
+
+	<h2 >Sort by</h2>
+
+	<input type="radio" ng-model="orderProp" value="date">Date</input>
+	<input type="radio" ng-model="orderProp" value="size">Project size</input>
+</menu>
+
+<div ng-repeat="work in works | filterWorks: {'key':'type', 'values':type} | filterWorks: {'key':'participation', 'values':participation} | filterWorks: {'key':'seriousness', 'values':seriousness} | orderBy:orderProp:true">
+	<a href="{{work.link.href}}" title="{{work.link.title}}" target="_blank" class="work">
+		<img class="icon" ng-src="img/icons/{{work.id}}.png" alt="{{work.title}}"/>
+		<p class="title">{{work.title}}</p>
+		<p class="category">{{work.category}}</p>
+		<p class="date">{{work.date}}</p>
+		<p class="description">{{work.description}}</p>
+	</a>
+</div>

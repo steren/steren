@@ -172,12 +172,6 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	$('#displayMoreWebsites').click( function() {
-		$("#displayMoreWebsites").hide('normal');
-		$("#minorLinks").slideDown('normal');
-		return false;
-	});
-	
 
 });
 
