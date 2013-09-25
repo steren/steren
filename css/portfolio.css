@@ -40,7 +40,7 @@ body {
     background-color: #EEEEEE;
 }
 
-#wrapper {
+.wrapper {
 	margin:0 auto;
 	width:940px;
 	padding-top: 2em;
@@ -48,9 +48,6 @@ body {
 
 a {
     text-decoration:none;   
-}
-a:hover {
-    /* transitions */
 }
 
 
@@ -65,47 +62,50 @@ hr {
 	clear : both;
 }
 
-#brief {
+.brief {
 	margin-bottom: 10px;
 }
 
-#worksContainer {
-	clear: both;
-}
-#worksContainer h2 {
-	clear: both;
+.clear {
+	clear:both;
 }
 
 /*
  * Filters
  */
 .pannelSection {
-	padding-bottom: 2em;
+	margin-top: 2em;
+	margin-bottom: 2em;
+}
+
+.pannelSection .separator {
+	float:left;
+	height:1em;
+	margin-right: 3em;	
+}
+
+.pannelSection .buttongroup {
+	margin-right: 1em;
+	float:left;
 }
 
 .pannelSection h2 {
 	float:left;
-	padding-top: 0.5em;
-	margin: 0 1em 0 0;
+	margin-right: 0.5em;
 }
 
-.pannelSection ul {
-	float: left;
-	margin: 0 1em 0 0;
-}
-.pannelSection .button {
-	list-style: none outside none;
-	float: left;   
+.pannelSection label span {
 	padding: 0.5em;
-	margin: 0 0.1em;
-	cursor: pointer;
-    position: relative;
 }
-.pannelSection .button.active {
+
+.pannelSection label input:checked + span {
 	background-color: #FFFFFF;
 }
 
-
+.pannelSection input {
+    position:absolute;
+    top:-20px;
+}
 
 /*
  * Works
@@ -113,17 +113,9 @@ hr {
 
 .work {
     background: #FFFFFF;
-    -moz-border-radius: 2px; 
-    -webkit-border-radius: 2px; 
     border-radius: 2px;
-    
-    -moz-box-shadow: 1px 1.4px 2px rgba(0,0,0,0.19); 
-    -webkit-box-shadow: 1px 1.4px 2px rgba(0,0,0,0.19); 
     box-shadow: 1px 1.4px 2px rgba(0,0,0,0.19);
     
-    /* transitions */
-    -moz-transition: background-color 0.3s ease-out;  
-    -webkit-transition: background-color 0.3s ease-out;  
     transition: background-color 0.3s ease-out;
     
 	margin : 10px;
@@ -136,17 +128,12 @@ hr {
 .work:hover {
     background-color: #CECECE;
     
-    /* transitions */
-    -moz-transition: background-color 0.3s ease-out;  
-    -webkit-transition: background-color 0.3s ease-out;  
     transition: background-color 0.3s ease-out;  
 }
 
 .work .title {
 	font-size : 1.2em;
 	border-bottom:1px solid #DDDDDD;
-    -moz-transition: color 0.3s ease-out;  
-    -webkit-transition: color 0.3s ease-out;  
     transition: color 0.3s ease-out;
 }
 .work .link {
@@ -201,6 +188,7 @@ a.displayMore {
  * Social Media icons by http://icondock.com/free/vector-social-media-icons
  */
 .social-icon {
+	direction: ltr;
     text-indent: -9999px;
     display: block;
     width: 32px;
