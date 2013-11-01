@@ -1,6 +1,7 @@
 [
 {
 	"id":"factory",
+	"image":"factory.png",
 	"featured":true,
 	"size":15,
 	"completion": "done",
@@ -15,6 +16,7 @@
 },
 {
     "id":"sketchfab",
+    "image":"sketchfab.png",
 	"featured":true,
 	"size":4,
 	"completion": "wip",
@@ -28,7 +30,22 @@
 	"link": {"href":"https://sketchfab.com/", "value":"Sketchfab website"}
 },
 {
+	"id":"parishackers",
+	"image":"parishackers.svg",
+	"size":5,
+	"completion": "done",
+	"seriousness":"serious",
+	"type":"event",
+	"participation":"contribution",
+	"title":"Paris Hackers",
+	"category":"Tech talks",
+	"date": 2013,
+	"description":" tech meetups",
+	"link": {"href":"http://parishackers.org/", "value":"Paris Hackers website"}
+},
+{
 	"id":"cordova",
+	"image":"cordova.png",
 	"featured":false,
 	"size":1,
 	"completion": "done",
@@ -43,6 +60,7 @@
 },
 {
 	"id":"musichackparis",
+	"image":"musichackparis.png",
 	"featured":false,
 	"size":4,
 	"completion": "done",
@@ -57,6 +75,7 @@
 },
 {
 	"id":"hackdayparis",
+	"image":"hackdayparis.png",
 	"featured":true,
 	"size":5,
 	"completion": "done",
@@ -71,6 +90,7 @@
 },
 {
 	"id":"beansight",
+	"image":"beansight.png",
 	"featured":true,
 	"size":10,
 	"completion": "done",
@@ -85,6 +105,7 @@
 },
 {
 	"id":"hacklecamping",
+	"image":"hacklecamping.png",
 	"featured":false,
 	"size":2,
 	"completion": "done",
@@ -99,6 +120,7 @@
 },
 {
 	"id":"colorclock",
+	"image":"colorclock.png",
 	"featured":false,
 	"size":2,
 	"completion": "wip",
@@ -113,6 +135,7 @@
 },
 {
 	"id":"cadeaux",
+	"image":"cadeaux.png",
 	"size":3,
 	"completion": "wip",
 	"seriousness":"notsoserious",
@@ -126,6 +149,7 @@
 },
 {
 	"id":"swym",
+	"image":"swym.png",
 	"size":11,
 	"completion": "done",
 	"seriousness":"serious",
@@ -134,11 +158,12 @@
 	"title":"SwYm",
 	"category":"web",
 	"date": 2010,
-	"description":"Development for an innovative social platform at Dassault Systèmes: Wiki, search-related features and front-end widgets.",
+	"description":"Development of a social platform at Dassault Systèmes: Wiki, Search and front-end widgets.",
 	"link": {"href":"http://swym.3ds.com", "value":"swym.3ds.com"}
 },
 {
 	"id":"remixthem",
+	"image":"remixthem.png",
 	"featured":true,
 	"size":4,
 	"completion": "done",
@@ -153,6 +178,7 @@
 },
 {
 	"id":"stroke",
+	"image":"stroke.png",
 	"size":7,
 	"completion": "done",
 	"seriousness":"serious",
@@ -165,6 +191,7 @@
 },
 {
 	"id":"capoda",
+	"image":"capoda.png",
 	"featured":true,
 	"size":5,
 	"completion": "done",
@@ -179,6 +206,7 @@
 },
 {
 	"id":"inkscape",
+	"image":"inkscape.png",
 	"featured":false,			
 	"size":5,
 	"completion": "done",
@@ -193,6 +221,7 @@
 },
 {
 	"id":"chauffeur",
+	"image":"chauffeur.png",
 	"size":2,
 	"completion": "done",
 	"seriousness":"notsoserious",
@@ -206,6 +235,7 @@
 },
 {
 	"id":"starwarspi",
+	"image":"starwarspi.png",
 	"size":6,
 	"completion": "done",
 	"seriousness":"notsoserious",
@@ -219,6 +249,7 @@
 },
 {
 	"id":"alchemy",
+	"image":"alchemy.png",
 	"size":1,
 	"completion": "done",
 	"seriousness":"serious",
@@ -232,6 +263,7 @@
 },
 {
 	"id":"jambon",
+	"image":"jambon.png",
 	"size":3,
 	"completion": "done",
 	"seriousness":"stupid",
@@ -250,6 +282,7 @@
 },
 {
 	"id":"trezinlove",
+	"image":"trezinlove.png",
 	"size":2,
 	"completion": "done",
 	"seriousness":"stupid",
@@ -262,7 +295,35 @@
 	"link": {"href":"http://www.youtube.com/watch?v=4u0loF_Usec", "value":"Trez in Love on Youtube"}
 },
 {
+	"id":"bigbuddies",
+	"image":"bigbuddies.png",
+	"size":5,
+	"completion": "done",
+	"seriousness":"notsoserious",
+	"type":"graphic",
+	"participation":"lead",
+	"title":"The Big Buddies",
+	"category":"Improv",
+	"date": 2007,
+	"description":"Improvisational theatre company"
+},
+{
+	"id":"drone",
+	"image":"drone.png",
+	"size":5,
+	"completion": "done",
+	"seriousness":"serious",
+	"type":"code",
+	"participation":"contribution",
+	"title":"Drone ECLair",
+	"category":"Regulation",
+	"date": 2007,
+	"description":"Conception and regulation of a quadrotor drone",
+	"link": {"href":"http://sketchfab.com/show/cER0r118okyv5TtfhxjpgPtqIC", "value":"3D model of drone on Sketchfab"}
+},
+{
 	"id":"holytupperware",
+	"image":"holytupperware.png",
 	"size":3,
 	"completion": "done",
 	"seriousness":"stupid",
@@ -281,6 +342,7 @@
 },
 {
 	"id":"tpe",
+	"image":"tpe.png",
 	"size":6,
 	"completion": "done",
 	"seriousness":"serious",
@@ -294,6 +356,7 @@
 },
 {
 	"id":"mobileinfantry",
+	"image":"mobileinfantry.png",
 	"size":6,
 	"completion": "done",
 	"seriousness":"serious",
