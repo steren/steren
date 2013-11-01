@@ -194,16 +194,16 @@ a.displayMore {
     width: 32px;
     height: 32px;
     position: relative;
-    background: url("../../img/social/twitter-2.png") no-repeat left top transparent;    
+    background: url("../img/social/twitter-2.png") no-repeat left top transparent;    
 }
 
-.social-icon.flickr { background-image: url("../../img/social/flickr.png"); }
-.social-icon.github { background-image: url("../../img/social/github.png"); }
-.social-icon.identica { background-image: url("../../img/social/identi.png"); }
-.social-icon.lastfm { background-image: url("../../img/social/lastfm.png"); }
-.social-icon.linkedin { background-image: url("../../img/social/linkedin.png"); }
-.social-icon.slideshare { background-image: url("../../img/social/slideshare.png"); }
-.social-icon.twitter { background-image: url("../../img/social/twitter-2.png"); }
-.social-icon.vimeo { background-image: url("../../img/social/vimeo.png"); }
-.social-icon.wikipedia { background-image: url("../../img/social/wikipedia.png"); }
-.social-icon.youtube { background-image: url("../../img/social/youtube.png"); }
+.social-icon.flickr { background-image: url("../img/social/flickr.png"); }
+.social-icon.github { background-image: url("../img/social/github.png"); }
+.social-icon.identica { background-image: url("../img/social/identi.png"); }
+.social-icon.lastfm { background-image: url("../img/social/lastfm.png"); }
+.social-icon.linkedin { background-image: url("../img/social/linkedin.png"); }
+.social-icon.slideshare { background-image: url("../img/social/slideshare.png"); }
+.social-icon.twitter { background-image: url("../img/social/twitter-2.png"); }
+.social-icon.vimeo { background-image: url("../img/social/vimeo.png"); }
+.social-icon.wikipedia { background-image: url("../img/social/wikipedia.png"); }
+.social-icon.youtube { background-image: url("../img/social/youtube.png"); }
