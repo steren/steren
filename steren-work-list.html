@@ -1,0 +1,35 @@
+<link rel="import" href="components/polymer/polymer.html">
+
+<link rel="import" href="steren-work-service.html">
+<link rel="import" href="steren-work.html">
+
+<polymer-element name="steren-work-list" attributes="show">
+  <template>
+    <style>
+    :host {
+      display: block;
+      width: 100%;
+    }
+    steren-work {
+      margin-bottom: 30px;
+    }
+    </style>
+
+    <steren-work-service id="service" works="{{works}}"></steren-work-service>
+
+    <div layout vertical center>
+      <template repeat="{{work in works}}">
+        <steren-work
+          hidden?="{{show == 'featured' ? !work.featured : false}}">
+          <img src="img/icons/{{work.image}}">
+          <h2>{{work.title}}</h2>
+          <p>{{work.description}}</p>
+        </steren-work>
+      </template>
+    </div>
+  </template>
+
+  <script>
+  Polymer({});
+  </script>
+</polymer-element>

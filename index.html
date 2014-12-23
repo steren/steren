@@ -1,88 +1,156 @@
 <!doctype html>
 <!--
-	Steren Giannini's home
-	This website is in a constant Work In Progress state.
-	You can fork it on GitHub (https://github.com/Steren/steren.github.com) and use it for you. Ping me if you do so.
+  Steren Giannini's homepage
+  This website is in a constant Work In Progress state.
+  You can fork it on GitHub (https://github.com/Steren/steren.github.com) and use it for you.
+	Ping me if you do so.
 -->
-<html lang="en" ng-app="portfolio">
+<html>
 <head>
-	<meta charset="utf-8">
+  <title>Steren Giannini</title>
 
-	<link rel="stylesheet" type="text/css" href="css/style.css" />
-	<link rel="stylesheet" type="text/css" href="css/portfolio.css" />
+  <meta name="viewport"  content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
-	<title>Steren Giannini</title>
+  <meta name="description" content="Personal works">
+  <meta name="author" content="Steren Giannini">
 
-	<meta name="description" content="Personal works">
-	<meta name="author" content="Steren Giannini">
-	
-	<script type="text/javascript">
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-13041825-1']);
-	  _gaq.push(['_trackPageview']);
+  <script src="components/webcomponentsjs/webcomponents.js"></script>
 
-	  (function() {
-		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
-	</script>
-	<script>(function(){var hb = document.createElement('script'); hb.type = 'text/javascript'; hb.async = true; hb.src = "//cdn.hublo.co/535e5b494027c84e43000045.js"; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(hb, s);})();</script>
+  <link rel="import" href="components/font-roboto/roboto.html">
+  <link rel="import" href="components/core-header-panel/core-header-panel.html">
+  <link rel="import" href="components/core-toolbar/core-toolbar.html">
+  <link rel="import" href="components/paper-tabs/paper-tabs.html">
+
+  <link rel="import" href="components/paper-item/paper-item.html">
+
+  <link rel="import" href="steren-work-list.html">
+
+  <style>
+  html,body {
+    height: 100%;
+    margin: 0;
+    background-color: #E5E5E5;
+    font-family: 'RobotoDraft', sans-serif;
+  }
+	a, a:visited {
+		color: #03a9f4;
+		text-decoration:none;
+	}
+  core-header-panel {
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  core-toolbar {
+    background: #03a9f4;
+    color: white;
+  }
+	core-toolbar a, core-toolbar a:visited {
+		color: white;
+	}
+	#brief {
+		margin-bottom: 2em;
+		font-size: 1rem;
+		font-weight: 300;
+	}
+  #tabs {
+    width: 100%;
+    margin: 0;
+    user-select: none;
+    text-transform: uppercase;
+  }
+  .container {
+    width: 80%;
+    margin: 2em auto;
+  }
+
+  @media (min-width: 481px) {
+    #tabs {
+      width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .container {
+      width: 400px;
+    }
+  }
+  </style>
+
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-13041825-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
 </head>
 
-<body>
+<body unresolved>
 
-<div id="steren-websites">
-<ul>
-	<li class="current"><a href="http://www.steren.fr/">works</a></li>
-	<li><a href="http://blog.steren.fr/">blog</a></li>
-	<li><a href="http://labs.steren.fr/">labs</a></li>
-<ul>
-</div>
+  <core-header-panel >
+    <core-toolbar class="medium-tall">
+      <div flex="">Steren Giannini</div>
 
-<div class="wrapper">
+      <div class="bottom fit" horizontal="" layout="">
+        <paper-tabs id="tabs" selected="featured">
+          <paper-tab name="featured">Featured</paper-tab>
+          <paper-tab name="all">All</paper-tab>
+        </paper-tabs>
+      </div>
 
-<header>
-<h1>Steren Giannini</h1>
+			<a href="http://blog.steren.fr" target="_blank">
+				<paper-icon-button icon="arrow-forward"></paper-icon-button>
+				<!-- <paper-icon-button src="img/social/blog.png" aria-label="Blog"></paper-icon-button> -->
+			</a>
+			<a href="http://twitter.com/steren" target="_blank">
+				<paper-icon-button icon="arrow-forward"></paper-icon-button>
+				<!-- <paper-icon-button src="img/social/twitter.png" aria-label="Twitter"></paper-icon-button> -->
+			</a>
+			<a href="http://www.linkedin.com/in/sterengiannini/en" target="_blank">
+				<paper-icon-button icon="arrow-forward"></paper-icon-button>
+				<!-- <paper-icon-button src="img/social/linkedin.png" aria-label="Linked in"></paper-icon-button> -->
+			</a>
+			<!--
+			TODO: use a dropdown menu for other options
+			<paper-icon-button icon="more-vert"></paper-icon-button>
+			-->
+			<!-- http://labs.steren.fr -->
+			<!-- http://github.com/steren -->
+			<!-- http://www.youtube.com/user/panninini -->
 
-<p class="brief">
-I am Steren, technical advisor at <a href="https://sketchfab.com/">Sketchfab</a> and until recently CTO of <a href="http://joshfire.com/">Joshfire</a>. I am currently moving to Munich, Germany.<br/>
-I am an engineer from <a href="http://www.ec-lyon.fr">Centrale Lyon</a>. I previously worked for <a href="http://creativecommons.org/">Creative Commons</a>, <a href="http://www.3ds.com/">Dassault Systèmes</a> and I co-founded <a href="http://www.beansight.com">beansight</a>.<br/>
-I <a href="http://blog.steren.fr/">blog</a>, <a href="http://twitter.com/steren">tweet</a> and do things:
-</p>
-</header>
+    </core-toolbar>
 
-<div ng-view></div>
+    <div class="container" layout vertical center main>
 
-<hr/>
+      <p id="brief">
+          I am Steren, engineer from <a href="http://www.ec-lyon.fr" target="_blank">Centrale Lyon</a> and today Technical Program Manager at <a href="https://google.com/" target="_blank">Google</a> in Munich.
+					Previously, I co-founded <a href="http://www.beansight.com" target="_blank">beansight</a>, was CTO of <a href="http://joshfire.com/" target="_blank">Joshfire</a> and helped <a href="https://sketchfab.com/" target="_blank">Sketchfab</a>.
+        <br/>
+          I <a href="http://blog.steren.fr" target="_blank">blog</a>, <a href="https://twitter.com/steren" target="_blank">tweet</a>, <a href="http://labs.steren.fr" target="_blank">experiment</a> and do things:
+      </p>
 
-<h2>Find me on</h2>
-<ul class="social-links">
-    <li><a href="http://twitter.com/steren" class="social-icon twitter">Twitter</a></li>
-    <li><a href="http://www.linkedin.com/in/sterengiannini/en" class="social-icon linkedin">LinkedIn</a></li>
-    <li><a href="http://github.com/Steren" class="social-icon github" >github</a></li>
-    <li><a href="http://www.youtube.com/user/panninini" class="social-icon youtube">Youtube</a></li>
-    <li><a href="http://www.slideshare.net/sterengiannini" class="social-icon slideshare" >SlideShare</a></li>
-    <li class="hidden"><a href="http://www.lastfm.fr/user/Steren" class="social-icon lastfm">Last.fm</a></li>
-    <li class="hidden"><a href="http://www.flickr.com/photos/steren/" class="social-icon flickr" >Flickr</a></li>
-    <li class="hidden"><a href="http://soundcloud.com/steren" class="social-icon soundcloud">SoundCloud</a></li>
-    <li class="hidden"><a href="http://identi.ca/steren" class="social-icon identica" >Identi.ca</a></li>
-    <li class="hidden"><a href="https://joindiaspora.com/u/steren" class="social-icon diaspora">Diaspora</a></li>
-    <li class="hidden"><a href="http://openclipart.org/media/people/Steren" class="social-icon openclipart">Open Clipart Art</a></li>
-    <li class="hidden"><a href="https://creativecommons.net/Steren" class="social-icon ccnetwork">CC Network</a></li>
-    <li class="hidden"><a href="http://fr.wikipedia.org/wiki/Utilisateur:Pannini" class="social-icon wikipedia">Wikipedia fr</a></li>
-</ul>
+      <steren-work-list show="featured"></steren-work-list>
 
+    </div>
 
-<script src="lib/underscore-min.js"></script>
-<script src="lib/angular/angular.js"></script>
-<script src="lib/angular/angular-resource.js"></script>
-<script src="js/app.js"></script>
-<script src="js/services.js"></script>
-<script src="js/controllers.js"></script>
-<script src="js/filters.js"></script>
-<script src="js/directives.js"></script>
+  </core-header-panel>
+
+  <script>
+  var tabs = document.querySelector('paper-tabs');
+  var list = document.querySelector('steren-work-list');
+  var brief = document.getElementById('brief');
+
+  tabs.addEventListener('core-select', function() {
+    list.show = tabs.selected;
+    brief.hidden = tabs.selected == 'all';
+  });
+  </script>
 
 </body>
-</html>
 
+</html>
