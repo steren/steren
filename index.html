@@ -21,7 +21,9 @@
   <link rel="import" href="components/core-toolbar/core-toolbar.html">
   <link rel="import" href="components/paper-tabs/paper-tabs.html">
 
-  <link rel="import" href="components/paper-item/paper-item.html">
+	<link rel="import" href="components/paper-menu-button/paper-menu-button.html">
+	<link rel="import" href="components/paper-dropdown/paper-dropdown.html">
+	<link rel="import" href="components/paper-item/paper-item.html">
 
   <link rel="import" href="steren-work-list.html">
 
@@ -43,10 +45,12 @@
   }
   core-toolbar {
     background: #03a9f4;
-    color: white;
   }
-	core-toolbar a, core-toolbar a:visited {
+	core-toolbar, core-toolbar a, core-toolbar a:visited {
 		color: white;
+	}
+	paper-dropdown, paper-dropdown a, paper-dropdown a:visited {
+		color: black;
 	}
 	#brief {
 		margin-bottom: 2em;
@@ -115,13 +119,17 @@
 				<paper-icon-button icon="arrow-forward"></paper-icon-button>
 				<!-- <paper-icon-button src="img/social/linkedin.png" aria-label="Linked in"></paper-icon-button> -->
 			</a>
-			<!--
-			TODO: use a dropdown menu for other options
-			<paper-icon-button icon="more-vert"></paper-icon-button>
-			-->
-			<!-- http://labs.steren.fr -->
-			<!-- http://github.com/steren -->
-			<!-- http://www.youtube.com/user/panninini -->
+
+			<paper-menu-button>
+				<paper-icon-button icon="more-vert"></paper-icon-button>
+				<paper-dropdown class="dropdown" transition=""> <!-- TODO: add transition when the web-animation import is fixed -->
+					<core-menu class="menu">
+						<paper-item><a href="http://github.com/steren" target="_blank">GitHub</a></paper-item>
+						<paper-item><a href="http://www.youtube.com/user/panninini" target="_blank">Youtube</a></paper-item>
+						<paper-item><a href="http://labs.steren.fr" target="_blank">Labs</a></paper-item>
+					</core-menu>
+				</paper-dropdown>
+			</paper-menu-button>
 
     </core-toolbar>
 
