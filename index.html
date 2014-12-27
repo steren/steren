@@ -18,8 +18,11 @@
 
   <link rel="import" href="components/font-roboto/roboto.html">
   <link rel="import" href="components/core-header-panel/core-header-panel.html">
+  <link rel="import" href="components/core-drawer-panel/core-drawer-panel.html">
   <link rel="import" href="components/core-toolbar/core-toolbar.html">
   <link rel="import" href="components/paper-tabs/paper-tabs.html">
+  <link rel="import" href="components/paper-checkbox/paper-checkbox.html">
+
 
   <link rel="import" href="components/paper-menu-button/paper-menu-button.html">
   <link rel="import" href="components/paper-dropdown/paper-dropdown.html">
@@ -52,6 +55,49 @@
   paper-dropdown, paper-dropdown a, paper-dropdown a:visited {
     color: black;
   }
+  paper-checkbox {
+    padding: 12px 12px 12px 0;
+  }  
+  #drawer {
+    background: white;
+  }
+  #drawer a, #drawer a:visited {
+    color: #000;
+    opacity: 0.87;
+  }
+  #drawer core-icon {
+    margin-right: 32px;
+  }
+
+  #drawer .selected {
+    background: #eee;
+  }
+
+  /* core-icon should probably use this by default */
+  #drawer core-icon div {
+    background-size: cover !important;
+  }
+
+  #drawer section {
+    border-bottom: rgba(0,0,0,0.1) solid 1px;
+    margin-bottom: 8px;
+    margin-top: 8px;
+  }
+    #drawer section:last-child {
+    border-bottom: 0;
+  }
+
+  #drawer h1 {
+    color: #000;
+    font-size: 1.3em;
+    margin-left: 16px;
+    opacity: 0.54;
+    font-weight: 500;
+    height: 1.3em;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
   #brief {
     margin-bottom: 2em;
     font-size: 1rem;
@@ -95,67 +141,104 @@
 </head>
 
 <body unresolved>
+  <core-drawer-panel>
 
-  <core-header-panel >
-    <core-toolbar class="medium-tall">
-      <div flex="">Steren Giannini</div>
+    <core-header-panel drawer id="drawer">
 
-      <div class="bottom fit" horizontal="" layout="">
-        <paper-tabs id="tabs" selected="featured">
-          <paper-tab name="featured">Featured</paper-tab>
-          <paper-tab name="all">All</paper-tab>
-        </paper-tabs>
+      <section>
+        <h1>Steren Giannini</h1>
+      </section>
+
+      <section>
+        <paper-item class="selected">
+          <core-icon icon="home"></core-icon>
+          Works
+        </paper-item>
+        <a href="http://blog.steren.fr" target="_blank">
+          <paper-item>
+            <core-icon icon="subject"></core-icon>
+            Blog
+          </paper-item>
+        </a>
+        <a href="http://labs.steren.fr" target="_blank">
+          <paper-item>
+            <core-icon icon="explore" aria-label="star"></core-icon>
+            Labs
+          </paper-item>
+        </a>
+      </section>
+
+      <section>
+        <a href="https://twitter.com/steren" target="_blank">
+          <paper-item>
+            <core-icon src="icons/twitter.svg" aria-label="Twitter"></core-icon>
+            Twitter
+          </paper-item>
+        </a>
+        <a href="https://plus.google.com/steren.giannini" target="_blank">
+          <paper-item>
+            <core-icon src="icons/google.svg" aria-label="Google"></core-icon>
+            Google+
+          </paper-item>
+        </a>
+        <a href="https://www.linkedin.com/in/sterengiannini/en" target="_blank">
+          <paper-item>
+            <core-icon src="icons/linkedin.svg" aria-label="LinkedIn"></core-icon>
+            LinkedIn
+          </paper-item>
+        </a>
+        <a href="https://github.com/steren" target="_blank">
+          <paper-item>
+            <core-icon src="icons/github.svg" aria-label="GitHub"></core-icon>
+            GitHub
+          </paper-item>
+        </a>
+      </section>
+
+    </core-header-panel>
+
+    <core-header-panel main>
+      <core-toolbar class="medium-tall">
+        <paper-icon-button icon="menu" core-drawer-toggle></paper-icon-button>
+        <div>Steren's works</div>
+
+        <div class="bottom fit" horizontal="" layout="">
+          <paper-tabs id="tabs" selected="featured">
+            <paper-tab name="featured">Featured</paper-tab>
+            <paper-tab name="all">All</paper-tab>
+          </paper-tabs>
+        </div>
+      </core-toolbar>
+
+      <div class="container" layout vertical center main>
+
+        <p id="brief">
+            I am Steren, engineer from <a href="http://www.ec-lyon.fr" target="_blank">Centrale Lyon</a> and today Technical Program Manager at <a href="https://google.com/" target="_blank">Google</a> in Munich.
+            Previously, I co-founded <a href="http://www.beansight.com" target="_blank">beansight</a>, was CTO of <a href="http://joshfire.com/" target="_blank">Joshfire</a> and helped <a href="https://sketchfab.com/" target="_blank">Sketchfab</a>.
+          <br/>
+            I <a href="http://blog.steren.fr" target="_blank">blog</a>, <a href="https://twitter.com/steren" target="_blank">tweet</a>, <a href="http://labs.steren.fr" target="_blank">experiment</a> and do things:
+        </p>
+
+        <steren-work-list show="featured"></steren-work-list>
+
       </div>
 
-      <a href="http://blog.steren.fr" target="_blank">
-        <paper-icon-button icon="arrow-forward"></paper-icon-button>
-        <!-- <paper-icon-button src="img/social/blog.png" aria-label="Blog"></paper-icon-button> -->
-      </a>
-      <a href="http://twitter.com/steren" target="_blank">
-        <paper-icon-button icon="arrow-forward"></paper-icon-button>
-        <!-- <paper-icon-button src="img/social/twitter.png" aria-label="Twitter"></paper-icon-button> -->
-      </a>
-      <a href="http://www.linkedin.com/in/sterengiannini/en" target="_blank">
-        <paper-icon-button icon="arrow-forward"></paper-icon-button>
-        <!-- <paper-icon-button src="img/social/linkedin.png" aria-label="Linked in"></paper-icon-button> -->
-      </a>
-
-      <paper-menu-button>
-        <paper-icon-button icon="more-vert"></paper-icon-button>
-        <paper-dropdown class="dropdown" transition=""> <!-- TODO: add transition when the web-animation import is fixed -->
-          <core-menu class="menu">
-            <paper-item><a href="http://github.com/steren" target="_blank">GitHub</a></paper-item>
-            <paper-item><a href="http://www.youtube.com/user/panninini" target="_blank">Youtube</a></paper-item>
-            <paper-item><a href="http://labs.steren.fr" target="_blank">Labs</a></paper-item>
-          </core-menu>
-        </paper-dropdown>
-      </paper-menu-button>
-
-    </core-toolbar>
-
-    <div class="container" layout vertical center main>
-
-      <p id="brief">
-          I am Steren, engineer from <a href="http://www.ec-lyon.fr" target="_blank">Centrale Lyon</a> and today Technical Program Manager at <a href="https://google.com/" target="_blank">Google</a> in Munich.
-          Previously, I co-founded <a href="http://www.beansight.com" target="_blank">beansight</a>, was CTO of <a href="http://joshfire.com/" target="_blank">Joshfire</a> and helped <a href="https://sketchfab.com/" target="_blank">Sketchfab</a>.
-        <br/>
-          I <a href="http://blog.steren.fr" target="_blank">blog</a>, <a href="https://twitter.com/steren" target="_blank">tweet</a>, <a href="http://labs.steren.fr" target="_blank">experiment</a> and do things:
-      </p>
-
-      <steren-work-list show="featured"></steren-work-list>
-
-    </div>
-
-  </core-header-panel>
+    </core-header-panel>
+  </core-drawer-panel>
 
   <script>
   var tabs = document.querySelector('paper-tabs');
   var list = document.querySelector('steren-work-list');
   var brief = document.getElementById('brief');
+  var drawerPanel = document.querySelector('core-drawer-panel');
 
   tabs.addEventListener('core-select', function() {
     list.show = tabs.selected;
     brief.hidden = tabs.selected == 'all';
+
+    if(tabs.selected == 'all') {
+      drawerPanel.closeDrawer();
+    }
   });
   </script>
 
