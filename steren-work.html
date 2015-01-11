@@ -1,44 +1,35 @@
 <link rel="import" href="components/polymer/polymer.html">
 <link rel="import" href="components/core-icon-button/core-icon-button.html">
+<link rel="import" href="steren-card.html">
 
-<polymer-element name="steren-work">
+<polymer-element name="steren-work" extends="steren-card">
   <template>
     <style>
-    :host {
-      display: block;
-      position: relative;
-      background-color: white;
-      padding: 20px;
-      width: 100%;
-      font-size: 1.2rem;
-      font-weight: 300;
-    }
     polyfill-next-selector { content: 'h2'; }
     ::content h2 {
-      margin: 0;
       font-size: 1.8rem;
       font-weight: 300;
       margin-bottom: 20px;
     }
-    polyfill-next-selector { content: 'p'; }
-    ::content p {
-      margin: 0;
-    }
     polyfill-next-selector { content: 'img'; }
     ::content img {
       width: 100%;
-      margin-bottom: 20px;
+    }
+    .inside {
+      margin: 16px;
     }
     </style>
 
-  <!--
-  TODO: create logo, background and illustration attributes.
-  If no illustration, use logo and if present background.
-  -->
+    <!--
+    TODO: create logo, background and illustration attributes.
+    If no illustration, use logo and if present background.
+    -->
+    <content select="img"></content>
+    <div class="inside">
+      <content select="h2"></content>
+      <content select="p"></content>
+    </div>
 
-  <content select="img"></content>
-  <content select="h2"></content>
-  <content select="p"></content>
 
   </template>
   <script>

@@ -14,6 +14,7 @@
   <meta name="description" content="Personal works">
   <meta name="author" content="Steren Giannini">
 
+  <!--<script src="http://www.polymer-project.org/webcomponents.js"></script>-->
   <script src="components/webcomponentsjs/webcomponents.js"></script>
 
   <link rel="import" href="components/font-roboto/roboto.html">
@@ -29,6 +30,7 @@
   <link rel="import" href="components/paper-item/paper-item.html">
 
   <link rel="import" href="steren-work-list.html">
+  <link rel="import" href="steren-card.html">
 
   <style>
   html,body {
@@ -102,6 +104,9 @@
     margin-bottom: 2em;
     font-size: 1rem;
     font-weight: 300;
+  }
+  #brief p {
+    margin: 16px;
   }
   #tabs {
     width: 100%;
@@ -200,7 +205,7 @@
     <core-header-panel main>
       <core-toolbar class="medium-tall">
         <paper-icon-button icon="menu" core-drawer-toggle></paper-icon-button>
-        <div>Steren's works</div>
+        <div>Works</div>
 
         <div class="bottom fit" horizontal="" layout="">
           <paper-tabs id="tabs" selected="featured">
@@ -212,12 +217,14 @@
 
       <div class="container" layout vertical center main>
 
-        <p id="brief">
-            I am Steren, engineer from <a href="http://www.ec-lyon.fr" target="_blank">Centrale Lyon</a> and today Technical Program Manager at <a href="https://google.com/" target="_blank">Google</a> in Munich.
-            Previously, I co-founded <a href="http://www.beansight.com" target="_blank">beansight</a>, was CTO of <a href="http://joshfire.com/" target="_blank">Joshfire</a> and helped <a href="https://sketchfab.com/" target="_blank">Sketchfab</a>.
-          <br/>
-            I <a href="http://blog.steren.fr" target="_blank">blog</a>, <a href="https://twitter.com/steren" target="_blank">tweet</a>, <a href="http://labs.steren.fr" target="_blank">experiment</a> and do things:
-        </p>
+        <steren-card id="brief">
+          <p class="">
+              I am Steren, engineer from <a href="http://www.ec-lyon.fr" target="_blank">Centrale Lyon</a> and today Technical Program Manager at <a href="https://google.com/" target="_blank">Google</a> in Munich.
+              Previously, I co-founded <a href="http://www.beansight.com" target="_blank">beansight</a>, was CTO of <a href="http://joshfire.com/" target="_blank">Joshfire</a> and helped <a href="https://sketchfab.com/" target="_blank">Sketchfab</a>.
+            <br/>
+              I <a href="http://blog.steren.fr" target="_blank">blog</a>, <a href="https://twitter.com/steren" target="_blank">tweet</a>, <a href="http://labs.steren.fr" target="_blank">experiment</a> and do things:
+          </p>
+        </steren-card>
 
         <steren-work-list show="featured"></steren-work-list>
 
