@@ -2,21 +2,30 @@
 <link rel="import" href="components/core-icon-button/core-icon-button.html">
 <link rel="import" href="steren-card.html">
 
-<polymer-element name="steren-work" extends="steren-card">
+<polymer-element name="steren-work" extends="steren-card" attributes="work">
   <template>
     <style>
-    polyfill-next-selector { content: 'h2'; }
-    ::content h2 {
+    :host(:hover) {
+      background-color: #DDDDDD;
+    }
+    :host(:active) {
+      background-color: #CCCCCC;
+    }
+    .title {
       font-size: 1.8rem;
       font-weight: 300;
       margin-bottom: 20px;
     }
-    polyfill-next-selector { content: 'img'; }
-    ::content img {
+    .image {
       width: 100%;
     }
     .inside {
-      margin: 16px;
+      padding: 16px;
+    }
+
+    a {
+      text-decoration: none;
+      color: black;
     }
     </style>
 
@@ -24,12 +33,15 @@
     TODO: create logo, background and illustration attributes.
     If no illustration, use logo and if present background.
     -->
-    <content select="img"></content>
-    <div class="inside">
-      <content select="h2"></content>
-      <content select="p"></content>
-    </div>
 
+    <a href="{{work.link.href}}" title="{{work.link.value}}" target="_blank">
+      <img class="image" src="img/icons/{{work.image}}">
+
+      <div class="inside">
+        <h2 class="title">{{work.title}}</h2>
+        <p>{{work.description}}</p>
+      </div>
+    </a>
 
   </template>
   <script>

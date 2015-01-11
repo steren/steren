@@ -20,10 +20,8 @@
     <div layout vertical center>
       <template repeat="{{work in works}}">
         <steren-work
-          hidden?="{{show == 'featured' ? !work.featured : false}}">
-          <img src="img/icons/{{work.image}}">
-          <h2>{{work.title}}</h2>
-          <p>{{work.description}}</p>
+          hidden?="{{show == 'featured' ? !work.featured : false}}"
+          work={{work}}>
         </steren-work>
       </template>
     </div>
