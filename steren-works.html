@@ -1,0 +1,101 @@
+<link rel="import" href="components/polymer/polymer.html">
+
+<link rel="import" href="components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="components/core-selector/core-selector.html">
+
+<link rel="import" href="steren-work-list.html">
+<link rel="import" href="steren-card.html">
+
+<polymer-element name="steren-works" attributes="show">
+  <template>
+    <style>
+
+      #brief {
+        font-size: 1rem;
+        font-weight: 300;
+      }
+      #brief p {
+        padding: 16px;
+      }
+
+
+      #filters {
+        margin-bottom: 16px;
+      }
+      .filter-group {
+        margin: 0 32px;
+      }
+      .filter-group .filter {
+        display: block;
+      }
+      .filter-group paper-checkbox {
+        padding: 20px 20px 20px 0;
+      }
+
+      a, a:visited {
+        color: #03a9f4;
+        text-decoration:none;
+      }
+    </style>
+
+    <div layout vertical center> 
+
+      <div hidden?="{{show != 'featured'}}" layout horizontal center-justified wrap>
+        <steren-card id="brief">
+          <p>
+              I am Steren, engineer from <a href="http://www.ec-lyon.fr" target="_blank">Centrale Lyon</a> and today Technical Program Manager at <a href="https://google.com/" target="_blank">Google</a> in Munich.
+              Previously, I co-founded <a href="http://www.beansight.com" target="_blank">beansight</a>, was CTO of <a href="http://joshfire.com/" target="_blank">Joshfire</a> and helped <a href="https://sketchfab.com/" target="_blank">Sketchfab</a>.
+            <br/>
+              I <a href="http://blog.steren.fr" target="_blank">blog</a>, <a href="https://twitter.com/steren" target="_blank">tweet</a>, <a href="http://labs.steren.fr" target="_blank">experiment</a> and do things:
+          </p>
+        </steren-card>
+      </div>
+
+      <div id="filters" hidden?="{{show == 'featured'}}" layout horizontal center-justified wrap>
+        <section class="filter-group">
+          <core-selector selected="{{type}}" selectedProperty="checked" activateEvent="change" multi>
+            <paper-checkbox class="filter" label="Code"      name="code"></paper-checkbox>
+            <paper-checkbox class="filter" label="Graphics"  name="graphic"></paper-checkbox>
+            <paper-checkbox class="filter" label="Event"     name="event"></paper-checkbox>
+          </core-selector>
+        </section>
+
+        <section class="filter-group">
+          <core-selector selected="{{participation}}" selectedProperty="checked" activateEvent="change" multi>
+            <paper-checkbox class="filter" label="Leader"      name="lead"></paper-checkbox>
+            <paper-checkbox class="filter" label="Contributor" name="contribution"></paper-checkbox>
+          </core-selector>
+        </section>
+
+        <section class="filter-group">
+          <core-selector selected="{{seriousness}}" selectedProperty="checked" activateEvent="change" multi>
+            <paper-checkbox class="filter" label="Serious"         name="serious"></paper-checkbox>
+            <paper-checkbox class="filter" label="Not-so-serious"  name="notsoserious"></paper-checkbox>
+            <paper-checkbox class="filter" label="Stupid"          name="stupid"></paper-checkbox>
+          </core-selector>
+        </section>
+
+        <section class="filter-group">
+          <paper-radio-group class="blue" selected="{{order}}">
+            <paper-radio-button class="filter" name="date" label="Date"></paper-radio-button>
+            <paper-radio-button class="filter" name="size" label="Size"></paper-radio-button>
+          </paper-radio-group>
+        </section>
+
+      </div>
+    </div>
+    
+    <steren-work-list show="{{show}}" order="{{order}}" type="{{type}}" participation="{{participation}}" seriousness="{{seriousness}}"></steren-work-list>
+
+  </template>
+
+  <script>
+  Polymer({
+    order : 'date',
+    type : ['code', 'graphic', 'event'],
+    participation : ['lead', 'contribution'], 
+    seriousness : ['serious', 'notsoserious']
+  });
+  </script>
+</polymer-element>

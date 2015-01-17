@@ -3,22 +3,19 @@
 <link rel="import" href="steren-work-service.html">
 <link rel="import" href="steren-work.html">
 
-<polymer-element name="steren-work-list" attributes="show">
+<polymer-element name="steren-work-list" attributes="show order type participation seriousness">
   <template>
     <style>
     :host {
       display: block;
       width: 100%;
     }
-    steren-work {
-      margin-bottom: 30px;
-    }
     </style>
 
     <steren-work-service id="service" works="{{works}}"></steren-work-service>
 
-    <div layout vertical center>
-      <template repeat="{{work in works}}">
+    <div layout horizontal center-justified wrap>
+      <template repeat="{{work in works | filter('type', typeForFilter) | filter('participation', participationForFilter) | filter('seriousness', seriousnessForFilter) | orderBy(order) | reverse}}">
         <steren-work
           hidden?="{{show == 'featured' ? !work.featured : false}}"
           work={{work}}>
@@ -28,6 +25,29 @@
   </template>
 
   <script>
-  Polymer({});
+  Polymer({
+    orderBy: function(items, key) {
+      var sorter = function (a, b) {
+        if (a[key] < b[key])  return -1;
+        if (a[key] > b[key]) return 1;
+        return 0;
+      };
+      return items.sort(sorter);
+    },
+    reverse: function(items) {
+      return items.reverse();
+    },
+    filter: function(items, key, values) {
+      return items.filter(function(item) {
+        return values.indexOf(item[key]) > -1;
+      });
+    },
+    // Following functions are here to trigger a refresh on our repeat expression
+    // It does not refresh otherwise because some attributes are arrays.
+    // see bug https://github.com/Polymer/polymer-expressions/issues/28
+    typeChanged: function() { this.typeForFilter = this.type.slice();},
+    participationChanged: function() { this.participationForFilter = this.participation.slice();},
+    seriousnessChanged: function() { this.seriousnessForFilter = this.seriousness.slice();}
+  });
   </script>
 </polymer-element>

@@ -21,16 +21,14 @@
   <link rel="import" href="components/core-header-panel/core-header-panel.html">
   <link rel="import" href="components/core-drawer-panel/core-drawer-panel.html">
   <link rel="import" href="components/core-toolbar/core-toolbar.html">
+  <link rel="import" href="components/core-label/core-label.html">
   <link rel="import" href="components/paper-tabs/paper-tabs.html">
-  <link rel="import" href="components/paper-checkbox/paper-checkbox.html">
-
 
   <link rel="import" href="components/paper-menu-button/paper-menu-button.html">
   <link rel="import" href="components/paper-dropdown/paper-dropdown.html">
   <link rel="import" href="components/paper-item/paper-item.html">
 
-  <link rel="import" href="steren-work-list.html">
-  <link rel="import" href="steren-card.html">
+  <link rel="import" href="steren-works.html">
 
   <style>
   html,body {
@@ -100,34 +98,16 @@
     margin-bottom: 20px;
   }
 
-  #brief {
-    margin-bottom: 2em;
-    font-size: 1rem;
-    font-weight: 300;
-  }
-  #brief p {
-    margin: 16px;
-  }
   #tabs {
-    width: 100%;
-    margin: 0;
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
     user-select: none;
     text-transform: uppercase;
   }
-  .container {
-    width: 80%;
-    margin: 2em auto;
-  }
 
-  @media (min-width: 481px) {
-    #tabs {
-      width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .container {
-      width: 400px;
-    }
+  .container {
+    margin: 2em auto;
   }
   </style>
 
@@ -180,7 +160,7 @@
             Twitter
           </paper-item>
         </a>
-        <a href="https://plus.google.com/steren.giannini" target="_blank">
+        <a href="https://plus.google.com/+SterenGiannini" target="_blank">
           <paper-item>
             <core-icon src="icons/google.svg" aria-label="Google"></core-icon>
             Google+
@@ -215,18 +195,9 @@
         </div>
       </core-toolbar>
 
-      <div class="container" layout vertical center main>
+      <div class="container" main>
 
-        <steren-card id="brief">
-          <p class="">
-              I am Steren, engineer from <a href="http://www.ec-lyon.fr" target="_blank">Centrale Lyon</a> and today Technical Program Manager at <a href="https://google.com/" target="_blank">Google</a> in Munich.
-              Previously, I co-founded <a href="http://www.beansight.com" target="_blank">beansight</a>, was CTO of <a href="http://joshfire.com/" target="_blank">Joshfire</a> and helped <a href="https://sketchfab.com/" target="_blank">Sketchfab</a>.
-            <br/>
-              I <a href="http://blog.steren.fr" target="_blank">blog</a>, <a href="https://twitter.com/steren" target="_blank">tweet</a>, <a href="http://labs.steren.fr" target="_blank">experiment</a> and do things:
-          </p>
-        </steren-card>
-
-        <steren-work-list show="featured"></steren-work-list>
+      <steren-works show="featured" ></steren-works>
 
       </div>
 
@@ -235,17 +206,10 @@
 
   <script>
   var tabs = document.querySelector('paper-tabs');
-  var list = document.querySelector('steren-work-list');
-  var brief = document.getElementById('brief');
-  var drawerPanel = document.querySelector('core-drawer-panel');
+  var works = document.querySelector('steren-works');
 
   tabs.addEventListener('core-select', function() {
-    list.show = tabs.selected;
-    brief.hidden = tabs.selected == 'all';
-
-    if(tabs.selected == 'all') {
-      drawerPanel.closeDrawer();
-    }
+    works.show = tabs.selected;
   });
   </script>
 
