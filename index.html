@@ -28,7 +28,6 @@
   <link rel="import" href="//www.polymer-project.org/components/paper-tabs/paper-tabs.html">
 
   <link rel="import" href="//www.polymer-project.org/components/paper-menu-button/paper-menu-button.html">
-  <link rel="import" href="//www.polymer-project.org/components/paper-dropdown/paper-dropdown.html">
   <link rel="import" href="//www.polymer-project.org/components/paper-item/paper-item.html">
 
   <link rel="import" href="steren-works.html">
@@ -56,6 +55,7 @@
     color: #009688;
     text-decoration:none;
   }
+
   core-header-panel {
     height: 100%;
     overflow: auto;
@@ -67,12 +67,8 @@
   core-toolbar, core-toolbar a, core-toolbar a:visited {
     color: white;
   }
-  paper-dropdown, paper-dropdown a, paper-dropdown a:visited {
-    color: black;
-  }
-  paper-checkbox {
-    padding: 12px 12px 12px 0;
-  }
+
+
   #drawer {
     background: white;
   }
@@ -87,21 +83,18 @@
   #drawer .selected {
     background: #eee;
   }
-
   /* core-icon should probably use this by default */
   #drawer core-icon div {
     background-size: cover !important;
   }
-
   #drawer section {
     border-bottom: rgba(0,0,0,0.1) solid 1px;
     margin-bottom: 8px;
     margin-top: 8px;
   }
-    #drawer section:last-child {
+  #drawer section:last-child {
     border-bottom: 0;
   }
-
   #drawer h1 {
     color: #000;
     font-size: 1.3em;
@@ -112,6 +105,7 @@
     margin-top: 20px;
     margin-bottom: 20px;
   }
+
 
   #tabs {
     width: 600px;
