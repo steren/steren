@@ -14,11 +14,16 @@
 
     <steren-work-service id="service" works="{{works}}"></steren-work-service>
 
-    <div layout horizontal center-justified wrap>
-      <template repeat="{{work in works | filter('type', typeForFilter) | filter('participation', participationForFilter) | filter('seriousness', seriousnessForFilter) | orderBy(order) | reverse}}">
-        <steren-work
-          hidden?="{{show == 'featured' ? !work.featured : false}}"
-          work={{work}}>
+    <div layout horizontal center-justified wrap hidden?="{{show != 'featured'}}">
+      <template repeat="{{work in works | filterProp('featured')}}">
+        <steren-work work={{work}}>
+        </steren-work>
+      </template>
+    </div>
+    
+    <div layout horizontal center-justified wrap hidden?="{{show != 'all'}}">
+      <template repeat="{{work in works | filterContain('type', typeForFilter) | filterContain('participation', participationForFilter) | filterContain('seriousness', seriousnessForFilter) | orderBy(order) | reverse}}">
+        <steren-work work={{work}}>
         </steren-work>
       </template>
     </div>
@@ -37,9 +42,14 @@
     reverse: function(items) {
       return items.reverse();
     },
-    filter: function(items, key, values) {
+    filterContain: function(items, key, values) {
       return items.filter(function(item) {
         return values.indexOf(item[key]) > -1;
+      });
+    },
+    filterProp: function(items, key) {
+      return items.filter(function(item) {
+        return item[key];
       });
     },
     // Following functions are here to trigger a refresh on our repeat expression
