@@ -20,6 +20,10 @@
     .image {
       width: 100%;
     }
+    .logo {
+      width: 40%;
+      margin: 20px;
+    }
     .inside {
       padding: 16px;
     }
@@ -39,7 +43,15 @@
     -->
 
     <a href="{{work.link.href}}" title="{{work.link.value}}" target="_blank">
-      <img class="image" src="img/icons/{{work.image}}">
+      <template if="{{work.image}}">
+        <img class="image" src="{{work.image}}">
+      </template>
+
+      <template if="{{work.logo}}">
+        <div vertical layout center>
+          <img class="logo" src="{{work.logo}}">
+        </div>
+      </template>
 
       <div class="inside">
         <h2 class="title">{{work.title}}</h2>

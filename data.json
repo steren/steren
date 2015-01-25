@@ -1,7 +1,22 @@
 [
 {
+	"id":"gcloud",
+	"logo":"img/logos/gcloud.svg",
+	"featured":false,
+	"size":20,
+	"completion": "wip",
+	"seriousness":"serious",
+	"type":"code",
+	"participation":"contribution",
+	"title":"Google Cloud Platform: Source Code Tools",
+	"category":"web",
+	"date": 2014,
+	"description":"Technical Program Manager for Google Cloud.",
+	"link": {"href":"https://cloud.google.com/tools/repo/source-tools", "value":"Google Cloud Platform, Source Code tools"}
+},
+{
 	"id":"factory",
-	"image":"factory.png",
+	"image":"img/icons/factory.png",
 	"featured":true,
 	"size":15,
 	"completion": "done",
@@ -16,7 +31,7 @@
 },
 {
     "id":"sketchfab",
-    "image":"sketchfab.png",
+    "image":"img/icons/sketchfab.png",
 	"featured":true,
 	"size":4,
 	"completion": "wip",
@@ -31,7 +46,7 @@
 },
 {
 	"id":"parishackers",
-	"image":"parishackers.svg",
+	"logo":"img/logos/parishackers.png",
 	"size":5,
 	"completion": "done",
 	"seriousness":"serious",
@@ -45,7 +60,7 @@
 },
 {
 	"id":"cordova",
-	"image":"cordova.png",
+	"image":"img/icons/cordova.png",
 	"featured":false,
 	"size":1,
 	"completion": "done",
@@ -60,7 +75,7 @@
 },
 {
 	"id":"musichackparis",
-	"image":"musichackparis.png",
+	"image":"img/icons/musichackparis.png",
 	"featured":false,
 	"size":4,
 	"completion": "done",
@@ -75,7 +90,7 @@
 },
 {
 	"id":"hackdayparis",
-	"image":"hackdayparis.png",
+	"image":"img/icons/hackdayparis.png",
 	"featured":true,
 	"size":5,
 	"completion": "done",
@@ -90,7 +105,7 @@
 },
 {
 	"id":"beansight",
-	"image":"beansight.png",
+	"image":"img/icons/beansight.png",
 	"featured":true,
 	"size":10,
 	"completion": "done",
@@ -105,7 +120,7 @@
 },
 {
 	"id":"hacklecamping",
-	"image":"hacklecamping.png",
+	"image":"img/icons/hacklecamping.png",
 	"featured":false,
 	"size":2,
 	"completion": "done",
@@ -120,7 +135,7 @@
 },
 {
 	"id":"colorclock",
-	"image":"colorclock.png",
+	"image":"img/icons/colorclock.png",
 	"featured":false,
 	"size":2,
 	"completion": "wip",
@@ -135,7 +150,7 @@
 },
 {
 	"id":"cadeaux",
-	"image":"cadeaux.png",
+	"image":"img/icons/cadeaux.png",
 	"size":3,
 	"completion": "wip",
 	"seriousness":"notsoserious",
@@ -149,7 +164,7 @@
 },
 {
 	"id":"swym",
-	"image":"swym.png",
+	"image":"img/icons/swym.png",
 	"size":11,
 	"completion": "done",
 	"seriousness":"serious",
@@ -163,7 +178,7 @@
 },
 {
 	"id":"remixthem",
-	"image":"remixthem.png",
+	"image":"img/icons/remixthem.png",
 	"featured":true,
 	"size":4,
 	"completion": "done",
@@ -178,7 +193,7 @@
 },
 {
 	"id":"stroke",
-	"image":"stroke.png",
+	"image":"img/icons/stroke.png",
 	"size":7,
 	"completion": "done",
 	"seriousness":"serious",
@@ -191,7 +206,7 @@
 },
 {
 	"id":"capoda",
-	"image":"capoda.png",
+	"image":"img/icons/capoda.png",
 	"featured":true,
 	"size":5,
 	"completion": "done",
@@ -206,8 +221,8 @@
 },
 {
 	"id":"inkscape",
-	"image":"inkscape.png",
-	"featured":false,			
+	"image":"img/icons/inkscape.png",
+	"featured":false,
 	"size":5,
 	"completion": "done",
 	"seriousness":"serious",
@@ -221,7 +236,7 @@
 },
 {
 	"id":"chauffeur",
-	"image":"chauffeur.png",
+	"image":"img/icons/chauffeur.png",
 	"size":2,
 	"completion": "done",
 	"seriousness":"notsoserious",
@@ -235,7 +250,7 @@
 },
 {
 	"id":"starwarspi",
-	"image":"starwarspi.png",
+	"image":"img/icons/starwarspi.png",
 	"size":6,
 	"completion": "done",
 	"seriousness":"notsoserious",
@@ -249,7 +264,7 @@
 },
 {
 	"id":"alchemy",
-	"image":"alchemy.png",
+	"image":"img/icons/alchemy.png",
 	"size":1,
 	"completion": "done",
 	"seriousness":"serious",
@@ -263,7 +278,7 @@
 },
 {
 	"id":"jambon",
-	"image":"jambon.png",
+	"image":"img/icons/jambon.png",
 	"size":3,
 	"completion": "done",
 	"seriousness":"stupid",
@@ -278,11 +293,11 @@
 		{"href":"http://www.youtube.com/watch?v=-c4UzbL7J-o", "value":"The Attack Of The Jambon Volant 3 on Youtube"},
 		{"href":"http://www.youtube.com/watch?v=QoSFuK3qAW4", "value":"Jambon Volant: Origins on Youtube"}
 	]
-		
+
 },
 {
 	"id":"trezinlove",
-	"image":"trezinlove.png",
+	"image":"img/icons/trezinlove.png",
 	"size":2,
 	"completion": "done",
 	"seriousness":"stupid",
@@ -296,7 +311,7 @@
 },
 {
 	"id":"bigbuddies",
-	"image":"bigbuddies.png",
+	"image":"img/icons/bigbuddies.png",
 	"size":5,
 	"completion": "done",
 	"seriousness":"notsoserious",
@@ -309,7 +324,7 @@
 },
 {
 	"id":"drone",
-	"image":"drone.png",
+	"image":"img/icons/drone.png",
 	"size":5,
 	"completion": "done",
 	"seriousness":"serious",
@@ -323,7 +338,7 @@
 },
 {
 	"id":"holytupperware",
-	"image":"holytupperware.png",
+	"image":"img/icons/holytupperware.png",
 	"size":3,
 	"completion": "done",
 	"seriousness":"stupid",
@@ -342,7 +357,7 @@
 },
 {
 	"id":"tpe",
-	"image":"tpe.png",
+	"image":"img/icons/tpe.png",
 	"size":6,
 	"completion": "done",
 	"seriousness":"serious",
@@ -356,7 +371,7 @@
 },
 {
 	"id":"mobileinfantry",
-	"image":"mobileinfantry.png",
+	"image":"img/icons/mobileinfantry.png",
 	"size":6,
 	"completion": "done",
 	"seriousness":"serious",
