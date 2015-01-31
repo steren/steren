@@ -31,7 +31,7 @@
 },
 {
     "id":"sketchfab",
-    "image":"img/icons/sketchfab.png",
+    "logo":"img/logos/sketchfab.svg",
 	"featured":true,
 	"size":4,
 	"completion": "wip",
