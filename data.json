@@ -120,7 +120,7 @@
 },
 {
 	"id":"beansight",
-	"image":"img/icons/beansight.png",
+	"logo":"img/logos/beansight.svg",
 	"featured":true,
 	"size":10,
 	"completion": "done",
