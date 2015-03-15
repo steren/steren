@@ -1,5 +1,20 @@
 [
 {
+	"id":"cloud-cup",
+	"logo":"img/logos/cloud-cup.svg",
+	"featured":false,
+	"size":3,
+	"completion": "wip",
+	"seriousness":"notsoserious",
+	"type":"code",
+	"participation":"lead",
+	"title":"Cloud Cup",
+	"category":"android",
+	"date": 2014,
+	"description":"Multiplayer cross device game.",
+	"link": {"href":"https://cloud-cup.firebaseapp.com/", "value":"Cloud Cup website"}
+},
+{
 	"id":"gcloud",
 	"logo":"img/logos/gcloud.svg",
 	"featured":false,
