@@ -236,7 +236,7 @@
 },
 {
 	"id":"inkscape",
-	"image":"img/icons/inkscape.png",
+	"logo":"img/logos/inkscape.svg",
 	"featured":false,
 	"size":5,
 	"completion": "done",
