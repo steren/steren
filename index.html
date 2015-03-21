@@ -200,29 +200,37 @@
         <div>Works</div>
 
         <div class="bottom fit" horizontal="" layout="">
-          <paper-tabs id="tabs" selected="featured">
-            <paper-tab name="featured">Featured</paper-tab>
-            <paper-tab name="all">All</paper-tab>
+          <paper-tabs id="tabs">
+            <paper-tab name="featured">
+              <a href="/" horizontal center-center layout>Featured</a>
+            </paper-tab>
+            <paper-tab name="all">
+              <a href="/all" horizontal center-center layout>All</a>
+            </paper-tab>
           </paper-tabs>
         </div>
       </core-toolbar>
 
       <div class="container" main>
 
-      <steren-works show="featured" ></steren-works>
+      <steren-works></steren-works>
 
       </div>
 
     </core-header-panel>
   </core-drawer-panel>
 
+  <script src="https://cdn.rawgit.com/visionmedia/page.js/master/page.js"></script>
+
   <script>
+
   var tabs = document.querySelector('paper-tabs');
   var works = document.querySelector('steren-works');
 
-  tabs.addEventListener('core-select', function() {
-    works.show = tabs.selected;
-  });
+  page('/', function() { works.show = tabs.selected = 'featured'; });
+  page('/all', function() { works.show = tabs.selected =  'all'; });
+  page({hashbang: true});
+
   </script>
 
 </body>
