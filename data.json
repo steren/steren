@@ -75,7 +75,7 @@
 },
 {
 	"id":"cordova",
-	"image":"img/icons/cordova.png",
+	"logo":"img/logos/cordova.png",
 	"featured":false,
 	"size":1,
 	"completion": "done",
