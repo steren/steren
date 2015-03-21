@@ -31,7 +31,7 @@
 },
 {
 	"id":"factory",
-	"image":"img/icons/factory.png",
+	"logo":"img/logos/factory.png",
 	"featured":true,
 	"size":15,
 	"completion": "done",
