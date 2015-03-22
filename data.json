@@ -135,7 +135,7 @@
 },
 {
 	"id":"hacklecamping",
-	"image":"img/icons/hacklecamping.png",
+	"logo":"img/logos/hacklecamping.svg",
 	"featured":false,
 	"size":2,
 	"completion": "done",
