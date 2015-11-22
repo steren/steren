@@ -1,10 +1,25 @@
 [
+	{
+		"id":"climb-tracker",
+		"logo":"img/logos/climb-tracker.svg",
+		"featured":false,
+		"size":3,
+		"completion": "done",
+		"seriousness": "serious",
+		"type": "code",
+		"participation": "lead",
+		"title": "Climb Tracker",
+		"category": "android",
+		"date": 2015,
+		"description": "Indoor climbing app for Android smartphones and watches.",
+		"link": {"href":"https://play.google.com/store/apps/details?id=fr.steren.climbtracker", "value":"Climb Tracker on Google Play"}
+	},
 {
 	"id":"cloud-cup",
 	"logo":"img/logos/cloud-cup.svg",
 	"featured":false,
 	"size":3,
-	"completion": "wip",
+	"completion": "done",
 	"seriousness":"notsoserious",
 	"type":"code",
 	"participation":"lead",
