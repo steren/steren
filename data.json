@@ -280,7 +280,7 @@
 },
 {
 	"id":"starwarspi",
-	"image":"img/icons/starwarspi.png",
+	"image":"img/icons/starwarspi.jgg",
 	"size":6,
 	"completion": "done",
 	"seriousness":"notsoserious",
@@ -290,7 +290,7 @@
 	"category":"Short movie",
 	"date": 2005,
 	"description":"A Star Wars fan film.",
-	"link": {"href":"http://www.youtube.com/watch?v=Tgwii6yOxeI", "value":"Star Wars : Episode π on Youtube"}
+	"link": {"href":"https://www.youtube.com/playlist?list=PL901335F3E591DDDF", "value":"Star Wars : Episode π on Youtube"}
 },
 {
 	"id":"alchemy",
