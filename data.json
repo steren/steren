@@ -131,7 +131,7 @@
 	"category":"hackathon",
 	"date": 2011,
 	"description":"Organization of two Hackathons in Paris, 150 participants.",
-	"link": {"href":"http://hackdayparis.org", "value":"hackdayparis.org"}
+	"link": {"href":"http://skylar.github.io/hackdayparis/", "value":"Website"}
 },
 {
 	"id":"beansight",
