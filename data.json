@@ -38,11 +38,11 @@
 	"seriousness":"serious",
 	"type":"code",
 	"participation":"contribution",
-	"title":"Google Cloud Platform: Source Code Tools",
+	"title":"Google Cloud Platform",
 	"category":"web",
 	"date": 2014,
-	"description":"Technical Program Manager for Google Cloud.",
-	"link": {"href":"https://cloud.google.com/tools/repo/source-tools", "value":"Google Cloud Platform, Source Code tools"}
+	"description":"Technical Program Manager on the Google Cloud Platform.",
+	"link": {"href":"https://cloud.google.com/", "value":"Google Cloud Platform, Source Code tools"}
 },
 {
 	"id":"factory",
@@ -85,7 +85,7 @@
 	"title":"Paris Hackers",
 	"category":"Tech talks",
 	"date": 2013,
-	"description":" tech meetups",
+	"description":" Organizer of Tech meetups",
 	"link": {"href":"http://parishackers.org/", "value":"Paris Hackers website"}
 },
 {
@@ -189,7 +189,7 @@
 	"title":"Cadeaux entre nous",
 	"category":"web",
 	"date": 2010,
-	"description":"Small website to offer presents on an original way.",
+	"description":"Secret Santa website.",
 	"link": {"href":"http://www.cadeaux-entre-nous.fr", "value":"cadeaux-entre-nous.fr"}
 },
 {
@@ -218,7 +218,7 @@
 	"title":"RemixThem",
 	"category":"Android application",
 	"date": 2009,
-	"description":"Automatically mix and remix faces from pictures.",
+	"description":"Android app to mix and remix faces from pictures.",
 	"link": {"href":"https://play.google.com/store/apps/details?id=fr.steren.remixthem.market", "value":"Remixthem on Google Play"}
 },
 {
@@ -275,7 +275,7 @@
 	"title":"Le Chauffeur a des gants",
 	"category":"Short movie",
 	"date": 2008,
-	"description":"",
+	"description":"Black and white short movie.",
 	"link": {"href":"http://www.youtube.com/watch?v=LXyYy5UiyVE", "value":"Le Chauffeur a des gants on Youtube"}
 },
 {
