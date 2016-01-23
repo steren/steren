@@ -180,7 +180,7 @@
 },
 {
 	"id":"cadeaux",
-	"image":"img/icons/cadeaux.png",
+	"image":"img/icons/cadeaux.svg",
 	"size":3,
 	"completion": "wip",
 	"seriousness":"notsoserious",
