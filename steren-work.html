@@ -20,6 +20,9 @@
     .image {
       width: 100%;
     }
+    .logo-container {
+      text-align: center;
+    }
     .logo {
       width: 40%;
       margin: 20px;
@@ -48,7 +51,7 @@
       </template>
 
       <template if="{{work.logo}}">
-        <div vertical layout center>
+        <div class="logo-container">
           <img class="logo" src="{{work.logo}}">
         </div>
       </template>
