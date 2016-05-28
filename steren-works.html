@@ -1,8 +1,8 @@
-<link rel="import" href="//www.polymer-project.org/0.5/components/polymer/polymer.html">
+<link rel="import" href="components/polymer/polymer.html">
 
-<link rel="import" href="//www.polymer-project.org/0.5/components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="//www.polymer-project.org/0.5/components/paper-radio-group/paper-radio-group.html">
-<link rel="import" href="//www.polymer-project.org/0.5/components/core-selector/core-selector.html">
+<link rel="import" href="components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="components/core-selector/core-selector.html">
 
 <link rel="import" href="steren-work-list.html">
 <link rel="import" href="steren-card.html">
@@ -59,14 +59,14 @@
         .content-header {
           min-height: 0;
         }
-      
+
         #filters {
           display: none;
         }
       }
     </style>
 
-    <div class="content-header" layout vertical center> 
+    <div class="content-header" layout vertical center>
 
       <div hidden?="{{show != 'featured'}}" layout horizontal center center-justified wrap>
         <steren-card id="brief">
@@ -112,7 +112,7 @@
 
       </div>
     </div>
-    
+
     <steren-work-list show="{{show}}" order="{{order}}" type="{{type}}" participation="{{participation}}" seriousness="{{seriousness}}"></steren-work-list>
 
   </template>
@@ -121,7 +121,7 @@
   Polymer({
     order : 'date',
     type : ['code', 'graphic', 'event'],
-    participation : ['lead', 'contribution'], 
+    participation : ['lead', 'contribution'],
     seriousness : ['serious', 'notsoserious']
   });
   </script>

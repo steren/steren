@@ -1,4 +1,4 @@
-<link rel="import" href="//www.polymer-project.org/0.5/components/polymer/polymer.html">
+<link rel="import" href="components/polymer/polymer.html">
 
 <link rel="import" href="steren-work-service.html">
 <link rel="import" href="steren-work.html">
@@ -20,7 +20,7 @@
         </steren-work>
       </template>
     </div>
-    
+
     <div layout horizontal center-justified wrap hidden?="{{show != 'all'}}">
       <template repeat="{{work in works | filterContain('type', typeForFilter) | filterContain('participation', participationForFilter) | filterContain('seriousness', seriousnessForFilter) | orderBy(order) | reverse}}">
         <steren-work work={{work}}>
