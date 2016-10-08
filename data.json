@@ -146,7 +146,7 @@
 	"category":"web",
 	"date": 2011,
 	"description":"Co-founder of a web start-up that predicts the future.",
-	"link": {"href":"http://www.beansight.com", "value":"beansight.com"}
+	"link": {"href":"https://github.com/beansight/beansight-website", "value":"Beansight source code"}
 },
 {
 	"id":"hacklecamping",
