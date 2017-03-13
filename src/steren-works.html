@@ -1,0 +1,30 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="steren-work.html">
+
+<dom-module id="steren-works">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+    <h1>Works:</h1>
+    <steren-work></steren-work>
+    <steren-work></steren-work>
+    <steren-work></steren-work>
+    <steren-work></steren-work>
+    <steren-work></steren-work>
+  </template>
+
+  <script>
+    class SterenWorks extends Polymer.Element {
+      static get is() { return 'steren-works'; }
+    }
+
+    window.customElements.define(SterenWorks.is, SterenWorks);
+  </script>
+</dom-module>
