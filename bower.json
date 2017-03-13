@@ -1,7 +1,7 @@
 {
-  "name": "polymer-starter-kit",
+  "name": "steren-portfolio",
   "authors": [
-    "The Polymer Authors"
+    "Steren Giannini <steren.giannini@gmail.com>"
   ],
   "license": "https://polymer.github.io/LICENSE.txt",
   "dependencies": {
