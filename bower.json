@@ -19,7 +19,8 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0-rc.1",
     "paper-checkbox": "PolymerElements/paper-checkbox#2.0-preview",
     "paper-radio-button": "PolymerElements/paper-radio-button#2.0-preview",
-    "paper-radio-group": "PolymerElements/paper-radio-group#2.0-preview"
+    "paper-radio-group": "PolymerElements/paper-radio-group#2.0-preview",
+    "paper-tabs": "PolymerElements/paper-tabs#2.0-preview"
   },
   "devDependencies": {
     "web-component-tester": "6.0.0-prerelease.5"

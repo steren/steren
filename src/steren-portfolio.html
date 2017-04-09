@@ -20,6 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="steren-featured.html">
 <link rel="import" href="steren-all.html">
 <link rel="import" href="my-icons.html">
@@ -59,9 +60,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         line-height: 40px;
       }
 
-      .drawer-list a.iron-selected {
+      .drawer-list a.selected {
         color: black;
         font-weight: bold;
+      }
+
+      paper-tab[link] a {
+        /* These mixins (from iron-flex-layout) center the link text. */
+        @apply(--layout-horizontal);
+        @apply(--layout-center-center);
+        color: #fff;
+        text-decoration: none;
       }
     </style>
 
@@ -75,11 +84,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-drawer-layout fullbleed>
       <!-- Drawer content -->
       <app-drawer id="drawer" slot="drawer">
-        <app-toolbar>Menu</app-toolbar>
-        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="featured" href="/featured">Featured</a>
-          <a name="all" href="/all">All</a>
-          <a name="github" href="https://github.com/steren">GitHub</a>
+        <app-toolbar>Steren Giannini</app-toolbar>
+        <iron-selector class="drawer-list" role="navigation">
+          <a class="selected" href="/featured">Works</a>
+          <a href="https://github.com/steren">GitHub</a>
         </iron-selector>
       </app-drawer>
 
@@ -89,7 +97,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-header slot="header" condenses reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
-            <div main-title>Steren Giannini</div>
+            <div main-title>Works</div>
+
+            <paper-tabs selected="[[page]]" attr-for-selected="name">
+              <paper-tab name="featured" link>
+                <a href="/featured" tabindex="-1">FEATURED</a>
+              </paper-tab>
+              <paper-tab name="all" link>
+                <a href="/all" tabindex="-1">ALL</a>
+              </paper-tab>
+            </paper-tabs>
           </app-toolbar>
         </app-header>
 
