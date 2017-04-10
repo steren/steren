@@ -29,18 +29,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <h1>Filters</h1>
 
-    <iron-selector attr-for-selected="name" multi selected="[code,graphics,event]">
+    <iron-selector attr-for-selected="name" multi selected-values='["code","graphics","event"]' selected-attribute="checked">
       <paper-checkbox name="code">Code</paper-checkbox>
       <paper-checkbox name="graphics">Graphics</paper-checkbox>
       <paper-checkbox name="event">Event</paper-checkbox>
     </iron-selector>
 
-    <iron-selector attr-for-selected="name" multi selected="[leader,contributor]">
+    <iron-selector attr-for-selected="name" multi selected-values='["leader","contributor"]' selected-attribute="checked">
       <paper-checkbox name="leader">Leader</paper-checkbox>
       <paper-checkbox name="contributor">Contributor</paper-checkbox>
     </iron-selector>
 
-    <iron-selector attr-for-selected="name" multi selected="[serious]">
+    <iron-selector attr-for-selected="name" multi selected-values='["serious","notsoserious"]' selected-attribute="checked">
       <paper-checkbox name="serious">Serious</paper-checkbox>
       <paper-checkbox name="notsoserious">Not-so-serious</paper-checkbox>
       <paper-checkbox name="stupid">Stupid</paper-checkbox>
