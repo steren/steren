@@ -4,12 +4,14 @@
   "description": "Generate work list in dex.html from data.json",
   "main": "generate.js",
   "scripts": {
-    "start": "node generate.js"
+    "gen": "node generate.js",
+    "serve": "serve"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "handlebars": "^4.0.11",
-    "jsdom": "^11.4.0"
+    "jsdom": "^11.4.0",
+    "serve": "^6.4.1"
   }
 }

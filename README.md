@@ -5,6 +5,9 @@ For now, it is dedicated to be used on steren.fr.
 
 Content is defined in `data.json`.
 
-## Generate works from .json file
+## Developer
 
-`npm install && npm start`
+`npm install`
+
+*  Serve locally: `npm run serve`
+* Generate works from .json file: `npm run gen`
