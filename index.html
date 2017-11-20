@@ -33,46 +33,106 @@
       color: #009688;
       text-decoration:none;
     }
+
+    .container {
+        margin-right: auto;
+        margin-left: auto;
+        padding-right: 1rem;
+        padding-left: 1rem;
+        width: calc(100% - 2 * 1rem);
+    }
+    @media (min-width: 1400px) {
+      .container {
+        max-width: 1300px;
+      }
+    }
+
     .card {
       display: block;
       background-color: white;
-      width: 100%;
       background: white;
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-      margin: 16px;
+      margin: 1rem;
       border-radius: 2px;
-      max-width: 400px;
     }
     .card .inner {
-      padding: 16px;
+      padding: 1rem;
     }
 
+    header {
+      color: white;
+      background: #009688;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+      height: 6rem;
+      display: flex;
+      align-items: center;
+    }
+    header h1 {
+      /*float: left;*/
+      /*padding-top: 1rem;*/
+    }
+    header nav {
+      /*float: right;*/
+    }
+    header nav a,
+    header nav a:visited {
+      color: white;
+    }
 
-    steren-work a {
+    #intro .card {
+      width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #works h2 {
+      text-align: center;
+    }
+
+    #work-list {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+    }
+
+    #work-list steren-work {
+      width: 400px;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+
+    #work-list steren-work a {
       text-decoration: none;
       color: black;
     }
-    steren-work:hover {
+    #work-list steren-work:hover {
       background-color: #DDDDDD;
     }
-    steren-work:active {
+    #work-list steren-work:active {
       background-color: #CCCCCC;
     }
-    steren-work .title {
-      font-size: 1.8rem;
+    #work-list steren-work .title {
+      font-size: 2rem;
       font-weight: 300;
-      margin-bottom: 16px;
+      margin-bottom: 1rem;
       margin-top: 0;
     }
-    steren-work .image {
+    #work-list steren-work .image {
       width: 100%;
     }
-    steren-work .logo-container {
+    #work-list steren-work .logo-container {
       text-align: center;
     }
-    steren-work .logo {
+    #work-list steren-work .logo {
       width: 40%;
       margin: 20px;
+    }
+    #work-list steren-work {
+      display: none;
+    }
+    #work-list steren-work[data-featured="true"] {
+      display: block;
     }
 
   </style>
@@ -88,27 +148,38 @@
 </head>
 
 <body>
-  <h1>Steren Giannini</h1>
+  <header>
+    <div class="container">
+      <h1>Steren Giannini</h1>
 
-  <nav class="links">
-    <a href="http://blog.steren.fr" target="_blank">Blog</a>
-    <a href="http://labs.steren.fr" target="_blank">Labs</a>
-    <a href="https://twitter.com/steren" target="_blank">Twitter</a>
-    <a href="https://www.linkedin.com/in/steren" target="_blank">LinkedIn</a>
-    <a href="https://github.com/steren" target="_blank">GitHub</a>
-  </nav>
+      <nav id="links">
+        <a href="http://blog.steren.fr" target="_blank">Blog</a>
+        -
+        <a href="http://labs.steren.fr" target="_blank">Labs</a>
+        -
+        <a href="https://twitter.com/steren" target="_blank">Twitter</a>
+        -
+        <a href="https://www.linkedin.com/in/steren" target="_blank">LinkedIn</a>
+        -
+        <a href="https://github.com/steren" target="_blank">GitHub</a>
+      </nav>
+    </div>
+  </header>
 
-  <section class="card">
-    <p class="inner">
-        I am Steren, European of French nationality.
-        I am an engineer from <a href="http://www.ec-lyon.fr" target="_blank">Centrale Lyon</a> and today Product Manager at <a href="https://google.com/" target="_blank">Google</a> in Munich.
-        Previously, I co-founded <a href="http://www.beansight.com" target="_blank">beansight</a>, was CTO of <a href="http://joshfire.com/" target="_blank">Joshfire</a> and helped <a href="https://sketchfab.com/" target="_blank">Sketchfab</a>.
-      <br>
-        I <a href="http://blog.steren.fr" target="_blank">blog</a>, <a href="https://twitter.com/steren" target="_blank">tweet</a>, <a href="http://labs.steren.fr" target="_blank">experiment</a> and do things:
-    </p>
+  <div class="container">
+    <section id="intro">
+      <div class="card" >
+        <p class="inner">
+            I am Steren, European of French nationality.
+            I am an engineer from <a href="http://www.ec-lyon.fr" target="_blank">Centrale Lyon</a> and today Product Manager at <a href="https://google.com/" target="_blank">Google</a> in Munich.
+            Previously, I co-founded <a href="http://www.beansight.com" target="_blank">beansight</a>, was CTO of <a href="http://joshfire.com/" target="_blank">Joshfire</a> and helped <a href="https://sketchfab.com/" target="_blank">Sketchfab</a>.
+          <br>
+            I <a href="http://blog.steren.fr" target="_blank">blog</a>, <a href="https://twitter.com/steren" target="_blank">tweet</a>, <a href="http://labs.steren.fr" target="_blank">experiment</a> and do things:
+        </p>
+      </div>
   </section>
 
-  <section>
+  <section id="works">
     <h2>Works</h2>
     <div id="work-list"><steren-work class="card" data-id="climb-tracker" data-featured="false" data-size="3" data-completion="done" data-seriousness="serious" data-type="code" data-participation="lead" data-category="android" data-date="2015">
   <a href="https://play.google.com/store/apps/details?id=fr.steren.climbtracker" title="Climb Tracker on Google Play" target="_blank">
@@ -421,6 +492,6 @@
 </div>
   </section>
 
-
+</div>
 
 </body></html>
