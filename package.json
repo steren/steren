@@ -5,7 +5,7 @@
   "main": "generate.js",
   "scripts": {
     "gen": "node generate.js",
-    "serve": "serve"
+    "start": "serve"
   },
   "author": "",
   "license": "ISC",

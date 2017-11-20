@@ -9,5 +9,5 @@ Content is defined in `data.json`.
 
 `npm install`
 
-*  Serve locally: `npm run serve`
+* Serve locally: `npm start`
 * Generate works from .json file: `npm run gen`
