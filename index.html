@@ -24,7 +24,65 @@
     Accent Shade: #FFAB40
     Accent Light (Fallback): #FFD180
   -->
+
   <style>
+    html {
+      background-color: #E5E5E5;
+      height: 100%;
+      margin: 0;
+      font-family: sans-serif;
+    }
+    body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+      margin: 0;
+      padding: 0;
+      font-weight: 300;
+    }
+    a, a:visited {
+      color: #009688;
+      text-decoration:none;
+    }
+    .card {
+      display: block;
+      background-color: white;
+      width: 100%;
+      background: white;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+      margin: 16px;
+      border-radius: 2px;
+      max-width: 400px;
+    }
+    .card .inner {
+      padding: 16px;
+    }
+
+
+    .work a {
+      text-decoration: none;
+      color: black;
+    }
+    .work:hover {
+      background-color: #DDDDDD;
+    }
+    .work:active {
+      background-color: #CCCCCC;
+    }
+    .work .title {
+      font-size: 1.8rem;
+      font-weight: 300;
+      margin-bottom: 16px;
+      margin-top: 0;
+    }
+    .work .image {
+      width: 100%;
+    }
+    .work .logo-container {
+      text-align: center;
+    }
+    .work .logo {
+      width: 40%;
+      margin: 20px;
+    }
+
   </style>
 
   <!-- Google Analytics -->
@@ -38,5 +96,43 @@
 </head>
 
 <body>
+  <h1>Steren Giannini</h1>
+
+  <nav class="links">
+    <a href="http://blog.steren.fr" target="_blank">Blog</a>
+    <a href="http://labs.steren.fr" target="_blank">Labs</a>
+    <a href="https://twitter.com/steren" target="_blank">Twitter</a>
+    <a href="https://www.linkedin.com/in/steren" target="_blank">LinkedIn</a>
+    <a href="https://github.com/steren" target="_blank">GitHub</a>
+  </nav>
+
+  <section class="card">
+    <p class="inner">
+        I am Steren, European of French nationality.
+        I am an engineer from <a href="http://www.ec-lyon.fr" target="_blank">Centrale Lyon</a> and today Product Manager at <a href="https://google.com/" target="_blank">Google</a> in Munich.
+        Previously, I co-founded <a href="http://www.beansight.com" target="_blank">beansight</a>, was CTO of <a href="http://joshfire.com/" target="_blank">Joshfire</a> and helped <a href="https://sketchfab.com/" target="_blank">Sketchfab</a>.
+      <br/>
+        I <a href="http://blog.steren.fr" target="_blank">blog</a>, <a href="https://twitter.com/steren" target="_blank">tweet</a>, <a href="http://labs.steren.fr" target="_blank">experiment</a> and do things:
+    </p>
+  </section>
+
+  <section>
+    <h2>Works</h2>
+    <div class="card work">
+      <a href="{{work.link.href}}" title="{{work.link.value}}" target="_blank">
+        <img class="image" src="/img/icons/capoda.png">
+
+        <!-- <div class="logo-container">
+          <img class="logo" src="/img/logos/climb-tracker.svg">
+        </div> -->
+
+        <div class="inner">
+          <h2 class="title">{{work.title}}</h2>
+          <p>{{work.description}}</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
 </body>
 </html>
