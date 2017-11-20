@@ -32,7 +32,7 @@ var template = Handlebars.compile(`{{#each works}}
     </div>
     {{/if}}
     <div class="inner">
-      <h2 class="title">{{this.title}}</h2>
+      <h3 class="title">{{this.title}}</h2>
       <p>{{this.description}}</p>
     </div>
   </a>
