@@ -21,7 +21,7 @@ var template = Handlebars.compile(`{{#each works}}
   data-category="{{this.category}}"
   data-date="{{this.date}}"
   >
-  <a href="{{this.link.href}}" title="{{this.link.value}}" target="_blank">
+  <a href="{{this.link.href}}" title="{{this.link.value}}" target="_blank" rel="noopener">
     {{#if this.image}}
     <div class="image-container">
       <img class="image" src="{{this.image}}">
