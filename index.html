@@ -8,31 +8,12 @@
 <html>
 <head>
   <title>Steren Giannini</title>
-
-  <meta name="viewport"  content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Personal works">
   <meta name="author" content="Steren Giannini">
-
+  <meta name="theme-color" content="#009688">
   <link rel="icon" sizes="192x192" href="icon-192.png">
   <link rel="icon" sizes="32x32"   href="icon-32.png" >
-
-  <meta name="theme-color" content="#009688">
-
-  <script src="components/webcomponentsjs/webcomponents.js"></script>
-
-  <link rel="import" href="components/font-roboto/roboto.html">
-  <link rel="import" href="components/core-header-panel/core-header-panel.html">
-  <link rel="import" href="components/core-drawer-panel/core-drawer-panel.html">
-  <link rel="import" href="components/core-toolbar/core-toolbar.html">
-  <link rel="import" href="components/core-label/core-label.html">
-  <link rel="import" href="components/paper-tabs/paper-tabs.html">
-
-  <link rel="import" href="components/paper-menu-button/paper-menu-button.html">
-  <link rel="import" href="components/paper-item/paper-item.html">
-
-  <link rel="import" href="steren-works.html">
-
   <!--
     Colors
     (picked from http://sankk.in/material-mixer/, following http://www.google.com/design/spec/style/color.html)
@@ -40,206 +21,22 @@
     Primary Shade: #009688
     Primary Light: #B2DFDB
     Primary Dark: #00796B
-
     Accent Shade: #FFAB40
     Accent Light (Fallback): #FFD180
   -->
-
   <style>
-  html,body {
-    height: 100%;
-    margin: 0;
-    background-color: #E5E5E5;
-    font-family: 'RobotoDraft', sans-serif;
-  }
-  a, a:visited {
-    color: #009688;
-    text-decoration:none;
-  }
-
-  core-header-panel {
-    height: 100%;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  core-toolbar {
-    background: #009688;
-  }
-  core-toolbar, core-toolbar a, core-toolbar a:visited {
-    color: white;
-  }
-
-
-  #drawer {
-    background: white;
-  }
-  #drawer a, #drawer a:visited {
-    color: #000;
-    opacity: 0.87;
-  }
-  #drawer core-icon {
-    margin-right: 32px;
-  }
-
-  #drawer .selected {
-    background: #eee;
-  }
-  /* core-icon should probably use this by default */
-  #drawer core-icon div {
-    background-size: cover !important;
-  }
-  #drawer section {
-    border-bottom: rgba(0,0,0,0.1) solid 1px;
-    margin-bottom: 8px;
-    margin-top: 8px;
-  }
-  #drawer section:last-child {
-    border-bottom: 0;
-  }
-  #drawer h1 {
-    color: #000;
-    font-size: 1.3em;
-    margin-left: 16px;
-    opacity: 0.54;
-    font-weight: 500;
-    height: 1.3em;
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-
-
-  #tabs {
-    width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    user-select: none;
-    text-transform: uppercase;
-  }
-
-  .container {
-    margin: 2em auto;
-  }
   </style>
 
-
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-13041825-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
+  <!-- Google Analytics -->
+  <script>
+  window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+  ga('create', 'UA-13041825-1', 'auto');
+  ga('send', 'pageview');
   </script>
-  
-  <script src="https://cdn.rawgit.com/GoogleCloudPlatform/stackdriver-errors-js/v0.0.1/dist/stackdriver-errors-concat.min.js"></script>
-  <script type="text/javascript">
-  var errorHandler = new StackdriverErrorReporting();
-  errorHandler.init({
-    key: 'AIzaSyCws6WOtj40ZFVLyt-wB6JLQ0lwuCdX7VE',
-    projectId: 'steren-fr'
-  });
-  </script>
+  <script async src='https://www.google-analytics.com/analytics.js'></script>
+  <!-- End Google Analytics -->
 </head>
 
-<body unresolved>
-  <core-drawer-panel>
-
-    <core-header-panel drawer id="drawer">
-
-      <section>
-        <h1>Steren Giannini</h1>
-      </section>
-
-      <section>
-        <paper-item class="selected">
-          <core-icon icon="home"></core-icon>
-          Works
-        </paper-item>
-        <a href="http://blog.steren.fr" target="_blank">
-          <paper-item>
-            <core-icon icon="subject"></core-icon>
-            Blog
-          </paper-item>
-        </a>
-        <a href="http://labs.steren.fr" target="_blank">
-          <paper-item>
-            <core-icon icon="explore" aria-label="star"></core-icon>
-            Labs
-          </paper-item>
-        </a>
-      </section>
-
-      <section>
-        <a href="https://twitter.com/steren" target="_blank">
-          <paper-item>
-            <core-icon src="icons/twitter.svg" aria-label="Twitter"></core-icon>
-            Twitter
-          </paper-item>
-        </a>
-        <a href="https://plus.google.com/+SterenGiannini" target="_blank">
-          <paper-item>
-            <core-icon src="icons/google.svg" aria-label="Google"></core-icon>
-            Google+
-          </paper-item>
-        </a>
-        <a href="https://www.linkedin.com/in/steren" target="_blank">
-          <paper-item>
-            <core-icon src="icons/linkedin.svg" aria-label="LinkedIn"></core-icon>
-            LinkedIn
-          </paper-item>
-        </a>
-        <a href="https://github.com/steren" target="_blank">
-          <paper-item>
-            <core-icon src="icons/github.svg" aria-label="GitHub"></core-icon>
-            GitHub
-          </paper-item>
-        </a>
-      </section>
-
-    </core-header-panel>
-
-    <core-header-panel main>
-      <core-toolbar class="medium-tall">
-        <paper-icon-button icon="menu" core-drawer-toggle></paper-icon-button>
-        <div>Works</div>
-
-        <div class="bottom fit" horizontal="" layout="">
-          <paper-tabs id="tabs">
-            <paper-tab name="featured">
-              <a href="/" horizontal center-center layout>Featured</a>
-            </paper-tab>
-            <paper-tab name="all">
-              <a href="/all" horizontal center-center layout>All</a>
-            </paper-tab>
-          </paper-tabs>
-        </div>
-      </core-toolbar>
-
-      <div class="container" main>
-
-      <steren-works></steren-works>
-
-      </div>
-
-    </core-header-panel>
-  </core-drawer-panel>
-
-  <script src="https://cdn.rawgit.com/visionmedia/page.js/master/page.js"></script>
-
-  <script>
-
-  var tabs = document.querySelector('paper-tabs');
-  var works = document.querySelector('steren-works');
-
-  page('/', function() { works.show = tabs.selected = 'featured'; });
-  page('/all', function() { works.show = tabs.selected =  'all'; });
-  page({hashbang: true});
-
-  </script>
-
+<body>
 </body>
-
 </html>
