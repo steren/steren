@@ -1,19 +1,32 @@
 [
-	{
-		"id":"climb-tracker",
-		"logo":"img/logos/climb-tracker.svg",
-		"featured":false,
-		"size":3,
-		"completion": "done",
-		"seriousness": "serious",
-		"type": "code",
-		"participation": "lead",
-		"title": "Climb Tracker",
-		"category": "android",
-		"date": 2015,
-		"description": "Indoor climbing app for Android smartphones and watches.",
-		"link": {"href":"https://play.google.com/store/apps/details?id=fr.steren.climbtracker", "value":"Climb Tracker on Google Play"}
-	},
+{
+	"id":"bazel",
+	"logo":"img/logos/bazel.svg",
+	"size":10,
+	"completion": "done",
+	"seriousness": "serious",
+	"type": "code",
+	"participation": "contribution",
+	"title": "Bazel",
+	"date": 2017,
+	"description": "Product Manager for Bazel, an open source build and test tool.",
+	"link": {"href":"https://bazel.build/", "value":"Bazel website"}
+},
+{
+	"id":"climb-tracker",
+	"logo":"img/logos/climb-tracker.svg",
+	"featured":false,
+	"size":3,
+	"completion": "done",
+	"seriousness": "serious",
+	"type": "code",
+	"participation": "lead",
+	"title": "Climb Tracker",
+	"category": "android",
+	"date": 2015,
+	"description": "Indoor climbing app for Android smartphones and watches.",
+	"link": {"href":"https://play.google.com/store/apps/details?id=fr.steren.climbtracker", "value":"Climb Tracker on Google Play"}
+},
 {
 	"id":"cloud-cup",
 	"logo":"img/logos/cloud-cup.svg",
@@ -41,8 +54,8 @@
 	"title":"Google Cloud Platform",
 	"category":"web",
 	"date": 2014,
-	"description":"Product Manager on Google Cloud Platform.",
-	"link": {"href":"https://cloud.google.com/", "value":"Google Cloud Platform, Source Code tools"}
+	"description":"Product Manager for Stackdriver Error Reporting.",
+	"link": {"href":"https://cloud.google.com/error-reporting/", "value":"Stackdriver Error Reporting product page"}
 },
 {
 	"id":"factory",
@@ -60,8 +73,8 @@
 	"link": {"href":"https://www.joshfire.com/", "value":"joshfire.com"}
 },
 {
-    "id":"sketchfab",
-    "logo":"img/logos/sketchfab.svg",
+  "id":"sketchfab",
+  "logo":"img/logos/sketchfab.svg",
 	"featured":true,
 	"size":4,
 	"completion": "wip",
