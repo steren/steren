@@ -24,11 +24,11 @@ var template = Handlebars.compile(`{{#each works}}
   <a href="{{this.link.href}}" title="{{this.link.value}}" target="_blank" rel="noopener">
     {{#if this.image}}
     <div class="image-container">
-      <img class="image" src="{{this.image}}" alt="{{this.title}} picture">
+      <img class="image" data-src="{{this.image}}" alt="{{this.title}} picture">
     </div>
     {{else}}
     <div class="logo-container">
-      <img class="logo" src="{{this.logo}}" alt="{{this.title}} logo">
+      <img class="logo" data-src="{{this.logo}}" alt="{{this.title}} logo">
     </div>
     {{/if}}
     <div class="inner">
