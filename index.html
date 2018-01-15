@@ -107,14 +107,49 @@
       color: white;
     }
 
+    .avatar {
+      border-radius: 50%;
+    }
+
+    /* trick to force image aspect ratio bafore it is downloaded */
+    .card .image-container {
+      width: 100%;
+      padding-bottom: calc((140/280)*100%);
+      position: relative;
+    }
+    .card .logo-container {
+      width: 40%;
+      padding-bottom: 40%;
+      position: relative;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .card .image,
+    .card .logo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
     #intro {
       margin-left: 1em;
       margin-right: 1em;
     }
     #intro .card {
-      max-width: 400px;
       margin-left: auto;
       margin-right: auto;
+    }
+    #intro .bio {
+      line-height: 1.3em;
+    }
+
+    #intro .card,
+    #work-list steren-work {
+      width: 400px;
     }
 
     #works h2 {
@@ -129,7 +164,6 @@
     }
 
     #work-list steren-work {
-      width: 400px;
       margin-left: 1rem;
       margin-right: 1rem;
     }
@@ -149,30 +183,6 @@
       font-weight: 300;
       margin-bottom: 1rem;
       margin-top: 0;
-    }
-
-    /* trick to force image aspect ratio bafore it is downloaded */
-    #work-list steren-work .image-container {
-      width: 100%;
-      padding-bottom: calc((140/280)*100%);
-      position: relative;
-    }
-    #work-list steren-work .logo-container {
-      width: 40%;
-      padding-bottom: 40%;
-      position: relative;
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    #work-list steren-work .image,
-    #work-list steren-work .logo {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
     }
 
     #work-list steren-work {
@@ -216,13 +226,18 @@
   <div class="container">
     <section id="intro">
       <div class="card">
-        <p class="inner">
-            I am Steren, European of French nationality.
-            I am an engineer from <a href="http://www.ec-lyon.fr" target="_blank" rel="noopener">Centrale Lyon</a> and today Product Manager at <a href="https://cloud.google.com/" target="_blank" rel="noopener">Google</a> in San Francisco.
-            Previously, I co-founded <a href="http://www.beansight.com" target="_blank" rel="noopener">beansight</a>, was CTO of <a href="http://joshfire.com/" target="_blank" rel="noopener">Joshfire</a> and helped <a href="https://sketchfab.com/" target="_blank" rel="noopener">Sketchfab</a>.
-          <br>
-            I <a href="http://blog.steren.fr" target="_blank" rel="noopener">blog</a>, <a href="https://twitter.com/steren" target="_blank" rel="noopener">tweet</a>, <a href="http://labs.steren.fr" target="_blank" rel="noopener">experiment</a> and do things:
-        </p>
+        <div class="inner">
+          <div class="logo-container">
+              <img class="logo avatar" src="https://twitter.com/steren/profile_image?size=original" alt="Google Cloud Platform logo">
+          </div>
+          <p class="bio">
+              I am Steren, European of French nationality.<br>
+              I am an engineer from <a href="http://www.ec-lyon.fr" target="_blank" rel="noopener">Centrale Lyon</a> and today Product Manager at <a href="https://cloud.google.com/" target="_blank" rel="noopener">Google</a> in San Francisco.<br>
+              Previously, I co-founded <a href="http://www.beansight.com" target="_blank" rel="noopener">beansight</a>, was CTO of <a href="http://joshfire.com/" target="_blank" rel="noopener">Joshfire</a> and helped <a href="https://sketchfab.com/" target="_blank" rel="noopener">Sketchfab</a>.<br>
+            <br>
+              I <a href="http://blog.steren.fr" target="_blank" rel="noopener">blog</a>, <a href="https://twitter.com/steren" target="_blank" rel="noopener">tweet</a>, <a href="http://labs.steren.fr" target="_blank" rel="noopener">experiment</a> and do things:
+          </p>
+        </div>
       </div>
   </section>
 
