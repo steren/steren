@@ -43,18 +43,18 @@
 	"link": {"href":"https://cloud-cup.firebaseapp.com/", "value":"Cloud Cup website"}
 },
 {
-	"id":"gcloud",
-	"logo":"img/logos/gcloud.svg",
+	"id":"error-reporting",
+	"logo":"img/logos/error-reporting.svg",
 	"featured":true,
 	"size":20,
-	"completion": "wip",
+	"completion": "done",
 	"seriousness":"serious",
 	"type":"code",
 	"participation":"contribution",
-	"title":"Google Cloud Platform",
+	"title":"Error Reporting",
 	"category":"web",
-	"date": 2014,
-	"description":"Product Manager for Stackdriver Error Reporting.",
+	"date": 2016,
+	"description":"Google Cloud Platform solution to identify and understand application errors.",
 	"link": {"href":"https://cloud.google.com/error-reporting/", "value":"Stackdriver Error Reporting product page"}
 },
 {
