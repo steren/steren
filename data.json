@@ -1,11 +1,25 @@
 [
 {
+	"id":"app-engine",
+	"logo":"img/logos/app-engine.svg",
+	"featured": true,
+	"size":50,
+	"completion": "in-progress",
+	"seriousness": "serious",
+	"type": "product",
+	"participation": "contribution",
+	"title": "App Engine",
+	"date": 2018,
+	"description": "Serverless application platform. Node.js runtime, new scheduler.",
+	"link": {"href":"https://cloud.google.com/appengine/", "value":"App Engine website"}
+},
+{
 	"id":"bazel",
 	"logo":"img/logos/bazel.svg",
 	"size":10,
 	"completion": "done",
 	"seriousness": "serious",
-	"type": "code",
+	"type": "product",
 	"participation": "contribution",
 	"title": "Bazel",
 	"date": 2017,
@@ -15,7 +29,6 @@
 {
 	"id":"climb-tracker",
 	"logo":"img/logos/climb-tracker.svg",
-	"featured":false,
 	"size":3,
 	"completion": "done",
 	"seriousness": "serious",
@@ -30,7 +43,7 @@
 {
 	"id":"cloud-cup",
 	"logo":"img/logos/cloud-cup.svg",
-	"featured":false,
+	"featured": false,
 	"size":3,
 	"completion": "done",
 	"seriousness":"notsoserious",
@@ -45,11 +58,11 @@
 {
 	"id":"error-reporting",
 	"logo":"img/logos/error-reporting.svg",
-	"featured":true,
+	"featured": true,
 	"size":20,
 	"completion": "done",
 	"seriousness":"serious",
-	"type":"code",
+	"type":"product",
 	"participation":"contribution",
 	"title":"Error Reporting",
 	"category":"web",
@@ -64,18 +77,18 @@
 	"size":15,
 	"completion": "done",
 	"seriousness":"serious",
-	"type":"code",
+	"type":"product",
 	"participation":"lead",
 	"title":"Joshfire Factory",
 	"category":"web",
 	"date": 2012,
-	"description":"Product manager of a multi-device application platform.",
+	"description":"Multi-device application platform.",
 	"link": {"href":"https://www.joshfire.com/", "value":"joshfire.com"}
 },
 {
-  "id":"sketchfab",
-  "logo":"img/logos/sketchfab.svg",
-	"featured":true,
+	"id":"sketchfab",
+	"logo":"img/logos/sketchfab.svg",
+	"featured":false,
 	"size":4,
 	"completion": "wip",
 	"seriousness":"serious",
@@ -84,7 +97,7 @@
 	"title":"Sketchfab",
 	"category": "startup",
 	"date": 2013,
-	"description": "Technical advisor",
+	"description": "3D Platform.",
 	"link": {"href":"https://sketchfab.com/", "value":"Sketchfab website"}
 },
 {
@@ -143,7 +156,7 @@
 	"title":"Hack Day Paris",
 	"category":"hackathon",
 	"date": 2011,
-	"description":"Organization of two Hackathons in Paris, 150 participants.",
+	"description":"Organization of Hackathons in Paris.",
 	"link": {"href":"http://skylar.github.io/hackdayparis/", "value":"Website"}
 },
 {
@@ -260,7 +273,7 @@
 	"title":"CAPODA",
 	"category":"Animation",
 	"date": 2008,
-	"description":"A 3 minute computer generated short movie.",
+	"description":"3 minute computer generated short movie.",
 	"link": {"href":"https://www.youtube.com/watch?v=khWXdkryBE4", "value":"Watch CAPODA"}
 },
 {
