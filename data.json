@@ -86,7 +86,7 @@
 },
 {
 	"id":"factory",
-	"logo":"img/logos/factory.png",
+	"logo":"img/logos/factory.svg",
 	"featured":true,
 	"size":15,
 	"completion": "done",

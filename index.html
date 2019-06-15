@@ -55,22 +55,37 @@
   -->
 
   <style>
+    :root {
+      --primary-light: hsl(173, 100%, 40%);
+      --primary-dark: hsla(173, 100%, 24%);
+    }
     html {
       background-color: #E5E5E5;
       height: 100%;
       margin: 0;
       font-family: sans-serif;
     }
+    @media (prefers-color-scheme: dark) {
+      html {
+        background-color: #121212;
+        color: #FFFFFF;
+      }
+    }
+
     body, h1, h2, h3, h4, h5, h6, p, ol, ul {
       margin: 0;
       padding: 0;
       font-weight: 300;
     }
     a, a:visited {
-      color: #00796B;
+      color: var(--primary-dark);
       text-decoration:none;
     }
-
+    @media (prefers-color-scheme: dark) {
+       a, a:visited {
+           color: var(--primary-light);
+       } 
+    } 
     .container {
         margin-right: auto;
         margin-left: auto;
@@ -87,10 +102,14 @@
     .card {
       display: block;
       background-color: white;
-      background: white;
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
       margin: 1rem;
       border-radius: 2px;
+    }
+    @media (prefers-color-scheme: dark) {
+        .card {
+            background-color: rgba(255,255,255,0.05);
+        }
     }
     .card .inner {
       padding: 1rem;
@@ -98,7 +117,7 @@
 
     header {
       color: white;
-      background: #00796B;
+      background: var(--primary-dark);
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
       height: 6rem;
       display: flex;
@@ -135,6 +154,12 @@
       left: 0;
       width: 100%;
       height: 100%;
+    }
+    @media (prefers-color-scheme: dark) {
+        .card .image {
+            opacity: .9;
+            background-color: white;
+        }
     }
 
     #intro {
@@ -175,11 +200,25 @@
       text-decoration: none;
       color: black;
     }
+    @media (prefers-color-scheme: dark) {
+        #work-list steren-work a {
+            color: #FFFFFF;
+        }
+    }
+        
     #work-list steren-work:hover {
       background-color: #DDDDDD;
     }
     #work-list steren-work:active {
       background-color: #CCCCCC;
+    }
+    @media (prefers-color-scheme: dark) {
+        #work-list steren-work:hover {
+            background-color: rgba(255,255,255,0.07);
+        }
+        #work-list steren-work:active {
+            background-color: rgba(255,255,255,0.1);
+        }
     }
     #work-list steren-work .title {
       font-size: 2rem;
@@ -313,7 +352,7 @@
 <steren-work class="card" data-id="factory" data-featured="true" data-size="15" data-completion="done" data-seriousness="serious" data-type="product" data-participation="lead" data-category="web" data-date="2012">
   <a href="https://www.joshfire.com/" title="joshfire.com" target="_blank" rel="noopener">
     <div class="logo-container">
-      <img class="logo" src="img/logos/factory.png" alt="Joshfire Factory logo">
+      <img class="logo" src="img/logos/factory.svg" alt="Joshfire Factory logo">
     </div>
     <div class="inner">
       <h3 class="title">Joshfire Factory</h3>
