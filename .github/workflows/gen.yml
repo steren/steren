@@ -1,4 +1,4 @@
-name: Generate HTML from JSON data
+name: Generate index.html from data.json on every push
 
 on: [push]
 
