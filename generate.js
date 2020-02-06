@@ -47,6 +47,7 @@ fs.readFile(file, 'utf8', function(error, html) {
   const elToReplace = window.document.getElementById('work-list')
   elToReplace.innerHTML = result
   fs.writeFile(file,
+    '<!DOCTYPE html>' + 
     window.document.documentElement.outerHTML,
     (e) => {
       if(e) {console.error(e)}
