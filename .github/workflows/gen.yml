@@ -12,10 +12,14 @@ jobs:
       run: npm install
     - name: Generate index.html
       run: npm run gen
-    - name: Commit and push
+    - name: Commit index.html (if changes exist)
       run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
         git add index.html
         git commit -m "Generate index.html"
-        git push github HEAD:${GITHUB_REF}
-        
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
 
