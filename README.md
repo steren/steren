@@ -7,7 +7,6 @@ Content is defined in `data.json`.
 
 ## Developer
 
-`npm install`
-
+* Install dependencies: `npm install`
 * Serve locally: `npm start`
-* Generate works from .json file: `npm run gen`
+* Generate works from .json file: `npm run gen` (done automatically on every push via GitHub Actions)
