@@ -1,12 +1,6 @@
 # Simple Portfolio
 
-This code is a simple, personal, and visual portfolio.
-For now, it is dedicated to be used on steren.fr.
+A simple, personal, and visual portfolio.
+It is used on https://steren.fr.
 
-Content is defined in `data.json`.
-
-## Developer
-
-* Install dependencies: `npm install`
-* Serve locally: `npm start`
-* Generate works from .json file: `npm run gen` (done automatically on every push via GitHub Actions)
+For simplicity, it is built with just static HTML: no generationor dynamic content fetching are involved.
