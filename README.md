@@ -21,10 +21,6 @@ Multi-device application platform.
 **[Cadeaux entre nous](https://cadeaux-entre-nous.fr)**  
 Secret Santa website.
 
-<a href="http://skylar.github.io/hackdayparis/"><img src="img/icons/hackdayparis.webp" width="200" height="100"></a>  
-**[Hack Day Paris](http://skylar.github.io/hackdayparis/)**  
-Organization of Hackathons in Paris.
-
 <a href="https://www.youtube.com/watch?v=khWXdkryBE4"><img src="img/icons/capoda.webp" width="200" height="100"></a>  
 **[CAPODA](https://www.youtube.com/watch?v=khWXdkryBE4)**  
 Animated short movie.
