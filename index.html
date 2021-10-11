@@ -154,6 +154,8 @@
       left: 0;
       width: 100%;
       height: 100%;
+      object-fit: cover;
+      object-position: center top;
     }
     @media (prefers-color-scheme: dark) {
         .card .image {
@@ -285,7 +287,18 @@
     <section id="works">
         <h2>Works</h2>
         <div id="work-list">
-            <steren-work class="card" data-id="cloud-run" data-featured="true" data-size="50" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="contribution" data-category="" data-date="2019">
+          <steren-work class="card" data-id="cloud-run" data-featured="true" data-size="20" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="lead" data-category="" data-date="2021">
+            <a href="https://cloud.google.com/carbon-footprint/" title="Carbon Footprint website" target="_blank" rel="noopener">
+                <div class="image-container">
+                <img class="image" src="img/icons/carbon-footprint-screenshot.webp" alt="Carbon Footprint screenshot">
+                </div>
+                <div class="inner">
+                <h3 class="title">Carbon Footprint</h3>
+                <p>Understand and reduce your Google Cloud carbon emissions.</p>
+                </div>
+            </a>
+          </steren-work>
+          <steren-work class="card" data-id="cloud-run" data-featured="true" data-size="50" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="lead" data-category="" data-date="2019">
             <a href="https://cloud.google.com/run/" title="Cloud Run website" target="_blank" rel="noopener">
                 <div class="logo-container">
                 <img class="logo" src="img/logos/cloud-run.svg" alt="Cloud Run logo">
@@ -362,7 +375,7 @@
                 </div>
             </a>
             </steren-work>
-            <steren-work class="card" data-id="hackdayparis" data-featured="true" data-size="5" data-completion="done" data-seriousness="serious" data-type="event" data-participation="lead" data-category="hackathon" data-date="2011">
+            <steren-work class="card" data-id="hackdayparis" data-featured="false" data-size="5" data-completion="done" data-seriousness="serious" data-type="event" data-participation="lead" data-category="hackathon" data-date="2011">
             <a href="http://skylar.github.io/hackdayparis/" title="Website" target="_blank" rel="noopener">
                 <div class="image-container">
                 <img class="image" src="img/icons/hackdayparis.webp" alt="Hack Day Paris picture">
