@@ -4,7 +4,7 @@ Previously, I co-founded [beansight](https://www.beansight.com), was CTO of [Jos
 
 I [tweet](https://twitter.com/steren), [experiment](https://labs.steren.fr), [blog](https://blog.steren.fr) and create things:
 
-<a href="https://cloud.run"><img src="img/logos/cloud-run.svg" width="100" height="100"></a>  
+<a href="https://cloud.run"><img src="img/icons/carbon-footprint-screenshot.webp" width="200" height="152"></a>  
 **[Carbon Footprint](https://cloud.google.com/carbon-footprint)**  
 Understand and reduce your Google Cloud carbon emissions.
 
