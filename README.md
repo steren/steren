@@ -1,6 +1,6 @@
 👋 Hi,  
 I am an engineer from [Centrale Lyon](http://www.ec-lyon.fr) and today Product Manager at Google.  
-Previously, I co-founded [beansight](https://www.beansight.com), was CTO of [Joshfire](http://joshfire.com/) and helped [Sketchfab](https://sketchfab.com/).
+Previously, I co-founded [beansight](https://www.beansight.com), was CTO of [Joshfire](https://www.dailymotion.com/video/xuy6pq) and helped [Sketchfab](https://sketchfab.com/).
 
 I [tweet](https://twitter.com/steren), [experiment](https://labs.steren.fr), [blog](https://blog.steren.fr) and create things:
 
