@@ -1,8 +1,12 @@
+<a href="http://blog.steren.fr" rel="me">Blog</a> - <a href="http://labs.steren.fr" rel="me">Labs</a> - <a href="http://talks.steren.fr" rel="me">Talks</a> - <a href="https://twitter.com/steren" rel="me">Twitter</a> - <a href="https://status.steren.fr/@steren" rel="me" hidden>Mastodon</a> - <a href="https://www.linkedin.com/in/steren" rel="me">LinkedIn</a>
+
 👋 Hi,  
+
+I am Steren, I build products.  
 I am an engineer from [Centrale Lyon](http://www.ec-lyon.fr) and today Product Manager at Google.  
 Previously, I co-founded [beansight](https://www.beansight.com), was CTO of [Joshfire](https://www.dailymotion.com/video/xuy6pq) and helped [Sketchfab](https://sketchfab.com/).
 
-I [tweet](https://twitter.com/steren), [experiment](https://labs.steren.fr), [blog](https://blog.steren.fr) and create things:
+I [tweet](https://twitter.com/steren), [experiment](https://labs.steren.fr), [blog](https://blog.steren.fr) and create:
 
 <a href="https://cloud.run"><img src="img/icons/carbon-footprint-screenshot.webp" width="200" height="152"></a>  
 **[Carbon Footprint](https://cloud.google.com/carbon-footprint)**  
