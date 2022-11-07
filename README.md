@@ -16,7 +16,7 @@ Understand and reduce your Google Cloud carbon emissions.
 **[Cloud Run](https://cloud.run)**  
 Run containers on a fully managed environment.
 
-<a href="https://cloud.google.com/error-reporting/"><img src="img/icons/error-reporting-screenshot.webp" width="200" height="152"></a>  
+<a href="https://cloud.google.com/error-reporting/"><img src="img/icons/error-reporting-screenshot.webp" width="200" height="100"></a>  
 **[Cloud Error Reporting](https://cloud.google.com/error-reporting/)**  
 Google Cloud Platform solution to identify and understand application errors.
 
