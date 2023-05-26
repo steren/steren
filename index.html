@@ -238,7 +238,7 @@
 
   </style>
 
-  <!-- <script type="importmap">
+  <script type="importmap">
     {
       "imports": {
         "webgl-path-tracing": "./node_modules/webgl-path-tracing/webgl-path-tracing.js",
@@ -253,9 +253,10 @@
     window.onload = function() {
         rtx.on({
           raised: [...document.querySelectorAll(".card"), ...document.querySelectorAll("header")],
+          disableIfDarkMode: true,
         });
     }
-  </script> -->
+  </script>
 </head>
 
 <body>

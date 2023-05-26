@@ -1,6 +1,6 @@
 {
   "name": "rtx-on",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Use proper ray traced shadow instead of the boring box-shadow",
   "directories": {
     "example": "examples"
