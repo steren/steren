@@ -1,6 +1,6 @@
-# rtx-on
+# RTX: ON
 
-Use proper ray traced shadow instead of the boring box-shadow
+Use proper ray traced shadow instead of the boring box-shadow on your web pages.
 
 ![Example of this library on example.com](screenshot.jpg)
 
@@ -52,3 +52,6 @@ Restores any existing box shadow effect.
 
 Display an RTX ON/OFF button on the page. For fun.
 
+## Acknowledgements
+
+This module uses [webgl-path-tracing](https://webgl-path-tracing.steren.fr/), a WebGL path tracing library developed in 2010 by [Evan Wallace](https://madebyevan.com/) and later updated by the author of this module.

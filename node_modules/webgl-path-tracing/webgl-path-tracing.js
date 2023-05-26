@@ -1035,13 +1035,23 @@ let canvasHeight;
 // Has to be power of two (for now)
 let renderSize;
 
-function tick(timeSinceStart) {
-  eye.elements[0] = zoomZ * Math.sin(angleY) * Math.cos(angleX);
-  eye.elements[1] = zoomZ * Math.sin(angleX);
-  eye.elements[2] = zoomZ * Math.cos(angleY) * Math.cos(angleX);
+let start;
+let previousTimeStamp;
 
-  ui.update(timeSinceStart);
-  ui.render();
+function tick(timeStamp) {
+  if (start === undefined) {
+    start = timeStamp;
+  }
+  if (previousTimeStamp !== timeStamp) {
+    previousTimeStamp = timeStamp;
+    eye.elements[0] = zoomZ * Math.sin(angleY) * Math.cos(angleX);
+    eye.elements[1] = zoomZ * Math.sin(angleX);
+    eye.elements[2] = zoomZ * Math.cos(angleY) * Math.cos(angleX);
+
+    ui.update(timeStamp - start);
+    ui.render();
+    window.requestAnimationFrame(tick);
+  }
 }
 
 /**
@@ -1090,7 +1100,7 @@ function makePathTracer(canvas, objects, config = {}, interactive = true, log) {
       ui = new UI();
       ui.setObjects(objects);
       var start = new Date();
-      setInterval(function(){ tick((new Date() - start) * 0.001); }, 1000 / 60);
+      window.requestAnimationFrame(tick);
     } else {
       log('canvas must be square and power of two sized');
     }
