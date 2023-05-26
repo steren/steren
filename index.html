@@ -238,6 +238,25 @@
     }
 
   </style>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "webgl-path-tracing": "./node_modules/webgl-path-tracing/webgl-path-tracing.js",
+        "sylvester": "./node_modules/webgl-path-tracing/sylvester.src.js",
+        "rtx-on": "./node_modules/rtx-on/rtx-on.js"
+      }
+    }
+    </script>
+    <script type="module">
+    import * as rtx from 'rtx-on';
+    
+    window.onload = function() {
+        rtx.on({
+          raised: [...document.querySelectorAll(".card"), ...document.querySelectorAll("header")],
+        });
+    }
+  </script>
 </head>
 
 <body>
