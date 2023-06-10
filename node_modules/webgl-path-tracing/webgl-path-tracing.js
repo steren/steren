@@ -761,7 +761,7 @@ PathTracer.prototype.update = function(matrix, timeSinceStart) {
     this.type = gl.UNSIGNED_BYTE;
     for (var i = 0; i < this.textures.length; i++) {
       gl.bindTexture(gl.TEXTURE_2D, this.textures[i]);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, 512, 512, 0, gl.RGB, this.type, null);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, renderSize, renderSize, 0, gl.RGB, this.type, null);
     }
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.textures[1], 0);
   }
