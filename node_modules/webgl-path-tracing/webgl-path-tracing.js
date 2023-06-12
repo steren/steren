@@ -1060,7 +1060,7 @@ function tick(timeStamp) {
     eye.elements[1] = zoomZ * Math.sin(angleX);
     eye.elements[2] = zoomZ * Math.cos(angleY) * Math.cos(angleX);
 
-    ui.update(timeStamp - start);
+    ui.update((timeStamp - start) * 0.001);
     ui.render();
     window.requestAnimationFrame(tick);
   }
