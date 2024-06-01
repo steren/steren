@@ -160,6 +160,12 @@
       left: 0;
       width: 100%;
       height: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .card .screenshot,
+    .card .screenshot {
       object-fit: cover;
       object-position: center top;
     }
@@ -172,6 +178,7 @@
 
     .card .loop {
       display: none;
+      background-color: white;
     }
     .card:hover .loop {
       display: block;
@@ -316,7 +323,7 @@
           <steren-work class="card" data-id="cloud-run" data-featured="true" data-size="20" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="lead" data-category="" data-date="2021">
             <a href="https://cloud.google.com/carbon-footprint/" title="Carbon Footprint website" target="_blank" rel="noopener">
                 <div class="image-container">
-                  <img class="image" loading="lazy" src="img/icons/carbon-footprint-screenshot.webp" alt="Carbon Footprint screenshot">
+                  <img class="image screenshot" loading="lazy" src="img/icons/carbon-footprint-screenshot.webp" alt="Carbon Footprint screenshot">
                 </div>
                 <div class="inner">
                 <h3 class="title">Carbon Footprint</h3>
@@ -327,8 +334,8 @@
           <steren-work class="card" data-id="cloud-run" data-featured="true" data-size="50" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="lead" data-category="" data-date="2019">
             <a href="https://cloud.google.com/run/" title="Cloud Run website" target="_blank" rel="noopener">
                 <div class="image-container">
-                  <img class="image" src="img/icons/cloud-run.svg" alt="Cloud Run command line">
-                  <img class="loop" loading="lazy" src="img/loops/cloud-run.svg" alt="Cloud Run command line">
+                  <img class="image screenshot" src="img/icons/cloud-run.svg" alt="Cloud Run command line">
+                  <img class="loop screenshot" loading="lazy" src="img/loops/cloud-run.svg" alt="Cloud Run command line">
                 </div>
                 <div class="inner">
                 <h3 class="title">Cloud Run</h3>
@@ -372,7 +379,7 @@
             <steren-work class="card" data-id="error-reporting" data-featured="true" data-size="20" data-completion="done" data-seriousness="serious" data-type="product" data-participation="contribution" data-category="web" data-date="2016">
             <a href="https://cloud.google.com/error-reporting/" title="Cloud Error Reporting product page" target="_blank" rel="noopener">
                 <div class="image-container">
-                <img class="image" loading="lazy" src="img/icons/error-reporting-screenshot.webp" alt="Error Reporting screenshot">
+                <img class="image screenshot" loading="lazy" src="img/icons/error-reporting-screenshot.webp" alt="Error Reporting screenshot">
                 </div>
                 <div class="inner">
                 <h3 class="title">Error Reporting</h3>
@@ -427,7 +434,8 @@
             <steren-work class="card" data-id="cadeaux" data-featured="true" data-size="3" data-completion="wip" data-seriousness="notsoserious" data-type="code" data-participation="lead" data-category="web" data-date="2010">
             <a href="http://www.cadeaux-entre-nous.fr" title="cadeaux-entre-nous.fr" target="_blank" rel="noopener">
                 <div class="image-container">
-                <img class="image" loading="lazy" src="img/icons/cadeaux.svg" alt="Cadeaux entre nous picture">
+                <img class="image" loading="lazy" src="img/icons/cadeaux.svg" alt="Cadeaux entre nous principle">
+                <img class="loop" loading="lazy" src="img/loops/cadeaux.svg" alt="Cadeaux entre nous animation">
                 </div>
                 <div class="inner">
                 <h3 class="title">Cadeaux entre nous</h3>
