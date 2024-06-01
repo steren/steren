@@ -152,6 +152,7 @@
       margin-left: auto;
       margin-right: auto;
     }
+    .card .loop,
     .card .image,
     .card .logo {
       position: absolute;
@@ -163,10 +164,17 @@
       object-position: center top;
     }
     @media (prefers-color-scheme: dark) {
-        .card .image {
+      .card .image {
             opacity: .9;
             background-color: white;
         }
+    }
+
+    .card .loop {
+      display: none;
+    }
+    .card:hover .loop {
+      display: block;
     }
 
     #intro {
@@ -308,7 +316,7 @@
           <steren-work class="card" data-id="cloud-run" data-featured="true" data-size="20" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="lead" data-category="" data-date="2021">
             <a href="https://cloud.google.com/carbon-footprint/" title="Carbon Footprint website" target="_blank" rel="noopener">
                 <div class="image-container">
-                <img class="image" loading="lazy" src="img/icons/carbon-footprint-screenshot.webp" alt="Carbon Footprint screenshot">
+                  <img class="image" loading="lazy" src="img/icons/carbon-footprint-screenshot.webp" alt="Carbon Footprint screenshot">
                 </div>
                 <div class="inner">
                 <h3 class="title">Carbon Footprint</h3>
@@ -319,7 +327,8 @@
           <steren-work class="card" data-id="cloud-run" data-featured="true" data-size="50" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="lead" data-category="" data-date="2019">
             <a href="https://cloud.google.com/run/" title="Cloud Run website" target="_blank" rel="noopener">
                 <div class="image-container">
-                <img class="image" src="img/icons/cloud-run.svg" alt="Cloud Run command line">
+                  <img class="image" src="img/icons/cloud-run.svg" alt="Cloud Run command line">
+                  <img class="loop" loading="lazy" src="img/loops/cloud-run.svg" alt="Cloud Run command line">
                 </div>
                 <div class="inner">
                 <h3 class="title">Cloud Run</h3>
