@@ -11,7 +11,7 @@ I [tweet](https://twitter.com/steren), [talk](https://talks.steren.fr), [experim
 **[Carbon Footprint](https://cloud.google.com/carbon-footprint)**  
 Understand and reduce your Google Cloud carbon emissions.
 
-<a href="https://cloud.run"><img src="img/logos/cloud-run.svg" width="100" height="100"></a>  
+<a href="https://cloud.run"><img src="img/icons/cloud-run.svg" width="200" height="100"></a>  
 **[Cloud Run](https://cloud.run)**  
 Google Cloud's serverless runtime.
 

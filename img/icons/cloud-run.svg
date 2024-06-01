@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 1280 640" width="1280px" height="640px" xmlns="http://www.w3.org/2000/svg">
+  <defs/>
+  <rect width="1280" height="640" style="fill: rgb(22, 22, 22);"/>
+  <text style="fill: rgb(255, 255, 255); font-family: 'Courier New'; font-size: 40px; font-weight: 700; white-space: pre;" x="28.834" y="60.517" transform="matrix(1, 0, 0, 1.098995, 23.866495, 2.569732)">$ gcloud run deploy --image gcr.io/cloudrun/hello<tspan x="28.833999633789062" dy="1em">​</tspan>Service name (hello):<tspan x="28.833999633789062" dy="1em">​</tspan><tspan x="28.833999633789062" dy="1em">​</tspan>Deploying container to Cloud Run service [hello]<tspan x="28.833999633789062" dy="1em">​</tspan>✓ Deploying...<tspan x="28.833999633789062" dy="1em">​</tspan>  ✓ Creating Revision...<tspan x="28.833999633789062" dy="1em">​</tspan>  ✓ Routing traffic...<tspan x="28.833999633789062" dy="1em">​</tspan><tspan x="28.833999633789062" dy="1em">​</tspan>Service [hello] has been deployed.<tspan x="28.833999633789062" dy="1em">​</tspan>URL: https://hello.steren.fr<tspan x="28.833999633789062" dy="1em">​</tspan></text>
+</svg>
