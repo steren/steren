@@ -160,13 +160,12 @@
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
       object-position: center;
     }
 
     .card .screenshot,
     .card .screenshot {
-      object-fit: cover;
       object-position: center top;
     }
     @media (prefers-color-scheme: dark) {
@@ -424,7 +423,8 @@
             <steren-work class="card" data-id="capoda" data-featured="true" data-size="5" data-completion="done" data-seriousness="serious" data-type="graphic" data-participation="lead" data-category="Animation" data-date="2008">
             <a href="https://www.youtube.com/watch?v=khWXdkryBE4" title="Watch CAPODA" target="_blank" rel="noopener">
                 <div class="image-container">
-                <img class="image" loading="lazy" src="img/icons/capoda.webp" alt="CAPODA picture">
+                  <img class="image" loading="lazy" src="img/icons/capoda.webp" alt="CAPODA picture">
+                  <video class="loop" loading="lazy" autoplay loop muted playsinline src="img/loops/capoda.mp4#t=26" alt="CAPODA movie">
                 </div>
                 <div class="inner">
                 <h3 class="title">CAPODA</h3>
