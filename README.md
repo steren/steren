@@ -1,4 +1,4 @@
-<a href="http://steren.fr" rel="me nofollow">Web</a> - <a href="http://blog.steren.fr" rel="me nofollow">Blog</a> - <a href="http://labs.steren.fr" rel="me nofollow">Labs</a> - <a href="http://talks.steren.fr" rel="me nofollow">Talks</a> - <a href="https://twitter.com/steren" rel="me nofollow">Twitter</a> - <a href="https://bsky.app/profile/steren.fr" rel="me">BlueSky</a> - <a href="https://www.linkedin.com/in/steren" rel="me nofollow">LinkedIn</a>
+<a href="http://steren.fr" rel="me nofollow">Web</a> - <a href="http://blog.steren.fr" rel="me nofollow">Blog</a> - <a href="http://labs.steren.fr" rel="me nofollow">Labs</a> - <a href="http://talks.steren.fr" rel="me nofollow">Talks</a> - <a href="https://twitter.com/steren" rel="me nofollow">Twitter</a> - <a href="https://bsky.app/profile/steren.fr" rel="me">Bluesky</a> - <a href="https://www.linkedin.com/in/steren" rel="me nofollow">LinkedIn</a>
 
 👋 Hi,  
 
