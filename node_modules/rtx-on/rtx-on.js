@@ -5,6 +5,8 @@ import {Vector} from 'sylvester';
 const zHeight = 0.1;
 // Time to make the effect appear.
 const opacityTransition = "1s";
+// pause renderer after this period (in ms)
+const pauseAfter = 10 * 1000;
 
 const lightPosition = [0.75, 0.75, 1.5];
 const lightSize = 0.75;
@@ -20,6 +22,7 @@ let active = false;
 let backgroundElement;
 let backgroundCanvas;
 let raisedElements;
+let ui;
 
 
 function closestPowerOfTwo(num) {
@@ -227,15 +230,25 @@ function initRTX({background, raised, disableIfDarkMode} = {}) {
 		lightVal,
 	}
 
-	const ui = makePathTracer(backgroundCanvas, makeScene(backgroundElement, raisedElements), config, false);
+	ui = makePathTracer(backgroundCanvas, makeScene(backgroundElement, raisedElements), config, false);
+
+	setTimeout(() => {
+		ui.renderer.pause();
+	}, pauseAfter);
 
 	backgroundCanvas.style.opacity = 1;
 
+	function reset() {
+		ui.setObjects(makeScene(backgroundElement, raisedElements));
+		ui.renderer.resume();
+		styleCanvas(backgroundCanvas, backgroundElement, true);
+		setTimeout(() => {
+			ui.renderer.pause();
+		}, pauseAfter);	
+	}
+
 	// listen for resize on the base element or any scene element
-	const resizeObserver = new ResizeObserver(() => {
-			ui.setObjects(makeScene(backgroundElement, raisedElements));
-			styleCanvas(backgroundCanvas, backgroundElement, true);
-	});
+	const resizeObserver = new ResizeObserver(reset);
 	resizeObserver.observe(backgroundElement);
 	for(let el of raisedElements) {
 		resizeObserver.observe(el);
@@ -262,6 +275,7 @@ function on(options) {
 		initRTX(options);
 	} else {
 		// unhide canvas
+		ui.renderer.resume();
 		backgroundCanvas.style.opacity = 1;
 	}
 
@@ -284,6 +298,7 @@ function off() {
 	// restore original styles
 	[...raisedElements, backgroundElement].map(restoreStyle);
 
+	ui.renderer.pause();
 	active = false;
 }
 
