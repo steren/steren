@@ -1014,6 +1014,10 @@ UI.prototype.deleteSelection = function() {
   }
 };
 
+UI.prototype.setLightPosition = function(position) {
+  light = Vector.create(position);
+};
+
 UI.prototype.updateMaterial = function(newMaterial) {
   if(material != newMaterial) {
     material = newMaterial;

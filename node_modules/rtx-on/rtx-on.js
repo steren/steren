@@ -8,6 +8,7 @@ const opacityTransition = "1s";
 // pause renderer after this period (in ms)
 const pauseAfter = 10 * 1000;
 
+const lightElevation = 1.5;
 const lightPosition = [0.75, 0.75, 1.5];
 const lightSize = 0.75;
 const lightValLightMode = 0.6;
@@ -187,9 +188,9 @@ function styleCanvas(backgroundCanvas, backgroundElement, startDisplayed) {
  * @param {HTMLElement} options.raised[]: elevated elements, defaults to descendants of the background element with box shadow.
  * @param {bool} options.disableIfDarkMode: if true, will not apply the effect if the user has dark mode enabled, which dims the light of rtx-on. Defaults to false.
  * @param {bool} options.forceLightMode: if true, the effect will always apply at light mode. Defaults to false. Set to true if your website doesn't implement dark mode.
- * @param {bool} options.enableForAllAspectRatio: Set to `true` to force enable the effect on any aspect ratio. By default, the effect only applies if the page isn't too wide or high.
+ * @param {bool} options.moveLightOnClick: Set to `true` to move the light under the cursor when clicking the background element. Default to false.
  */
-function initRTX({background, raised, disableIfDarkMode, forceLightMode} = {}) {
+function initRTX({background, raised, disableIfDarkMode, forceLightMode, moveLightOnClick} = {}) {
 	// Check dark mode
 	if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
 		if(disableIfDarkMode) {
@@ -243,7 +244,7 @@ function initRTX({background, raised, disableIfDarkMode, forceLightMode} = {}) {
 
 	ui = makePathTracer(backgroundCanvas, makeScene(backgroundElement, raisedElements), config, false);
 
-	setTimeout(() => {
+	let timer = setTimeout(() => {
 		ui.renderer.pause();
 	}, pauseAfter);
 
@@ -253,7 +254,8 @@ function initRTX({background, raised, disableIfDarkMode, forceLightMode} = {}) {
 		ui.setObjects(makeScene(backgroundElement, raisedElements));
 		ui.renderer.resume();
 		styleCanvas(backgroundCanvas, backgroundElement, true);
-		setTimeout(() => {
+		clearTimeout(timer);
+		timer = setTimeout(() => {
 			ui.renderer.pause();
 		}, pauseAfter);	
 	}
@@ -264,6 +266,21 @@ function initRTX({background, raised, disableIfDarkMode, forceLightMode} = {}) {
 	for(let el of raisedElements) {
 		resizeObserver.observe(el);
 	}
+
+	// When clicking on the page move the light at this position
+	if(moveLightOnClick) {
+		backgroundElement.addEventListener('click', (e) => {
+			// get click coordinates, normalize betwen -1 and 1
+			let rect = backgroundElement.getBoundingClientRect();
+			let x = 2 * (e.clientX - rect.left) / rect.width - 1;
+			let y = 2 * ( 1 - (e.clientY - rect.top) / rect.height) - 1;
+			console.log(`moving light to ${x}, ${y}`);
+			let newLightPosition = [x, y, lightElevation];
+			ui.setLightPosition(newLightPosition);
+			reset();
+		});
+	}
+
 
 	// If the current device supports Compute Pressure API, use it to disable effect under 'critical' and 'serious' pressure
 	if ("PressureObserver" in window) {
