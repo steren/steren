@@ -270,14 +270,20 @@ function initRTX({background, raised, disableIfDarkMode, forceLightMode, moveLig
 	// When clicking on the page move the light at this position
 	if(moveLightOnClick) {
 		backgroundElement.addEventListener('click', (e) => {
-			// get click coordinates, normalize betwen -1 and 1
-			let rect = backgroundElement.getBoundingClientRect();
-			let x = 2 * (e.clientX - rect.left) / rect.width - 1;
-			let y = 2 * ( 1 - (e.clientY - rect.top) / rect.height) - 1;
-			console.log(`moving light to ${x}, ${y}`);
-			let newLightPosition = [x, y, lightElevation];
-			ui.setLightPosition(newLightPosition);
-			reset();
+			// if not a link and no text selected
+			if(
+				e.target.tagName !== 'A'
+				&& !window.getSelection().toString()
+			) {
+				// get click coordinates, normalize betwen -1 and 1
+				let rect = backgroundElement.getBoundingClientRect();
+				let x = 2 * (e.clientX - rect.left) / rect.width - 1;
+				let y = 2 * ( 1 - (e.clientY - rect.top) / rect.height) - 1;
+				console.log(`moving light to ${x}, ${y}`);
+				let newLightPosition = [x, y, lightElevation];
+				ui.setLightPosition(newLightPosition);
+				reset();
+			}
 		});
 	}
 
