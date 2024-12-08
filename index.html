@@ -126,10 +126,31 @@
       height: 6rem;
       display: flex;
       align-items: center;
+      margin-bottom: 2em;
     }
-    header nav a,
-    header nav a:visited {
-      color: white;
+
+    header nav {
+      font-size: 1.5em;
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        align-items: center;
+        justify-content: space-between;
+        display: flex;
+      }
+      li {
+        margin: 0;
+        padding: 0;
+      } 
+      a, a:visited {
+        color: white;
+      }
+    }
+    @media (max-width: 600px) {
+      header nav {
+        font-size: 1em;
+      }
     }
 
     .avatar {
@@ -194,6 +215,10 @@
     #intro .card {
       margin-left: auto;
       margin-right: auto;
+    }
+    #intro h1 {
+      text-align: center;
+      font-size: 2.5em;
     }
     #intro .bio {
       line-height: 1.3em;
@@ -285,22 +310,16 @@
 <body>
   <header>
     <div class="container">
-      <h1>Steren Giannini</h1>
-
       <nav id="links">
-        <a href="http://blog.steren.fr" target="_blank" rel="me">Blog</a>
-        -
-        <a href="http://labs.steren.fr" target="_blank" rel="me">Labs</a>
-        -
-        <a href="http://talks.steren.fr" target="_blank" rel="me">Talks</a>
-        -
-        <a href="https://twitter.com/steren" target="_blank" rel="me">Twitter</a>
-        -
-        <a href="https://bsky.app/profile/steren.fr" target="_blank" rel="me">Bluesky</a>
-        -
-        <a href="https://www.linkedin.com/in/steren" target="_blank" rel="me">LinkedIn</a>
-        -
-        <a href="https://github.com/steren" target="_blank" rel="me">GitHub</a>
+        <ul>
+          <li><a href="http://blog.steren.fr" target="_blank" rel="me">Blog</a></li>
+          <li><a href="http://labs.steren.fr" target="_blank" rel="me">Labs</a></li>
+          <li><a href="http://talks.steren.fr" target="_blank" rel="me">Talks</a></li>
+          <li><a href="https://twitter.com/steren" target="_blank" rel="me">Twitter</a></li>
+          <li><a href="https://bsky.app/profile/steren.fr" target="_blank" rel="me">Bluesky</a></li>
+          <li><a href="https://www.linkedin.com/in/steren" target="_blank" rel="me">LinkedIn</a></li>
+          <li><a href="https://github.com/steren" target="_blank" rel="me">GitHub</a></li>
+        </ul>
       </nav>
     </div>
   </header>
@@ -311,8 +330,9 @@
         <div class="logo-container">
           <img class="logo avatar" src="img/avatar.webp" alt="Steren's profile picture">
         </div>
+        <h1>Steren Giannini</h1>
         <p class="inner bio">
-            I am Steren, engineer turned Product Manager.
+            I am an engineer turned Product Manager.
             <br>
             I started and lead <a href="https://cloud.google.com/run" target="_blank" rel="noopener">Google Cloud Run</a>.
             <br>
