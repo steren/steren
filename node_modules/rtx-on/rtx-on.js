@@ -287,6 +287,26 @@ function initRTX({background, raised, disableIfDarkMode, forceLightMode, moveLig
 		});
 	}
 
+	// listen for switching to dark / light mode and restart when so
+	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+		window.location.reload();
+		// let newLightVal;
+		// if (event.matches) {
+		// 	if(disableIfDarkMode) {
+		// 		console.warn(`User has switched to dark mode, but RTX is disabled in dark mode.`);
+		// 		off();
+		// 	} else if(forceLightMode){
+		// 		newLightVal = lightValLightMode;
+		// 	} else {
+		// 		newLightVal = lightValDarkMode
+		// 	}
+		//   } else {
+		// 	newLightVal = lightValLightMode;
+		//   }
+		//   ui.setLightVal(newLightVal);
+		//   reset();
+	});
+
 
 	// If the current device supports Compute Pressure API, use it to disable effect under 'critical' and 'serious' pressure
 	if ("PressureObserver" in window) {
