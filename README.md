@@ -8,7 +8,7 @@ I started and lead <a href="https://cloud.google.com/run" target="_blank" rel="n
 I [tweet](https://twitter.com/steren), [talk](https://talks.steren.fr), [experiment](https://labs.steren.fr), [blog](https://blog.steren.fr), and build:
 
 <a href="https://cloud.run"><img src="img/icons/carbon-footprint-screenshot.webp" width="200" height="152"></a>  
-**[Carbon Footprint](https://cloud.google.com/carbon-footprint)**  
+**[Cloud Carbon Footprint](https://cloud.google.com/carbon-footprint)**  
 Understand and reduce your Google Cloud carbon emissions.
 
 <a href="https://cloud.run"><img src="img/icons/cloud-run.svg" width="200" height="100"></a>  
