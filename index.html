@@ -228,7 +228,7 @@
     }
 
     #intro .card,
-    #work-list steren-work {
+    #work-list li {
       width: 400px;
     }
 
@@ -241,48 +241,49 @@
       flex-direction: row;
       flex-wrap: wrap;
       justify-content: space-evenly;
+      list-style: none;
     }
 
-    #work-list steren-work {
+    #work-list li {
       margin-left: 1rem;
       margin-right: 1rem;
     }
 
-    #work-list steren-work a {
+    #work-list li a {
       text-decoration: none;
       color: black;
     }
     @media (prefers-color-scheme: dark) {
-        #work-list steren-work a {
+        #work-list li a {
             color: #FFFFFF;
         }
     }
         
-    #work-list steren-work:hover {
+    #work-list li:hover {
       background-color: #DDDDDD;
     }
-    #work-list steren-work:active {
+    #work-list li:active {
       background-color: #CCCCCC;
     }
     @media (prefers-color-scheme: dark) {
-        #work-list steren-work:hover {
+        #work-list li:hover {
             background-color: rgba(255,255,255,0.07);
         }
-        #work-list steren-work:active {
+        #work-list li:active {
             background-color: rgba(255,255,255,0.1);
         }
     }
-    #work-list steren-work .title {
+    #work-list li .title {
       font-size: 2rem;
       font-weight: 300;
       margin-bottom: 1rem;
       margin-top: 0;
     }
 
-    #work-list steren-work {
+    #work-list li {
       display: none;
     }
-    #work-list steren-work[data-featured="true"] {
+    #work-list li[data-featured="true"] {
       display: block;
     }
 
@@ -346,8 +347,8 @@
 
     <section id="works">
         <h2>Works</h2>
-        <div id="work-list">
-          <steren-work class="card" data-id="cloud-run" data-featured="true" data-size="50" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="lead" data-category="" data-date="2019">
+        <ol id="work-list">
+          <li class="card" data-id="cloud-run" data-featured="true" data-size="50" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="lead" data-category="" data-date="2019">
             <a href="https://cloud.google.com/run/" title="Cloud Run website" target="_blank" rel="noopener">
                 <div class="image-container">
                   <img class="image screenshot" src="img/icons/cloud-run.svg" alt="Cloud Run command line">
@@ -358,8 +359,8 @@
                 <p>Google Cloud's serverless runtime.</p>
                 </div>
             </a>
-            </steren-work>
-          <steren-work class="card" data-id="carbon-footprint" data-featured="true" data-size="20" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="lead" data-category="" data-date="2021">
+            </li>
+          <li class="card" data-id="carbon-footprint" data-featured="true" data-size="20" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="lead" data-category="" data-date="2021">
             <a href="https://cloud.google.com/carbon-footprint/" title="Cloud Carbon Footprint website" target="_blank" rel="noopener">
                 <div class="image-container">
                   <img class="image screenshot" loading="lazy" src="img/icons/carbon-footprint-screenshot.webp" alt="Cloud Carbon Footprint screenshot">
@@ -369,8 +370,8 @@
                 <p>Understand and reduce Google Cloud carbon emissions.</p>
                 </div>
             </a>
-          </steren-work>
-            <steren-work class="card" data-id="error-reporting" data-featured="true" data-size="20" data-completion="done" data-seriousness="serious" data-type="product" data-participation="contribution" data-category="web" data-date="2016">
+          </li>
+            <li class="card" data-id="error-reporting" data-featured="true" data-size="20" data-completion="done" data-seriousness="serious" data-type="product" data-participation="contribution" data-category="web" data-date="2016">
             <a href="https://cloud.google.com/error-reporting/" title="Cloud Error Reporting product page" target="_blank" rel="noopener">
                 <div class="image-container">
                 <img class="image screenshot" loading="lazy" src="img/icons/error-reporting-screenshot.webp" alt="Cloud Error Reporting screenshot">
@@ -380,8 +381,8 @@
                 <p>Identify and understand application errors.</p>
                 </div>
             </a>
-            </steren-work>
-            <steren-work class="card" data-id="factory" data-featured="true" data-size="15" data-completion="done" data-seriousness="serious" data-type="product" data-participation="lead" data-category="web" data-date="2012">
+            </li>
+            <li class="card" data-id="factory" data-featured="true" data-size="15" data-completion="done" data-seriousness="serious" data-type="product" data-participation="lead" data-category="web" data-date="2012">
             <a href="https://www.dailymotion.com/video/xuy6pq" title="Joshfire Factory tour" target="_blank" rel="noopener">
                 <div class="logo-container">
                 <img class="logo" src="img/logos/factory.svg" alt="Joshfire Factory logo">
@@ -391,8 +392,8 @@
                 <p>Multi-device application platform.</p>
                 </div>
             </a>
-            </steren-work>
-            <steren-work class="card" data-id="sketchfab" data-featured="false" data-size="4" data-completion="wip" data-seriousness="serious" data-type="code" data-participation="contribution" data-category="startup" data-date="2013">
+            </li>
+            <li class="card" data-id="sketchfab" data-featured="false" data-size="4" data-completion="wip" data-seriousness="serious" data-type="code" data-participation="contribution" data-category="startup" data-date="2013">
             <a href="https://sketchfab.com/" title="Sketchfab website" target="_blank" rel="noopener">
                 <div class="logo-container">
                 <img class="logo" data-src="img/logos/sketchfab.svg" alt="Sketchfab logo">
@@ -402,8 +403,8 @@
                 <p>3D Platform.</p>
                 </div>
             </a>
-            </steren-work>
-            <steren-work class="card" data-id="hackdayparis" data-featured="false" data-size="5" data-completion="done" data-seriousness="serious" data-type="event" data-participation="lead" data-category="hackathon" data-date="2011">
+            </li>
+            <li class="card" data-id="hackdayparis" data-featured="false" data-size="5" data-completion="done" data-seriousness="serious" data-type="event" data-participation="lead" data-category="hackathon" data-date="2011">
             <a href="http://skylar.github.io/hackdayparis/" title="Website" target="_blank" rel="noopener">
                 <div class="image-container">
                 <img class="image" loading="lazy" src="img/icons/hackdayparis.webp" alt="Hack Day Paris picture">
@@ -413,8 +414,8 @@
                 <p>Organization of Hackathons in Paris.</p>
                 </div>
             </a>
-            </steren-work>
-            <steren-work class="card" data-id="beansight" data-featured="false" data-size="10" data-completion="done" data-seriousness="serious" data-type="code" data-participation="lead" data-category="web" data-date="2011">
+            </li>
+            <li class="card" data-id="beansight" data-featured="false" data-size="10" data-completion="done" data-seriousness="serious" data-type="code" data-participation="lead" data-category="web" data-date="2011">
             <a href="https://github.com/beansight/beansight-website" title="Beansight source code" target="_blank" rel="noopener">
                 <div class="logo-container">
                 <img class="logo" data-src="img/logos/beansight.svg" alt="Beansight logo">
@@ -424,8 +425,8 @@
                 <p>Co-founder of a web start-up that predicts the future.</p>
                 </div>
             </a>
-            </steren-work>
-            <steren-work class="card" data-id="cadeaux" data-featured="true" data-size="3" data-completion="wip" data-seriousness="notsoserious" data-type="code" data-participation="lead" data-category="web" data-date="2010">
+            </li>
+            <li class="card" data-id="cadeaux" data-featured="true" data-size="3" data-completion="wip" data-seriousness="notsoserious" data-type="code" data-participation="lead" data-category="web" data-date="2010">
             <a href="http://www.cadeaux-entre-nous.fr" title="cadeaux-entre-nous.fr" target="_blank" rel="noopener">
                 <div class="image-container">
                 <img class="image full" loading="lazy" src="img/icons/cadeaux.svg" alt="Cadeaux entre nous principle">
@@ -435,8 +436,8 @@
                 <p>Secret Santa website.</p>
                 </div>
             </a>
-            </steren-work>
-            <steren-work class="card" data-id="remixthem" data-featured="false" data-size="4" data-completion="done" data-seriousness="notsoserious" data-type="code" data-participation="lead" data-category="Android application" data-date="2009">
+            </li>
+            <li class="card" data-id="remixthem" data-featured="false" data-size="4" data-completion="done" data-seriousness="notsoserious" data-type="code" data-participation="lead" data-category="Android application" data-date="2009">
             <a href="https://play.google.com/store/apps/details?id=fr.steren.remixthem.market" title="Remixthem on Google Play" target="_blank" rel="noopener">
                 <div class="image-container">
                 <img class="image" loading="lazy" data-src="img/icons/remixthem.png" alt="RemixThem picture">
@@ -446,8 +447,8 @@
                 <p>Android app to mix and remix faces from pictures.</p>
                 </div>
             </a>
-            </steren-work>
-            <steren-work class="card" data-id="capoda" data-featured="true" data-size="5" data-completion="done" data-seriousness="serious" data-type="graphic" data-participation="lead" data-category="Animation" data-date="2008">
+            </li>
+            <li class="card" data-id="capoda" data-featured="true" data-size="5" data-completion="done" data-seriousness="serious" data-type="graphic" data-participation="lead" data-category="Animation" data-date="2008">
             <a href="https://www.youtube.com/watch?v=khWXdkryBE4" title="Watch CAPODA" target="_blank" rel="noopener">
                 <div class="image-container">
                   <img class="image" loading="lazy" src="img/icons/capoda.webp" alt="CAPODA picture">
@@ -458,8 +459,8 @@
                 <p>Animated short movie.</p>
                 </div>
             </a>
-            </steren-work>
-            <steren-work class="card" data-id="inkscape" data-featured="false" data-size="5" data-completion="done" data-seriousness="serious" data-type="code" data-participation="contribution" data-category="Graphic software" data-date="2008">
+            </li>
+            <li class="card" data-id="inkscape" data-featured="false" data-size="5" data-completion="done" data-seriousness="serious" data-type="code" data-participation="contribution" data-category="Graphic software" data-date="2008">
             <a href="http://www.inkscape.org" title="inkscape.org" target="_blank" rel="noopener">
                 <div class="logo-container">
                 <img class="logo" data-src="img/logos/inkscape.svg" alt="Inkscape logo">
@@ -469,8 +470,8 @@
                 <p>Envelope Live Path Effect, Live Path Effects stacking and Live Path Effects for groups of shapes.</p>
                 </div>
             </a>
-            </steren-work>
-            <steren-work class="card" data-id="chauffeur" data-featured="" data-size="2" data-completion="done" data-seriousness="notsoserious" data-type="graphic" data-participation="lead" data-category="Short movie" data-date="2008">
+            </li>
+            <li class="card" data-id="chauffeur" data-featured="" data-size="2" data-completion="done" data-seriousness="notsoserious" data-type="graphic" data-participation="lead" data-category="Short movie" data-date="2008">
             <a href="http://www.youtube.com/watch?v=LXyYy5UiyVE" title="Le Chauffeur a des gants on Youtube" target="_blank" rel="noopener">
                 <div class="image-container">
                 <img class="image" loading="lazy" data-src="img/icons/chauffeur.png" alt="Le Chauffeur a des gants picture">
@@ -480,8 +481,8 @@
                 <p>Black and white short movie.</p>
                 </div>
             </a>
-            </steren-work>
-            <steren-work class="card" data-id="starwarspi" data-featured="" data-size="6" data-completion="done" data-seriousness="notsoserious" data-type="graphic" data-participation="lead" data-category="Short movie" data-date="2005">
+            </li>
+            <li class="card" data-id="starwarspi" data-featured="" data-size="6" data-completion="done" data-seriousness="notsoserious" data-type="graphic" data-participation="lead" data-category="Short movie" data-date="2005">
             <a href="https://www.youtube.com/watch?v=H_qpR7ZTvZQ&amp;list=PL901335F3E591DDDF" title="Star Wars : Episode π on Youtube" target="_blank" rel="noopener">
                 <div class="image-container">
                 <img class="image" loading="lazy" data-src="img/icons/starwarspi.jpg" alt="Star Wars : Episode π picture">
@@ -491,8 +492,8 @@
                 <p>A Star Wars fan film.</p>
                 </div>
             </a>
-            </steren-work>
-            <steren-work class="card" data-id="jambon" data-featured="" data-size="3" data-completion="done" data-seriousness="stupid" data-type="graphic" data-participation="lead" data-category="Short movies" data-date="2008">
+            </li>
+            <li class="card" data-id="jambon" data-featured="" data-size="3" data-completion="done" data-seriousness="stupid" data-type="graphic" data-participation="lead" data-category="Short movies" data-date="2008">
             <a href="http://www.youtube.com/view_play_list?p=1EF78AC82296661C" title="Episodes as a Youtube playlist" target="_blank" rel="noopener">
                 <div class="image-container">
                 <img class="image" loading="lazy" data-src="img/icons/jambon.png" alt="The Attack Of The Jambon Volant picture">
@@ -502,8 +503,8 @@
                 <p>Absurd american trailer parodies</p>
                 </div>
             </a>
-            </steren-work>
-            <steren-work class="card" data-id="holytupperware" data-featured="" data-size="3" data-completion="done" data-seriousness="stupid" data-type="graphic" data-participation="lead" data-category="Short movies" data-date="2004">
+            </li>
+            <li class="card" data-id="holytupperware" data-featured="" data-size="3" data-completion="done" data-seriousness="stupid" data-type="graphic" data-participation="lead" data-category="Short movies" data-date="2004">
             <a href="http://www.youtube.com/view_play_list?p=E144529EA9F01696" title="Episodes as a Youtube playlist" target="_blank" rel="noopener">
                 <div class="image-container">
                 <img class="image" loading="lazy" data-src="img/icons/holytupperware.png" alt="The Holy Tupperware picture">
@@ -513,8 +514,8 @@
                 <p></p>
                 </div>
             </a>
-            </steren-work>
-            <steren-work class="card" data-id="mobileinfantry" data-featured="" data-size="6" data-completion="done" data-seriousness="serious" data-type="graphic" data-participation="contribution" data-category="Half-life Mod" data-date="2002">
+            </li>
+            <li class="card" data-id="mobileinfantry" data-featured="" data-size="6" data-completion="done" data-seriousness="serious" data-type="graphic" data-participation="contribution" data-category="Half-life Mod" data-date="2002">
             <a href="http://www.youtube.com/watch?v=1LC1Ud0rVnI" title="Mobile Infantry - Training Camp on Youtube" target="_blank" rel="noopener">
                 <div class="image-container">
                 <img class="image" loading="lazy" data-src="img/icons/mobileinfantry.png" alt="Mobile Infantry picture">
@@ -524,8 +525,8 @@
                 <p>Level Design for an Half Life modification based on the Starship Troopers universe.</p>
                 </div>
             </a>
-            </steren-work>
-        </div>
+            </li>
+        </ol>
     </section>
   </main>
 </body></html>
