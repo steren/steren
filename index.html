@@ -59,8 +59,9 @@
 
   <style>
     :root {
-      --primary-light: hsl(173, 100%, 40%);
-      --primary-dark: hsla(173, 100%, 24%);
+      --primary-light: hsl(173 100% 40%);
+      --primary-dark: hsl(173 100% 24%);
+      color-scheme: light dark;
     }
 
     ::selection {
@@ -68,15 +69,10 @@
     }
 
     html {
-      background-color: #E5E5E5;
+      background-color: light-dark(#E5E5E5, #121212);
+      color: light-dark(#000000, #FFFFFF);
       margin: 0;
       font-family: sans-serif;
-    }
-    @media (prefers-color-scheme: dark) {
-      html {
-        background-color: #121212;
-        color: #FFFFFF;
-      }
     }
 
     body, h1, h2, h3, h4, h5, h6, p, ol, ul {
@@ -84,152 +80,127 @@
       padding: 0;
       font-weight: 300;
     }
+
     a, a:visited {
-      color: var(--primary-dark);
-    }
-    @media (prefers-color-scheme: dark) {
-       a, a:visited {
-           color: var(--primary-light);
-       } 
-    } 
-    .container {
-        margin-right: auto;
-        margin-left: auto;
-        padding-right: 1rem;
-        padding-left: 1rem;
-        width: calc(100% - 2 * 1rem);
-    }
-    @media (min-width: 1400px) {
-      .container {
-        max-width: 1300px;
-      }
+      color: light-dark(var(--primary-dark), var(--primary-light));
     }
 
-    .card {
-      display: block;
-      background-color: white;
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-      margin: 1rem;
-      border-radius: 2px;
-    }
-    @media (prefers-color-scheme: dark) {
-        .card {
-            background-color: rgba(255,255,255,0.05);
-        }
-    }
-    .card .inner {
-      padding: 1rem;
+    /* Page gutters, shared by the header content and the page content */
+    header nav, main {
+      width: calc(100% - 2 * 1rem);
+      margin-inline: auto;
+      padding-inline: 1rem;
+
+      @media (width >= 1400px) {
+        max-width: 1300px;
+      }
     }
 
     header {
       color: white;
       background: var(--primary-dark);
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+      box-shadow: 0 2px 5px 0 rgb(0 0 0 / 26%);
       height: 6rem;
       display: flex;
       align-items: center;
       margin-bottom: 2em;
+
+      nav {
+        font-size: 1.5em;
+
+        @media (width <= 600px) {
+          font-size: 1em;
+        }
+
+        ul {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          list-style: none;
+        }
+
+        a, a:visited {
+          color: white;
+        }
+      }
     }
 
-    header nav {
-      font-size: 1.5em;
-      ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        align-items: center;
-        justify-content: space-between;
-        display: flex;
-      }
-      li {
-        margin: 0;
-        padding: 0;
-      } 
-      a, a:visited {
-        color: white;
+    .card {
+      display: block;
+      background-color: light-dark(white, rgb(255 255 255 / 5%));
+      box-shadow: 0 2px 5px 0 rgb(0 0 0 / 26%);
+      margin: 1rem;
+      border-radius: 2px;
+    }
+
+    /* aspect-ratio reserves the image box before the image is downloaded */
+    .image, .loop {
+      display: block;
+      width: 100%;
+      aspect-ratio: 280 / 140;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .image.full {
+      object-fit: contain;
+    }
+
+    .screenshot {
+      object-position: center top;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .image {
+        opacity: .9;
+        background-color: white;
       }
     }
-    @media (max-width: 600px) {
-      header nav {
-        font-size: 1em;
-      }
+
+    .loop {
+      display: none;
+      background-color: white;
+      /* stack above the still image, which in dark mode is a stacking context
+         of its own because of its opacity */
+      z-index: 1;
+    }
+    .card:hover .loop {
+      display: block;
+    }
+
+    .logo {
+      display: block;
+      width: 40%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      object-position: center;
+      margin-block: 1rem;
+      margin-inline: auto;
     }
 
     .avatar {
       border-radius: 50%;
     }
 
-    /* trick to force image aspect ratio bafore it is downloaded */
-    .card .image-container {
-      width: 100%;
-      padding-bottom: calc((140/280)*100%);
-      position: relative;
-    }
-    .card .logo-container {
-      width: 40%;
-      padding-bottom: 40%;
-      position: relative;
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .card .loop,
-    .card .image,
-    .card .logo {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-    }
-
-    .card .image.full {
-      object-fit: contain;
-    }
-
-    .card .screenshot,
-    .card .screenshot {
-      object-position: center top;
-    }
-    @media (prefers-color-scheme: dark) {
-      .card .image {
-            opacity: .9;
-            background-color: white;
-        }
-    }
-
-    .card .loop {
-      display: none;
-      background-color: white;
-    }
-    .card:hover .loop {
-      display: block;
-    }
-
     #intro {
-      margin-left: 1em;
-      margin-right: 1em;
       display: flex;
-    }
-    #intro .card {
-      margin-left: auto;
-      margin-right: auto;
-    }
-    #intro h1 {
-      text-align: center;
-      font-size: 2.5em;
-    }
-    #intro .bio {
-      line-height: 1.3em;
-      text-wrap: balance;
-    }
+      margin-inline: 1em;
 
-    #intro .card,
-    #work-list li {
-      width: 400px;
+      .card {
+        width: 400px;
+        margin-inline: auto;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 2.5em;
+      }
+
+      .bio {
+        padding: 1rem;
+        line-height: 1.3em;
+        text-wrap: balance;
+      }
     }
 
     #works h2 {
@@ -238,53 +209,55 @@
 
     #work-list {
       display: flex;
-      flex-direction: row;
       flex-wrap: wrap;
       justify-content: space-evenly;
       list-style: none;
-    }
 
-    #work-list li {
-      margin-left: 1rem;
-      margin-right: 1rem;
-    }
+      li {
+        /* only featured works are shown */
+        display: none;
+        width: 400px;
+        margin-inline: 1rem;
 
-    #work-list li a {
-      text-decoration: none;
-      color: black;
-    }
-    @media (prefers-color-scheme: dark) {
-        #work-list li a {
-            color: #FFFFFF;
+        &[data-featured="true"] {
+          display: block;
         }
-    }
-        
-    #work-list li:hover {
-      background-color: #DDDDDD;
-    }
-    #work-list li:active {
-      background-color: #CCCCCC;
-    }
-    @media (prefers-color-scheme: dark) {
-        #work-list li:hover {
-            background-color: rgba(255,255,255,0.07);
-        }
-        #work-list li:active {
-            background-color: rgba(255,255,255,0.1);
-        }
-    }
-    #work-list li .title {
-      font-size: 2rem;
-      font-weight: 300;
-      margin-bottom: 1rem;
-      margin-top: 0;
-    }
 
-    #work-list li {
-      display: none;
-    }
-    #work-list li[data-featured="true"] {
-      display: block;
+        &:hover {
+          background-color: light-dark(#DDDDDD, rgb(255 255 255 / 7%));
+        }
+
+        &:active {
+          background-color: light-dark(#CCCCCC, rgb(255 255 255 / 10%));
+        }
+      }
+
+      /* the media fills the card, the text sits in a 1rem gutter */
+      a {
+        display: grid;
+        grid-template-columns: 1rem 1fr 1rem;
+        grid-template-areas:
+          "media media media"
+          ".     title ."
+          ".     text  .";
+        row-gap: 1rem;
+        padding-bottom: 1rem;
+        text-decoration: none;
+        color: light-dark(black, #FFFFFF);
+      }
+
+      :is(.image, .loop, .logo) {
+        grid-area: media;
+      }
+
+      h3 {
+        grid-area: title;
+        font-size: 2rem;
+      }
+
+      p {
+        grid-area: text;
+      }
     }
 
   </style>
@@ -312,221 +285,153 @@
 
 <body>
   <header>
-    <div class="container">
-      <nav id="links">
-        <ul>
-          <li><a href="http://blog.steren.fr" target="_blank" rel="me">Blog</a></li>
-          <li><a href="http://labs.steren.fr" target="_blank" rel="me">Labs</a></li>
-          <li><a href="http://talks.steren.fr" target="_blank" rel="me">Talks</a></li>
-          <li><a href="https://twitter.com/steren" target="_blank" rel="me">Twitter</a></li>
-          <!-- <li><a href="https://bsky.app/profile/steren.fr" target="_blank" rel="me">Bluesky</a></li> -->
-          <li><a href="https://www.linkedin.com/in/steren" target="_blank" rel="me">LinkedIn</a></li>
-          <li><a href="https://github.com/steren" target="_blank" rel="me">GitHub</a></li>
-        </ul>
-      </nav>
-    </div>
+    <nav id="links">
+      <ul>
+        <li><a href="http://blog.steren.fr" target="_blank" rel="me">Blog</a></li>
+        <li><a href="http://labs.steren.fr" target="_blank" rel="me">Labs</a></li>
+        <li><a href="http://talks.steren.fr" target="_blank" rel="me">Talks</a></li>
+        <li><a href="https://twitter.com/steren" target="_blank" rel="me">Twitter</a></li>
+        <!-- <li><a href="https://bsky.app/profile/steren.fr" target="_blank" rel="me">Bluesky</a></li> -->
+        <li><a href="https://www.linkedin.com/in/steren" target="_blank" rel="me">LinkedIn</a></li>
+        <li><a href="https://github.com/steren" target="_blank" rel="me">GitHub</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <main class="container">
+  <main>
     <section id="intro">
       <div class="card">
-        <div class="logo-container">
-          <img class="logo avatar" src="img/avatar.webp" alt="Steren's profile picture">
-        </div>
+        <img class="logo avatar" src="img/avatar.webp" alt="Steren's profile picture">
         <h1>Steren Giannini</h1>
-        <p class="inner bio">
-            I am an engineer turned Product Manager.
-            <br>
-            I started and lead <a href="https://cloud.google.com/run" target="_blank" rel="noopener">Google Cloud Run</a>.
-            <br>
-            <br>
-            I <a href="https://twitter.com/steren" target="_blank" rel="noopener">tweet</a>, <a href="https://talks.steren.fr" target="_blank" rel="noopener">talk</a>, <a href="https://labs.steren.fr" target="_blank" rel="noopener">experiment</a>, <a href="https://blog.steren.fr" target="_blank" rel="noopener">blog</a>, and build:
+        <p class="bio">
+          I am an engineer turned Product Manager.
+          <br>
+          I started and lead <a href="https://cloud.google.com/run" target="_blank" rel="noopener">Google Cloud Run</a>.
+          <br>
+          <br>
+          I <a href="https://twitter.com/steren" target="_blank" rel="noopener">tweet</a>, <a href="https://talks.steren.fr" target="_blank" rel="noopener">talk</a>, <a href="https://labs.steren.fr" target="_blank" rel="noopener">experiment</a>, <a href="https://blog.steren.fr" target="_blank" rel="noopener">blog</a>, and build:
         </p>
       </div>
     </section>
 
     <section id="works">
-        <h2>Works</h2>
-        <ol id="work-list">
-          <li class="card" data-id="cloud-run" data-featured="true" data-size="50" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="lead" data-category="" data-date="2019">
-            <a href="https://cloud.google.com/run/" title="Cloud Run website" target="_blank" rel="noopener">
-                <div class="image-container">
-                  <img class="image screenshot" src="img/icons/cloud-run.svg" alt="Cloud Run command line">
-                  <img class="loop screenshot" loading="lazy" src="img/loops/cloud-run.svg" alt="Cloud Run command line">
-                </div>
-                <div class="inner">
-                <h3 class="title">Cloud Run</h3>
-                <p>Google Cloud's serverless runtime.</p>
-                </div>
-            </a>
-            </li>
-          <li class="card" data-id="carbon-footprint" data-featured="true" data-size="20" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="lead" data-category="" data-date="2021">
-            <a href="https://cloud.google.com/carbon-footprint/" title="Cloud Carbon Footprint website" target="_blank" rel="noopener">
-                <div class="image-container">
-                  <img class="image screenshot" loading="lazy" src="img/icons/carbon-footprint-screenshot.webp" alt="Cloud Carbon Footprint screenshot">
-                </div>
-                <div class="inner">
-                <h3 class="title">Cloud Carbon Footprint</h3>
-                <p>Understand and reduce Google Cloud carbon emissions.</p>
-                </div>
-            </a>
-          </li>
-            <li class="card" data-id="error-reporting" data-featured="true" data-size="20" data-completion="done" data-seriousness="serious" data-type="product" data-participation="contribution" data-category="web" data-date="2016">
-            <a href="https://cloud.google.com/error-reporting/" title="Cloud Error Reporting product page" target="_blank" rel="noopener">
-                <div class="image-container">
-                <img class="image screenshot" loading="lazy" src="img/icons/error-reporting-screenshot.webp" alt="Cloud Error Reporting screenshot">
-                </div>
-                <div class="inner">
-                <h3 class="title">Cloud Error Reporting</h3>
-                <p>Identify and understand application errors.</p>
-                </div>
-            </a>
-            </li>
-            <li class="card" data-id="factory" data-featured="true" data-size="15" data-completion="done" data-seriousness="serious" data-type="product" data-participation="lead" data-category="web" data-date="2012">
-            <a href="https://www.dailymotion.com/video/xuy6pq" title="Joshfire Factory tour" target="_blank" rel="noopener">
-                <div class="logo-container">
-                <img class="logo" src="img/logos/factory.svg" alt="Joshfire Factory logo">
-                </div>
-                <div class="inner">
-                <h3 class="title">Joshfire Factory</h3>
-                <p>Multi-device application platform.</p>
-                </div>
-            </a>
-            </li>
-            <li class="card" data-id="sketchfab" data-featured="false" data-size="4" data-completion="wip" data-seriousness="serious" data-type="code" data-participation="contribution" data-category="startup" data-date="2013">
-            <a href="https://sketchfab.com/" title="Sketchfab website" target="_blank" rel="noopener">
-                <div class="logo-container">
-                <img class="logo" data-src="img/logos/sketchfab.svg" alt="Sketchfab logo">
-                </div>
-                <div class="inner">
-                <h3 class="title">Sketchfab</h3>
-                <p>3D Platform.</p>
-                </div>
-            </a>
-            </li>
-            <li class="card" data-id="hackdayparis" data-featured="false" data-size="5" data-completion="done" data-seriousness="serious" data-type="event" data-participation="lead" data-category="hackathon" data-date="2011">
-            <a href="http://skylar.github.io/hackdayparis/" title="Website" target="_blank" rel="noopener">
-                <div class="image-container">
-                <img class="image" loading="lazy" src="img/icons/hackdayparis.webp" alt="Hack Day Paris picture">
-                </div>
-                <div class="inner">
-                <h3 class="title">Hack Day Paris</h3>
-                <p>Organization of Hackathons in Paris.</p>
-                </div>
-            </a>
-            </li>
-            <li class="card" data-id="beansight" data-featured="false" data-size="10" data-completion="done" data-seriousness="serious" data-type="code" data-participation="lead" data-category="web" data-date="2011">
-            <a href="https://github.com/beansight/beansight-website" title="Beansight source code" target="_blank" rel="noopener">
-                <div class="logo-container">
-                <img class="logo" data-src="img/logos/beansight.svg" alt="Beansight logo">
-                </div>
-                <div class="inner">
-                <h3 class="title">Beansight</h3>
-                <p>Co-founder of a web start-up that predicts the future.</p>
-                </div>
-            </a>
-            </li>
-            <li class="card" data-id="cadeaux" data-featured="true" data-size="3" data-completion="wip" data-seriousness="notsoserious" data-type="code" data-participation="lead" data-category="web" data-date="2010">
-            <a href="http://www.cadeaux-entre-nous.fr" title="cadeaux-entre-nous.fr" target="_blank" rel="noopener">
-                <div class="image-container">
-                <img class="image full" loading="lazy" src="img/icons/cadeaux.svg" alt="Cadeaux entre nous principle">
-                </div>
-                <div class="inner">
-                <h3 class="title">Cadeaux entre nous</h3>
-                <p>Secret Santa website.</p>
-                </div>
-            </a>
-            </li>
-            <li class="card" data-id="remixthem" data-featured="false" data-size="4" data-completion="done" data-seriousness="notsoserious" data-type="code" data-participation="lead" data-category="Android application" data-date="2009">
-            <a href="https://play.google.com/store/apps/details?id=fr.steren.remixthem.market" title="Remixthem on Google Play" target="_blank" rel="noopener">
-                <div class="image-container">
-                <img class="image" loading="lazy" data-src="img/icons/remixthem.png" alt="RemixThem picture">
-                </div>
-                <div class="inner">
-                <h3 class="title">RemixThem</h3>
-                <p>Android app to mix and remix faces from pictures.</p>
-                </div>
-            </a>
-            </li>
-            <li class="card" data-id="capoda" data-featured="true" data-size="5" data-completion="done" data-seriousness="serious" data-type="graphic" data-participation="lead" data-category="Animation" data-date="2008">
-            <a href="https://www.youtube.com/watch?v=khWXdkryBE4" title="Watch CAPODA" target="_blank" rel="noopener">
-                <div class="image-container">
-                  <img class="image" loading="lazy" src="img/icons/capoda.webp" alt="CAPODA picture">
-                  <video class="loop" loading="lazy" autoplay loop muted playsinline src="img/loops/capoda.mp4#t=26" alt="CAPODA movie">
-                </div>
-                <div class="inner">
-                <h3 class="title">CAPODA</h3>
-                <p>Animated short movie.</p>
-                </div>
-            </a>
-            </li>
-            <li class="card" data-id="inkscape" data-featured="false" data-size="5" data-completion="done" data-seriousness="serious" data-type="code" data-participation="contribution" data-category="Graphic software" data-date="2008">
-            <a href="http://www.inkscape.org" title="inkscape.org" target="_blank" rel="noopener">
-                <div class="logo-container">
-                <img class="logo" data-src="img/logos/inkscape.svg" alt="Inkscape logo">
-                </div>
-                <div class="inner">
-                <h3 class="title">Inkscape</h3>
-                <p>Envelope Live Path Effect, Live Path Effects stacking and Live Path Effects for groups of shapes.</p>
-                </div>
-            </a>
-            </li>
-            <li class="card" data-id="chauffeur" data-featured="" data-size="2" data-completion="done" data-seriousness="notsoserious" data-type="graphic" data-participation="lead" data-category="Short movie" data-date="2008">
-            <a href="http://www.youtube.com/watch?v=LXyYy5UiyVE" title="Le Chauffeur a des gants on Youtube" target="_blank" rel="noopener">
-                <div class="image-container">
-                <img class="image" loading="lazy" data-src="img/icons/chauffeur.png" alt="Le Chauffeur a des gants picture">
-                </div>
-                <div class="inner">
-                <h3 class="title">Le Chauffeur a des gants</h3>
-                <p>Black and white short movie.</p>
-                </div>
-            </a>
-            </li>
-            <li class="card" data-id="starwarspi" data-featured="" data-size="6" data-completion="done" data-seriousness="notsoserious" data-type="graphic" data-participation="lead" data-category="Short movie" data-date="2005">
-            <a href="https://www.youtube.com/watch?v=H_qpR7ZTvZQ&amp;list=PL901335F3E591DDDF" title="Star Wars : Episode π on Youtube" target="_blank" rel="noopener">
-                <div class="image-container">
-                <img class="image" loading="lazy" data-src="img/icons/starwarspi.jpg" alt="Star Wars : Episode π picture">
-                </div>
-                <div class="inner">
-                <h3 class="title">Star Wars: Episode π</h3>
-                <p>A Star Wars fan film.</p>
-                </div>
-            </a>
-            </li>
-            <li class="card" data-id="jambon" data-featured="" data-size="3" data-completion="done" data-seriousness="stupid" data-type="graphic" data-participation="lead" data-category="Short movies" data-date="2008">
-            <a href="http://www.youtube.com/view_play_list?p=1EF78AC82296661C" title="Episodes as a Youtube playlist" target="_blank" rel="noopener">
-                <div class="image-container">
-                <img class="image" loading="lazy" data-src="img/icons/jambon.png" alt="The Attack Of The Jambon Volant picture">
-                </div>
-                <div class="inner">
-                <h3 class="title">The Attack Of The Jambon Volant</h3>
-                <p>Absurd american trailer parodies</p>
-                </div>
-            </a>
-            </li>
-            <li class="card" data-id="holytupperware" data-featured="" data-size="3" data-completion="done" data-seriousness="stupid" data-type="graphic" data-participation="lead" data-category="Short movies" data-date="2004">
-            <a href="http://www.youtube.com/view_play_list?p=E144529EA9F01696" title="Episodes as a Youtube playlist" target="_blank" rel="noopener">
-                <div class="image-container">
-                <img class="image" loading="lazy" data-src="img/icons/holytupperware.png" alt="The Holy Tupperware picture">
-                </div>
-                <div class="inner">
-                <h3 class="title">The Holy Tupperware</h3>
-                <p></p>
-                </div>
-            </a>
-            </li>
-            <li class="card" data-id="mobileinfantry" data-featured="" data-size="6" data-completion="done" data-seriousness="serious" data-type="graphic" data-participation="contribution" data-category="Half-life Mod" data-date="2002">
-            <a href="http://www.youtube.com/watch?v=1LC1Ud0rVnI" title="Mobile Infantry - Training Camp on Youtube" target="_blank" rel="noopener">
-                <div class="image-container">
-                <img class="image" loading="lazy" data-src="img/icons/mobileinfantry.png" alt="Mobile Infantry picture">
-                </div>
-                <div class="inner">
-                <h3 class="title">Mobile Infantry</h3>
-                <p>Level Design for an Half Life modification based on the Starship Troopers universe.</p>
-                </div>
-            </a>
-            </li>
-        </ol>
+      <h2>Works</h2>
+      <ol id="work-list">
+        <li class="card" data-id="cloud-run" data-featured="true" data-size="50" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="lead" data-category="" data-date="2019">
+          <a href="https://cloud.google.com/run/" title="Cloud Run website" target="_blank" rel="noopener">
+            <img class="image screenshot" src="img/icons/cloud-run.svg" alt="Cloud Run command line">
+            <img class="loop screenshot" loading="lazy" src="img/loops/cloud-run.svg" alt="Cloud Run command line">
+            <h3>Cloud Run</h3>
+            <p>Google Cloud's serverless runtime.</p>
+          </a>
+        </li>
+        <li class="card" data-id="carbon-footprint" data-featured="true" data-size="20" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="lead" data-category="" data-date="2021">
+          <a href="https://cloud.google.com/carbon-footprint/" title="Cloud Carbon Footprint website" target="_blank" rel="noopener">
+            <img class="image screenshot" loading="lazy" src="img/icons/carbon-footprint-screenshot.webp" alt="Cloud Carbon Footprint screenshot">
+            <h3>Cloud Carbon Footprint</h3>
+            <p>Understand and reduce Google Cloud carbon emissions.</p>
+          </a>
+        </li>
+        <li class="card" data-id="error-reporting" data-featured="true" data-size="20" data-completion="done" data-seriousness="serious" data-type="product" data-participation="contribution" data-category="web" data-date="2016">
+          <a href="https://cloud.google.com/error-reporting/" title="Cloud Error Reporting product page" target="_blank" rel="noopener">
+            <img class="image screenshot" loading="lazy" src="img/icons/error-reporting-screenshot.webp" alt="Cloud Error Reporting screenshot">
+            <h3>Cloud Error Reporting</h3>
+            <p>Identify and understand application errors.</p>
+          </a>
+        </li>
+        <li class="card" data-id="factory" data-featured="true" data-size="15" data-completion="done" data-seriousness="serious" data-type="product" data-participation="lead" data-category="web" data-date="2012">
+          <a href="https://www.dailymotion.com/video/xuy6pq" title="Joshfire Factory tour" target="_blank" rel="noopener">
+            <img class="logo" src="img/logos/factory.svg" alt="Joshfire Factory logo">
+            <h3>Joshfire Factory</h3>
+            <p>Multi-device application platform.</p>
+          </a>
+        </li>
+        <li class="card" data-id="sketchfab" data-featured="false" data-size="4" data-completion="wip" data-seriousness="serious" data-type="code" data-participation="contribution" data-category="startup" data-date="2013">
+          <a href="https://sketchfab.com/" title="Sketchfab website" target="_blank" rel="noopener">
+            <img class="logo" data-src="img/logos/sketchfab.svg" alt="Sketchfab logo">
+            <h3>Sketchfab</h3>
+            <p>3D Platform.</p>
+          </a>
+        </li>
+        <li class="card" data-id="hackdayparis" data-featured="false" data-size="5" data-completion="done" data-seriousness="serious" data-type="event" data-participation="lead" data-category="hackathon" data-date="2011">
+          <a href="http://skylar.github.io/hackdayparis/" title="Website" target="_blank" rel="noopener">
+            <img class="image" loading="lazy" src="img/icons/hackdayparis.webp" alt="Hack Day Paris picture">
+            <h3>Hack Day Paris</h3>
+            <p>Organization of Hackathons in Paris.</p>
+          </a>
+        </li>
+        <li class="card" data-id="beansight" data-featured="false" data-size="10" data-completion="done" data-seriousness="serious" data-type="code" data-participation="lead" data-category="web" data-date="2011">
+          <a href="https://github.com/beansight/beansight-website" title="Beansight source code" target="_blank" rel="noopener">
+            <img class="logo" data-src="img/logos/beansight.svg" alt="Beansight logo">
+            <h3>Beansight</h3>
+            <p>Co-founder of a web start-up that predicts the future.</p>
+          </a>
+        </li>
+        <li class="card" data-id="cadeaux" data-featured="true" data-size="3" data-completion="wip" data-seriousness="notsoserious" data-type="code" data-participation="lead" data-category="web" data-date="2010">
+          <a href="http://www.cadeaux-entre-nous.fr" title="cadeaux-entre-nous.fr" target="_blank" rel="noopener">
+            <img class="image full" loading="lazy" src="img/icons/cadeaux.svg" alt="Cadeaux entre nous principle">
+            <h3>Cadeaux entre nous</h3>
+            <p>Secret Santa website.</p>
+          </a>
+        </li>
+        <li class="card" data-id="remixthem" data-featured="false" data-size="4" data-completion="done" data-seriousness="notsoserious" data-type="code" data-participation="lead" data-category="Android application" data-date="2009">
+          <a href="https://play.google.com/store/apps/details?id=fr.steren.remixthem.market" title="Remixthem on Google Play" target="_blank" rel="noopener">
+            <img class="image" loading="lazy" data-src="img/icons/remixthem.png" alt="RemixThem picture">
+            <h3>RemixThem</h3>
+            <p>Android app to mix and remix faces from pictures.</p>
+          </a>
+        </li>
+        <li class="card" data-id="capoda" data-featured="true" data-size="5" data-completion="done" data-seriousness="serious" data-type="graphic" data-participation="lead" data-category="Animation" data-date="2008">
+          <a href="https://www.youtube.com/watch?v=khWXdkryBE4" title="Watch CAPODA" target="_blank" rel="noopener">
+            <img class="image" loading="lazy" src="img/icons/capoda.webp" alt="CAPODA picture">
+            <video class="loop" loading="lazy" autoplay loop muted playsinline src="img/loops/capoda.mp4#t=26" alt="CAPODA movie"></video>
+            <h3>CAPODA</h3>
+            <p>Animated short movie.</p>
+          </a>
+        </li>
+        <li class="card" data-id="inkscape" data-featured="false" data-size="5" data-completion="done" data-seriousness="serious" data-type="code" data-participation="contribution" data-category="Graphic software" data-date="2008">
+          <a href="http://www.inkscape.org" title="inkscape.org" target="_blank" rel="noopener">
+            <img class="logo" data-src="img/logos/inkscape.svg" alt="Inkscape logo">
+            <h3>Inkscape</h3>
+            <p>Envelope Live Path Effect, Live Path Effects stacking and Live Path Effects for groups of shapes.</p>
+          </a>
+        </li>
+        <li class="card" data-id="chauffeur" data-featured="" data-size="2" data-completion="done" data-seriousness="notsoserious" data-type="graphic" data-participation="lead" data-category="Short movie" data-date="2008">
+          <a href="http://www.youtube.com/watch?v=LXyYy5UiyVE" title="Le Chauffeur a des gants on Youtube" target="_blank" rel="noopener">
+            <img class="image" loading="lazy" data-src="img/icons/chauffeur.png" alt="Le Chauffeur a des gants picture">
+            <h3>Le Chauffeur a des gants</h3>
+            <p>Black and white short movie.</p>
+          </a>
+        </li>
+        <li class="card" data-id="starwarspi" data-featured="" data-size="6" data-completion="done" data-seriousness="notsoserious" data-type="graphic" data-participation="lead" data-category="Short movie" data-date="2005">
+          <a href="https://www.youtube.com/watch?v=H_qpR7ZTvZQ&amp;list=PL901335F3E591DDDF" title="Star Wars : Episode π on Youtube" target="_blank" rel="noopener">
+            <img class="image" loading="lazy" data-src="img/icons/starwarspi.jpg" alt="Star Wars : Episode π picture">
+            <h3>Star Wars: Episode π</h3>
+            <p>A Star Wars fan film.</p>
+          </a>
+        </li>
+        <li class="card" data-id="jambon" data-featured="" data-size="3" data-completion="done" data-seriousness="stupid" data-type="graphic" data-participation="lead" data-category="Short movies" data-date="2008">
+          <a href="http://www.youtube.com/view_play_list?p=1EF78AC82296661C" title="Episodes as a Youtube playlist" target="_blank" rel="noopener">
+            <img class="image" loading="lazy" data-src="img/icons/jambon.png" alt="The Attack Of The Jambon Volant picture">
+            <h3>The Attack Of The Jambon Volant</h3>
+            <p>Absurd american trailer parodies</p>
+          </a>
+        </li>
+        <li class="card" data-id="holytupperware" data-featured="" data-size="3" data-completion="done" data-seriousness="stupid" data-type="graphic" data-participation="lead" data-category="Short movies" data-date="2004">
+          <a href="http://www.youtube.com/view_play_list?p=E144529EA9F01696" title="Episodes as a Youtube playlist" target="_blank" rel="noopener">
+            <img class="image" loading="lazy" data-src="img/icons/holytupperware.png" alt="The Holy Tupperware picture">
+            <h3>The Holy Tupperware</h3>
+            <p></p>
+          </a>
+        </li>
+        <li class="card" data-id="mobileinfantry" data-featured="" data-size="6" data-completion="done" data-seriousness="serious" data-type="graphic" data-participation="contribution" data-category="Half-life Mod" data-date="2002">
+          <a href="http://www.youtube.com/watch?v=1LC1Ud0rVnI" title="Mobile Infantry - Training Camp on Youtube" target="_blank" rel="noopener">
+            <img class="image" loading="lazy" data-src="img/icons/mobileinfantry.png" alt="Mobile Infantry picture">
+            <h3>Mobile Infantry</h3>
+            <p>Level Design for an Half Life modification based on the Starship Troopers universe.</p>
+          </a>
+        </li>
+      </ol>
     </section>
   </main>
 </body></html>
