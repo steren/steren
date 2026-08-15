@@ -4,7 +4,7 @@ import {Vector} from 'sylvester';
 // Height of the elements
 const zHeight = 0.1;
 // Time to make the effect appear.
-const opacityTransition = "1s";
+const opacityTransition = "0.5s";
 // pause renderer after this period (in ms)
 const pauseAfter = 10 * 1000;
 
@@ -12,7 +12,7 @@ const lightElevation = 1.5;
 const lightPosition = [0.75, 0.75, 1.5];
 const lightSize = 0.75;
 const lightValLightMode = 0.6;
-const lightValDarkMode = 0.1;
+const lightValDarkMode = 0.15;
 let lightVal = lightValLightMode;
 
 // TODO: adjust this based some hardware capabilities?
@@ -68,7 +68,7 @@ function extractRGBColor(element) {
 // Remove background color and box shadow from element
 function removeStyle(element) {
 
-	element.style.transition = `box-shadow ${opacityTransition} ease-in-out, background-color ${opacityTransition} ease-in-out`; 
+	element.style.transition = `box-shadow ${opacityTransition} ease-in-out 0.2s, background-color ${opacityTransition} ease-in-out  0.2s`; 
 
 	// store original box shadow in a data attribute
 	element.dataset.boxShadow = window.getComputedStyle(element).boxShadow;
