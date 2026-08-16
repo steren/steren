@@ -1,11 +1,13 @@
-import {makePathTracer, Cube} from 'webgl-path-tracing';
-import {Vector} from 'sylvester';
+import { makePathTracer, Cube } from 'webgl-path-tracing';
+import { Vector } from 'sylvester';
 
-// Height of the elements
+// Height of the raised elements, in scene units.
 const zHeight = 0.1;
+// Z coordinate of the background plane (-1 is the room wall).
+const zBase = 0;
 // Time to make the effect appear.
-const opacityTransition = "0.5s";
-// pause renderer after this period (in ms)
+const opacityTransition = '0.5s';
+// Pause the renderer after this period of inactivity (in ms).
 const pauseAfter = 10 * 1000;
 
 const lightElevation = 1.5;
@@ -13,7 +15,12 @@ const lightPosition = [0.75, 0.75, 1.5];
 const lightSize = 0.75;
 const lightValLightMode = 0.6;
 const lightValDarkMode = 0.15;
-let lightVal = lightValLightMode;
+
+// Computed value of a fully transparent color, and the color used as fallback.
+const transparent = 'rgba(0, 0, 0, 0)';
+const white = [1, 1, 1];
+
+const rtxGreen = '#76b900';
 
 // TODO: adjust this based some hardware capabilities?
 // navigator.deviceMemory
@@ -21,118 +28,133 @@ let lightVal = lightValLightMode;
 const maxSize = 2048;
 
 let initialized = false;
-let active = false;
 let backgroundElement;
 let backgroundCanvas;
-let raisedElements;
+let raisedElements = [];
 let ui;
+let pauseTimer;
 
-
-function closestPowerOfTwo(num) {
-  // If num is already a power of two, return num
-  if ((num & (num - 1)) === 0) {
-    return num;
+/**
+ * Round a size up to the closest power of two.
+ * Sizes come from getBoundingClientRect() and can be fractional: the fractional part is
+ * dropped, as a canvas can only be an integer number of pixels wide.
+ * @param {number} size
+ * @returns {number} a power of two
+ */
+function closestPowerOfTwo(size) {
+  const pixels = Math.floor(size);
+  if (pixels <= 1) {
+    return 1;
   }
-
-  // Find the nearest power of two greater than num
-  let power = 1;
-  while (power < num) {
-    power *= 2;
-  }
-
-  return power;
+  return 2 ** Math.ceil(Math.log2(pixels));
 }
 
 /**
- * Extract background color (stored as data attribute) of element as RGB array.
- * Only supports rgb() syntax
- * If cannot extract colors, will return white.
- * @param {HTMLElement} element 
- * @returns 
+ * Extract the background color of an element as an RGB array.
+ * Uses the color stored as a data attribute by removeStyle() when present.
+ * Only supports the rgb() syntax, returns white for anything else.
+ * @param {HTMLElement} element
+ * @returns {number[]} [red, green, blue], each between 0 and 1
  */
 function extractRGBColor(element) {
-	const color = element.dataset.backgroundColor || window.getComputedStyle(element).backgroundColor;
-	if(color === 'rgba(0, 0, 0, 0)') {
-		// transparent, use white
-		return [1, 1, 1]; 
-	}
-	else if(color.startsWith('rgb')) {
-		const rgb = color.match(/(\d+)/g);
-		return [parseInt(rgb[0]) / 255, parseInt(rgb[1]) / 255, parseInt(rgb[2]) / 255];
-	} else {
-		console.error(`Unsupported color format. Only rgb() is supported. returning white. Received ${color}.`);
-		return [1, 1, 1];
-	}
+  const color = element.dataset.backgroundColor || window.getComputedStyle(element).backgroundColor;
+
+  if (color === transparent) {
+    return [...white];
+  }
+
+  const channels = color.match(/\d+/g);
+  if (!color.startsWith('rgb') || !channels || channels.length < 3) {
+    console.error(`Unsupported color format. Only rgb() is supported. returning white. Received ${color}.`);
+    return [...white];
+  }
+
+  return channels.slice(0, 3).map((channel) => Number(channel) / 255);
 }
 
-// Remove background color and box shadow from element
+/**
+ * Remove the background color and box shadow of an element, storing them as data attributes.
+ * @param {HTMLElement} element
+ */
 function removeStyle(element) {
+  element.style.transition = `box-shadow ${opacityTransition} ease-in-out 0.2s, background-color ${opacityTransition} ease-in-out 0.2s`;
 
-	element.style.transition = `box-shadow ${opacityTransition} ease-in-out 0.2s, background-color ${opacityTransition} ease-in-out  0.2s`; 
+  const { boxShadow, backgroundColor, mixBlendMode } = window.getComputedStyle(element);
 
-	// store original box shadow in a data attribute
-	element.dataset.boxShadow = window.getComputedStyle(element).boxShadow;
-	element.style.boxShadow = 'none';
+  element.dataset.boxShadow = boxShadow;
+  element.style.boxShadow = 'none';
 
-	// store original background color in a data attribute
-	element.dataset.backgroundColor = window.getComputedStyle(element).backgroundColor;
-	element.style.backgroundColor = 'transparent';
+  element.dataset.backgroundColor = backgroundColor;
+  element.style.backgroundColor = 'transparent';
 
-	// if element has white background,
-	// set mix-blend-mode: multiply so that any white children blends nicely with the (now potentially gray) background
-	// TODO: Should we do that more often?
-	if(element.dataset.backgroundColor === 'rgb(255, 255, 255)') {
-		element.dataset.mixBlendMode = window.getComputedStyle(element).mixBlendMode;
-		element.style.mixBlendMode = 'multiply';
-	}
+  // if element has white background,
+  // set mix-blend-mode: multiply so that any white children blends nicely with the (now potentially gray) background
+  // TODO: Should we do that more often?
+  if (backgroundColor === 'rgb(255, 255, 255)') {
+    element.dataset.mixBlendMode = mixBlendMode;
+    element.style.mixBlendMode = 'multiply';
+  }
 }
 
-function restoreStyle (element) {
-	if(element.dataset.boxShadow) {
-		element.style.boxShadow = element.dataset.boxShadow;
-	}
-	if(element.dataset.backgroundColor) {
-		element.style.backgroundColor = element.dataset.backgroundColor;
-	}
-	if(element.dataset.mixBlendMode) {
-		element.style.mixBlendMode = element.dataset.mixBlendMode;
-	}
+/**
+ * Restore the styles saved by removeStyle().
+ * @param {HTMLElement} element
+ */
+function restoreStyle(element) {
+  const { boxShadow, backgroundColor, mixBlendMode } = element.dataset;
+
+  if (boxShadow) {
+    element.style.boxShadow = boxShadow;
+  }
+  if (backgroundColor) {
+    element.style.backgroundColor = backgroundColor;
+  }
+  if (mixBlendMode) {
+    element.style.mixBlendMode = mixBlendMode;
+  }
 }
 
+/**
+ * Build the scene: the background plane, plus one cube per raised element.
+ * @param {HTMLElement} background
+ * @param {Iterable<HTMLElement>} elements raised elements
+ * @returns {Cube[]} the objects of the scene
+ */
 function makeScene(background, elements) {
-	const zBase = 0; // -1 is room wall.
-  var objects = [];
+  const backgroundRect = background.getBoundingClientRect();
   let nextObjectId = 0;
 
-	// background element.
-	// for now, always make it white, for a better effect
-	// TODO: Retain the hue
-	let backgroundColor = [1,1,1];
-	objects.push(new Cube(Vector.create([-1, -1, zBase - 1 ]), Vector.create([1, 1, zBase]), nextObjectId++, Vector.create(backgroundColor)));
+  // Background element.
+  // For now, always make it white, for a better effect.
+  // TODO: Retain the hue
+  const objects = [
+    new Cube(
+      Vector.create([-1, -1, zBase - 1]),
+      Vector.create([1, 1, zBase]),
+      nextObjectId++,
+      Vector.create([...white]),
+    ),
+  ];
 
-	const backgroundRect = background.getBoundingClientRect();
+  // Viewport coordinates, normalized between -1 and 1 within the background element.
+  // TODO: should we also handle scroll position?
+  const toSceneX = (x) => (2 * (x - backgroundRect.left)) / backgroundRect.width - 1;
+  const toSceneY = (y) => 1 - (2 * (y - backgroundRect.top)) / backgroundRect.height;
 
-	for (let el = 0; el < elements.length; el++) {
-		let rect = elements[el].getBoundingClientRect();
-		// ignore elements that have no height or width
-		if(rect.height === 0 || rect.width === 0) continue;
+  for (const element of elements) {
+    const rect = element.getBoundingClientRect();
+    // ignore elements that have no height or width
+    if (rect.height === 0 || rect.width === 0) {
+      continue;
+    }
 
-		// TODO: should we also handle scroll position?
-		let minCorner = Vector.create([
-			2 * (rect.left - backgroundRect.left) / (backgroundRect.width) - 1,
-			-1 * (2 * (rect.top + rect.height - backgroundRect.top) / (backgroundRect.height) - 1),
-
-			zBase,
-		]);
-
-		let maxCorner = Vector.create([
-			2 * (rect.left + rect.width - backgroundRect.left) / (backgroundRect.width) - 1,
-			-1 * (2 * (rect.top - backgroundRect.top) / (backgroundRect.height) - 1),
-			zHeight + zBase,
-		]);
-
-		objects.push(new Cube(minCorner, maxCorner, nextObjectId++, Vector.create(extractRGBColor(elements[el]))));
-	}
+    objects.push(new Cube(
+      Vector.create([toSceneX(rect.left), toSceneY(rect.bottom), zBase]),
+      Vector.create([toSceneX(rect.right), toSceneY(rect.top), zBase + zHeight]),
+      nextObjectId++,
+      Vector.create(extractRGBColor(element)),
+    ));
+  }
 
   return objects;
 }
@@ -143,273 +165,289 @@ function makeScene(background, elements) {
  * @returns {HTMLElement[]} all elements with box shadow
  */
 function getBoxShadowDescendants(element) {
-	const elements = element.querySelectorAll('*');
-	let result = [];
-	for (const el of elements) {
-		if(window.getComputedStyle(el).boxShadow !== 'none') {
-			result.push(el);
-		}
-	}
-	return result;
-}
-
-function styleCanvas(backgroundCanvas, backgroundElement, startDisplayed) {
-	let backgroundElementRect = backgroundElement.getBoundingClientRect();
-
-	// canvas must be square and of power of two
-	// use the element largest width / height and round it up to the next power of two
-	let size = Math.min(closestPowerOfTwo(Math.max(backgroundElementRect.width, backgroundElementRect.height)), maxSize);
-
-	backgroundCanvas.inert = true;
-	backgroundCanvas.width = size;
-	backgroundCanvas.height = size;
-	backgroundCanvas.style.position = 'absolute';
-
-	// offset the position of the canvas by the border width
-	// See examples/inside.html to understand why this is needed
-	const borderTopWidth = window.getComputedStyle(backgroundElement).borderTopWidth;
-	const borderLeftWidth = window.getComputedStyle(backgroundElement).borderLeftWidth;
-	backgroundCanvas.style.top = `-${borderTopWidth}`;
-	backgroundCanvas.style.left = `-${borderLeftWidth}`;
-
-	backgroundCanvas.style.width = `${backgroundElementRect.width}px`;
-	backgroundCanvas.style.height = `${backgroundElementRect.height}px`;
-	backgroundCanvas.style.zIndex = '-1';
-	backgroundCanvas.style.overflow = 'hidden';
-	if(!startDisplayed) {
-		backgroundCanvas.style.opacity = 0;
-		backgroundCanvas.style.transition = `opacity ${opacityTransition} ease-in-out`; 
-	}
+  return [...element.querySelectorAll('*')]
+    .filter((descendant) => window.getComputedStyle(descendant).boxShadow !== 'none');
 }
 
 /**
- * 
- * @param {HTMLElement} options.background : element to apply the effect to, defaults to the entire body.
- * @param {HTMLElement} options.raised[]: elevated elements, defaults to descendants of the background element with box shadow.
- * @param {bool} options.disableIfDarkMode: if true, will not apply the effect if the user has dark mode enabled, which dims the light of rtx-on. Defaults to false.
- * @param {bool} options.forceLightMode: if true, the effect will always apply at light mode. Defaults to false. Set to true if your website doesn't implement dark mode.
- * @param {bool} options.moveLightOnClick: Set to `true` to move the light under the cursor when clicking the background element. Default to false.
+ * Size and position the canvas so that it covers the background element.
+ * @param {HTMLCanvasElement} canvas
+ * @param {HTMLElement} element background element
+ * @param {boolean} [startDisplayed] when false, the canvas starts hidden and fades in
  */
-function initRTX({background, raised, disableIfDarkMode, forceLightMode, moveLightOnClick} = {}) {
-	// Check dark mode
-	if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-		if(disableIfDarkMode) {
-			console.warn(`Not applying RTX, user has dark mode enabled.`);
-			return false;
-		} else if(!forceLightMode){
-			lightVal = lightValDarkMode;
-		}
-	}
+function styleCanvas(canvas, element, startDisplayed = false) {
+  const rect = element.getBoundingClientRect();
+  const { borderTopWidth, borderLeftWidth } = window.getComputedStyle(element);
 
-	if(!background) {
-		// select the <html> element.
-		backgroundElement = document.documentElement;
-		// The <html> element might be smaller than the viewport. So we make sure it is at least as big as the viewport.
-		backgroundElement.style.minHeight = '100vh';
-		// if <body> has a background color, set it on <html> too
-		if(window.getComputedStyle(document.body).backgroundColor !== 'rgba(0, 0, 0, 0)') {
-			backgroundElement.style.backgroundColor = window.getComputedStyle(document.body).backgroundColor;
-		}
-	} else {
-		backgroundElement = background;
-	}
+  // canvas must be square and of power of two
+  // use the element largest width / height and round it up to the next power of two
+  const size = Math.min(closestPowerOfTwo(Math.max(rect.width, rect.height)), maxSize);
 
-	if(raised) {
-		raisedElements = raised;
-	} else {
-		raisedElements = getBoxShadowDescendants(backgroundElement);
-	}
+  canvas.inert = true;
+  canvas.width = size;
+  canvas.height = size;
 
-	// if height is more than 2x width or width is more than 2x height, skip
-	let backgroundElementRect = backgroundElement.getBoundingClientRect();
-	if(backgroundElementRect.height > backgroundElementRect.width * 3 || backgroundElementRect.width > backgroundElementRect.height * 3) {
-		console.warn(`Not applying RTX, background element is too wide or too tall. height: ${backgroundElementRect.height}, width: ${backgroundElementRect.width}`);
-		return false;
-	}
+  Object.assign(canvas.style, {
+    position: 'absolute',
+    // offset the position of the canvas by the border width
+    // See examples/inside.html to understand why this is needed
+    top: `-${borderTopWidth}`,
+    left: `-${borderLeftWidth}`,
+    width: `${rect.width}px`,
+    height: `${rect.height}px`,
+    zIndex: '-1',
+    overflow: 'hidden',
+  });
 
-	// set position to relative in order to attach the canvas with position absolute
-	backgroundElement.style.position = 'relative';
-
-	backgroundCanvas = document.createElement('canvas');
-	styleCanvas(backgroundCanvas, backgroundElement);
-	backgroundElement.appendChild(backgroundCanvas);
-
-	const config = {
-		zoom: 76,
-		fov: 1.5,
-		lightPosition,
-		lightSize,
-		lightVal,
-	}
-
-	ui = makePathTracer(backgroundCanvas, makeScene(backgroundElement, raisedElements), config, false);
-
-	let timer = setTimeout(() => {
-		ui.renderer.pause();
-	}, pauseAfter);
-
-	backgroundCanvas.style.opacity = 1;
-
-	function reset() {
-		ui.setObjects(makeScene(backgroundElement, raisedElements));
-		ui.renderer.resume();
-		styleCanvas(backgroundCanvas, backgroundElement, true);
-		clearTimeout(timer);
-		timer = setTimeout(() => {
-			ui.renderer.pause();
-		}, pauseAfter);	
-	}
-
-	// listen for resize on the base element or any scene element
-	const resizeObserver = new ResizeObserver(reset);
-	resizeObserver.observe(backgroundElement);
-	for(let el of raisedElements) {
-		resizeObserver.observe(el);
-	}
-
-	// When clicking on the page move the light at this position
-	if(moveLightOnClick) {
-		backgroundElement.addEventListener('click', (e) => {
-			// if not a link and no text selected
-			if(
-				e.target.tagName !== 'A'
-				&& !window.getSelection().toString()
-			) {
-				// get click coordinates, normalize betwen -1 and 1
-				let rect = backgroundElement.getBoundingClientRect();
-				let x = 2 * (e.clientX - rect.left) / rect.width - 1;
-				let y = 2 * ( 1 - (e.clientY - rect.top) / rect.height) - 1;
-				console.log(`moving light to ${x}, ${y}`);
-				let newLightPosition = [x, y, lightElevation];
-				ui.setLightPosition(newLightPosition);
-				reset();
-			}
-		});
-	}
-
-	// listen for switching to dark / light mode and restart when so
-	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-		window.location.reload();
-		// let newLightVal;
-		// if (event.matches) {
-		// 	if(disableIfDarkMode) {
-		// 		console.warn(`User has switched to dark mode, but RTX is disabled in dark mode.`);
-		// 		off();
-		// 	} else if(forceLightMode){
-		// 		newLightVal = lightValLightMode;
-		// 	} else {
-		// 		newLightVal = lightValDarkMode
-		// 	}
-		//   } else {
-		// 	newLightVal = lightValLightMode;
-		//   }
-		//   ui.setLightVal(newLightVal);
-		//   reset();
-	});
-
-
-	// If the current device supports Compute Pressure API, use it to disable effect under 'critical' and 'serious' pressure
-	if ("PressureObserver" in window) {
-		const observer = new PressureObserver(records => {
-			const lastRecord = records.pop();
-			if (lastRecord.state === 'critical' || lastRecord.state === 'serious') {
-				console.log(`RTX automatically turned off due to ${lastRecord.state} pressure on the CPU.`);
-				off();
-			}
-		});
-		observer.observe('cpu');
-	}
-
-	initialized = true;
+  if (!startDisplayed) {
+    canvas.style.opacity = '0';
+    canvas.style.transition = `opacity ${opacityTransition} ease-in-out`;
+  }
 }
-
-
-function on(options) {
-	if(!initialized) {
-		initRTX(options);
-	} else {
-		// unhide canvas
-		ui.renderer.resume();
-		backgroundCanvas.style.opacity = 1;
-	}
-
-	if(initialized) {
-		// remove drop shadow and background color from elements, store them in data attributes
-		[...raisedElements, backgroundElement].map(removeStyle);
-	}
-
-	active = true;
-}
-
 
 /**
- * Restore 
+ * Pause the renderer once the scene has been left untouched for a while.
+ */
+function schedulePause() {
+  clearTimeout(pauseTimer);
+  pauseTimer = setTimeout(() => ui.renderer.pause(), pauseAfter);
+}
+
+/**
+ * Rebuild and render the scene, for example after the page was resized.
+ */
+function reset() {
+  ui.setObjects(makeScene(backgroundElement, raisedElements));
+  ui.renderer.resume();
+  styleCanvas(backgroundCanvas, backgroundElement, true);
+  schedulePause();
+}
+
+/**
+ * Rebuild the scene when the background element or any raised element is resized.
+ */
+function observeResize() {
+  const resizeObserver = new ResizeObserver(reset);
+  resizeObserver.observe(backgroundElement);
+  for (const element of raisedElements) {
+    resizeObserver.observe(element);
+  }
+}
+
+/**
+ * Move the light under the cursor when clicking on the background element.
+ */
+function enableMoveLightOnClick() {
+  backgroundElement.addEventListener('click', (event) => {
+    // ignore links, and clicks that only end a text selection
+    if (event.target.tagName === 'A' || window.getSelection().toString()) {
+      return;
+    }
+
+    // get click coordinates, normalized between -1 and 1
+    const rect = backgroundElement.getBoundingClientRect();
+    const x = (2 * (event.clientX - rect.left)) / rect.width - 1;
+    const y = 1 - (2 * (event.clientY - rect.top)) / rect.height;
+
+    ui.setLightPosition([x, y, lightElevation]);
+    reset();
+  });
+}
+
+/**
+ * Reload the page when switching between light and dark mode:
+ * the light intensity is picked once, when the effect starts.
+ * @param {MediaQueryList} [darkModeQuery]
+ */
+function observeColorScheme(darkModeQuery) {
+  darkModeQuery?.addEventListener('change', () => window.location.reload());
+}
+
+/**
+ * If the current device supports the Compute Pressure API, use it to disable the effect
+ * under 'critical' and 'serious' pressure.
+ */
+function observePressure() {
+  if (!('PressureObserver' in window)) {
+    return;
+  }
+
+  const observer = new PressureObserver((records) => {
+    const state = records.at(-1)?.state;
+    if (state === 'critical' || state === 'serious') {
+      console.log(`RTX automatically turned off due to ${state} pressure on the CPU.`);
+      off();
+    }
+  });
+  observer.observe('cpu');
+}
+
+/**
+ * Set up the effect: pick the background and raised elements, then start the path tracer.
+ * @param {object} [options]
+ * @param {HTMLElement} [options.background] element to apply the effect to, defaults to the entire body.
+ * @param {HTMLElement[]} [options.raised] elevated elements, defaults to descendants of the background element with box shadow.
+ * @param {boolean} [options.disableIfDarkMode] if true, will not apply the effect if the user has dark mode enabled, which dims the light of rtx-on. Defaults to false.
+ * @param {boolean} [options.forceLightMode] if true, the effect will always apply at light mode. Defaults to false. Set to true if your website doesn't implement dark mode.
+ * @param {boolean} [options.moveLightOnClick] Set to true to move the light under the cursor when clicking the background element. Default to false.
+ * @returns {boolean} whether the effect was set up
+ */
+function initRTX({ background, raised, disableIfDarkMode = false, forceLightMode = false, moveLightOnClick = false } = {}) {
+  // Check dark mode
+  const darkModeQuery = window.matchMedia?.('(prefers-color-scheme: dark)');
+  const darkMode = darkModeQuery?.matches ?? false;
+
+  if (darkMode && disableIfDarkMode) {
+    console.warn('Not applying RTX, user has dark mode enabled.');
+    return false;
+  }
+  const lightVal = darkMode && !forceLightMode ? lightValDarkMode : lightValLightMode;
+
+  if (background) {
+    backgroundElement = background;
+  } else {
+    // select the <html> element.
+    backgroundElement = document.documentElement;
+    // The <html> element might be smaller than the viewport. So we make sure it is at least as big as the viewport.
+    backgroundElement.style.minHeight = '100vh';
+    // if <body> has a background color, set it on <html> too
+    const bodyBackgroundColor = window.getComputedStyle(document.body).backgroundColor;
+    if (bodyBackgroundColor !== transparent) {
+      backgroundElement.style.backgroundColor = bodyBackgroundColor;
+    }
+  }
+
+  raisedElements = raised ?? getBoxShadowDescendants(backgroundElement);
+
+  // if height is more than 3x width or width is more than 3x height, skip
+  const { width, height } = backgroundElement.getBoundingClientRect();
+  if (height > width * 3 || width > height * 3) {
+    console.warn(`Not applying RTX, background element is too wide or too tall. height: ${height}, width: ${width}`);
+    return false;
+  }
+
+  // set position to relative in order to attach the canvas with position absolute
+  backgroundElement.style.position = 'relative';
+
+  backgroundCanvas = document.createElement('canvas');
+  styleCanvas(backgroundCanvas, backgroundElement);
+  backgroundElement.appendChild(backgroundCanvas);
+
+  const config = {
+    zoom: 76,
+    fov: 1.5,
+    lightPosition,
+    lightSize,
+    lightVal,
+  };
+
+  ui = makePathTracer(backgroundCanvas, makeScene(backgroundElement, raisedElements), config, false);
+
+  schedulePause();
+  backgroundCanvas.style.opacity = '1';
+
+  observeResize();
+  if (moveLightOnClick) {
+    enableMoveLightOnClick();
+  }
+  observeColorScheme(darkModeQuery);
+  observePressure();
+
+  initialized = true;
+  return true;
+}
+
+/**
+ * Turn on the ray traced shadow effect.
+ * Removes any existing box shadow effect.
+ * @param {object} [options] see initRTX(), only used the first time the effect is turned on.
+ */
+function on(options) {
+  if (!initialized) {
+    if (!initRTX(options)) {
+      return;
+    }
+  } else {
+    // unhide canvas
+    ui.renderer.resume();
+    backgroundCanvas.style.opacity = '1';
+  }
+
+  // remove drop shadow and background color from elements, store them in data attributes
+  for (const element of [...raisedElements, backgroundElement]) {
+    removeStyle(element);
+  }
+}
+
+/**
+ * Turn off the ray traced shadow effect.
+ * Restores any existing box shadow effect.
  */
 function off() {
-	// hide canvas
-	backgroundCanvas.style.opacity = 0;
+  if (!initialized) {
+    return;
+  }
 
-	// restore original styles
-	[...raisedElements, backgroundElement].map(restoreStyle);
+  // hide canvas
+  backgroundCanvas.style.opacity = '0';
 
-	ui.renderer.pause();
-	active = false;
+  // restore original styles
+  for (const element of [...raisedElements, backgroundElement]) {
+    restoreStyle(element);
+  }
+
+  ui.renderer.pause();
 }
 
 /**
  * Displays an "RTX OFF / ON" button on the page.
  * Mainly for fun.
+ * @param {object} [options] see initRTX(), passed to on() when toggling the effect back on.
  */
 function button(options) {
-	// Create the checkbox element
-	let rtxCheckbox = document.createElement('input');
-	rtxCheckbox.type = 'checkbox';
-	rtxCheckbox.id = 'rtxCheckbox'; // add an id to the checkbox for styling
+  // The checkbox itself is hidden, its label is the visible button.
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.id = 'rtxCheckbox';
+  checkbox.checked = true;
+  checkbox.style.display = 'none';
 
-	// Set the initial checkbox state
-	rtxCheckbox.checked = true;
+  const label = document.createElement('label');
+  label.htmlFor = checkbox.id;
+  label.id = 'rtxLabel';
+  Object.assign(label.style, {
+    fontFamily: 'Arial, sans-serif',
+    fontSize: '16px',
+    padding: '15px 32px',
+    textAlign: 'center',
+    display: 'inline-block',
+    cursor: 'pointer',
+    // Set a fixed width and position the label at the bottom right
+    width: '100px',
+    position: 'fixed',
+    bottom: '20px',
+    right: '0',
+  });
 
-	// Set the common checkbox styles
-	rtxCheckbox.style.display = 'none'; // Hide the actual checkbox
+  const render = (isOn) => {
+    label.innerHTML = `RTX <strong>${isOn ? 'ON' : 'OFF'}</strong>`;
+    label.style.backgroundColor = isOn ? rtxGreen : 'black';
+    label.style.color = isOn ? 'black' : 'white';
+  };
+  render(checkbox.checked);
 
-	// Create a label for the checkbox
-	let rtxLabel = document.createElement('label');
-	rtxLabel.htmlFor = 'rtxCheckbox';
-	rtxLabel.id = 'rtxLabel'; // add an id to the label for styling
-	rtxLabel.style.backgroundColor = '#76b900';
-	rtxLabel.style.color = 'black';
-	rtxLabel.style.fontFamily = 'Arial, sans-serif';
-	rtxLabel.style.padding = '15px 32px';
-	rtxLabel.style.textAlign = 'center';
-	rtxLabel.style.display = 'inline-block';
-	rtxLabel.style.fontSize = '16px';
-	rtxLabel.style.cursor = 'pointer';
-	rtxLabel.innerHTML = 'RTX <strong>ON</strong>';
+  // Toggle the RTX state when the checkbox changes
+  checkbox.addEventListener('change', () => {
+    render(checkbox.checked);
+    if (checkbox.checked) {
+      on(options);
+    } else {
+      off();
+    }
+    console.log(`RTX is ${checkbox.checked ? 'on' : 'off'}.`);
+  });
 
-	// Set the width and position of the label
-	rtxLabel.style.width = '100px'; // Set a fixed width
-	rtxLabel.style.position = 'fixed';
-	rtxLabel.style.bottom = '20px';
-	rtxLabel.style.right = '0'; // Position the label at the right
-
-	// Add a change event to toggle RTX state
-	rtxCheckbox.onchange = function() {
-			rtxLabel.innerHTML = this.checked ? 'RTX <strong>ON</strong>' : 'RTX <strong>OFF</strong>';
-			if (this.checked) {
-					rtxLabel.style.backgroundColor = '#76b900';
-					rtxLabel.style.color = 'black';
-					on(options);
-			} else {
-					rtxLabel.style.backgroundColor = 'black';
-					rtxLabel.style.color = 'white';
-					off();
-			}
-			console.log(`RTX is ${this.checked ? "on" : "off"}.`);
-	};
-
-	// Add the checkbox and the label to the body of the document
-	document.body.appendChild(rtxCheckbox);
-	document.body.appendChild(rtxLabel);
+  document.body.append(checkbox, label);
 }
 
-export {on, off, button};
+export { on, off, button };
