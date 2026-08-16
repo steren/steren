@@ -41,10 +41,18 @@
   <link rel="preload" href="img/icons/carbon-footprint-screenshot.webp" as="image" fetchpriority="high">
   <link rel="preload" href="img/icons/cloud-run.svg" as="image" fetchpriority="high">
   <link rel="preload" href="img/loops/cloud-run.svg" as="image">
-  <link rel="preload" href="img/icons/error-reporting-screenshot.webp" as="image" fetchpriority="high">
+  <link rel="preload" href="img/icons/error-reporting-screenshot-400.webp" as="image" fetchpriority="high"
+        imagesrcset="img/icons/error-reporting-screenshot-400.webp 400w,
+                     img/icons/error-reporting-screenshot-800.webp 800w,
+                     img/icons/error-reporting-screenshot-1200.webp 1200w"
+        imagesizes="(width <= 464px) calc(100vw - 4rem), 400px">
   <link rel="preload" href="img/logos/factory.svg" as="image" fetchpriority="high">
   <link rel="preload" href="img/icons/cadeaux.svg" as="image" fetchpriority="high">
-  <link rel="preload" href="img/icons/capoda.webp" as="image" fetchpriority="high">
+  <link rel="preload" href="img/icons/capoda-400.webp" as="image" fetchpriority="high"
+        imagesrcset="img/icons/capoda-400.webp 400w,
+                     img/icons/capoda-800.webp 800w,
+                     img/icons/capoda-1200.webp 1200w"
+        imagesizes="(width <= 464px) calc(100vw - 4rem), 400px">
 
   <!--
     Colors
@@ -334,7 +342,12 @@
         </li>
         <li class="card" data-id="error-reporting" data-featured="true" data-size="20" data-completion="done" data-seriousness="serious" data-type="product" data-participation="contribution" data-category="web" data-date="2016">
           <a href="https://cloud.google.com/error-reporting/" title="Cloud Error Reporting product page" target="_blank" rel="noopener">
-            <img class="image screenshot" loading="lazy" src="img/icons/error-reporting-screenshot.webp" alt="Cloud Error Reporting screenshot">
+            <img class="image screenshot" loading="lazy" src="img/icons/error-reporting-screenshot-400.webp"
+                 srcset="img/icons/error-reporting-screenshot-400.webp 400w,
+                         img/icons/error-reporting-screenshot-800.webp 800w,
+                         img/icons/error-reporting-screenshot-1200.webp 1200w"
+                 sizes="(width <= 464px) calc(100vw - 4rem), 400px"
+                 alt="Cloud Error Reporting screenshot">
             <h3>Cloud Error Reporting</h3>
             <p>Identify and understand application errors.</p>
           </a>
@@ -383,7 +396,12 @@
         </li>
         <li class="card" data-id="capoda" data-featured="true" data-size="5" data-completion="done" data-seriousness="serious" data-type="graphic" data-participation="lead" data-category="Animation" data-date="2008">
           <a href="https://www.youtube.com/watch?v=khWXdkryBE4" title="Watch CAPODA" target="_blank" rel="noopener">
-            <img class="image" loading="lazy" src="img/icons/capoda.webp" alt="CAPODA picture">
+            <img class="image" loading="lazy" src="img/icons/capoda-400.webp"
+                 srcset="img/icons/capoda-400.webp 400w,
+                         img/icons/capoda-800.webp 800w,
+                         img/icons/capoda-1200.webp 1200w"
+                 sizes="(width <= 464px) calc(100vw - 4rem), 400px"
+                 alt="CAPODA picture">
             <video class="loop" loading="lazy" autoplay loop muted playsinline src="img/loops/capoda.mp4#t=26" alt="CAPODA movie"></video>
             <h3>CAPODA</h3>
             <p>Animated short movie.</p>

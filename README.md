@@ -15,7 +15,7 @@ Understand and reduce your Google Cloud carbon emissions.
 **[Cloud Run](https://cloud.run)**  
 Google Cloud's serverless runtime.
 
-<a href="https://cloud.google.com/error-reporting/"><img src="img/icons/error-reporting-screenshot.webp" width="200" height="100"></a>  
+<a href="https://cloud.google.com/error-reporting/"><img src="img/icons/error-reporting-screenshot-400.webp" width="200" height="100"></a>  
 **[Cloud Error Reporting](https://cloud.google.com/error-reporting/)**  
 Identify and understand application errors.
 
@@ -27,6 +27,6 @@ Multi-device application platform.
 **[Cadeaux entre nous](https://cadeaux-entre-nous.fr)**  
 Secret Santa website.
 
-<a href="https://www.youtube.com/watch?v=khWXdkryBE4"><img src="img/icons/capoda.webp" width="200" height="100"></a>  
+<a href="https://www.youtube.com/watch?v=khWXdkryBE4"><img src="img/icons/capoda-400.webp" width="200" height="100"></a>  
 **[CAPODA](https://www.youtube.com/watch?v=khWXdkryBE4)**  
 Animated short movie.
