@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "rtx-on": "^0.23.0"
+    "rtx-on": "^0.24.0"
   },
   "scripts": {
     "postinstall": "node vendor.mjs"
