@@ -130,7 +130,9 @@
       background-color: light-dark(white, rgb(255 255 255 / 5%));
       box-shadow: 0 2px 5px 0 rgb(0 0 0 / 26%);
       margin: 1rem;
-      border-radius: 2px;
+      border-radius: 8px;
+      /* clip the media, which fills the card edge to edge, to the rounded corners */
+      overflow: hidden;
     }
 
     /* aspect-ratio reserves the image box before the image is downloaded */
