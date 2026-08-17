@@ -92,17 +92,24 @@ var tracerVertexSource =
 '   gl_Position = vec4(vertex, 1.0);' +
 ' }';
 
-// start of fragment shader
-var tracerFragmentSourceHeader =
+// start of fragment shader.
+//
+// lightSamples and bounceSamples hold this frame's point of the sample
+// sequence: one point on the light and one outgoing direction per bounce, three
+// dimensions each. See makeSampleSequence() for where the numbers come from.
+function makeTracerFragmentSourceHeader() {
+  return '' +
 ' precision highp float;' +
 ' uniform vec3 eye;' +
 ' varying vec3 initialRay;' +
 ' uniform float textureWeight;' +
-' uniform float timeSinceStart;' +
 ' uniform sampler2D texture;' +
 ' uniform float glossiness;' +
+' uniform vec3 lightSamples[' + sampleArrayLength() + '];' +
+' uniform vec3 bounceSamples[' + sampleArrayLength() + '];' +
 ' vec3 roomCubeMin = vec3(-1.0, -1.0, -1.0);' +
 ' vec3 roomCubeMax = vec3(1.0, 1.0, 1.0);';
+}
 
 // compute the near and far intersections of the cube (stored in the x and y components) using the slab method
 // no intersection means vec.x > vec.y (really tNear > tFar)
@@ -265,20 +272,35 @@ var normalForSphereSource =
 '   return (hit - sphereCenter) / sphereRadius;' +
 ' }';
 
-// use the fragment position for randomness
-var randomSource =
-' float random(vec3 scale, float seed) {' +
-'   return fract(sin(dot(gl_FragCoord.xyz + seed, scale)) * 43758.5453 + seed);' +
+// a hash of the fragment position, used to give every pixel its own offset into
+// the sample sequence. The classic fract(sin(dot(...)) * 43758.5453) hash was
+// visibly patterned here: sin() is only specified to a few digits of accuracy
+// in GLSL ES, so different drivers streaked it differently and large seeds
+// collapsed it into bands. This one (after Dave Hoskins) is plain multiply and
+// fract arithmetic, which every driver agrees on.
+var hashSource =
+' vec3 hash33(vec3 p) {' +
+'   p = fract(p * vec3(0.1031, 0.1030, 0.0973));' +
+'   p += dot(p, p.yxz + 33.33);' +
+'   return fract((p.xxy + p.yxx) * p.zyx);' +
 ' }';
 
-// random cosine-weighted distributed vector
+// Take one point of the sample sequence and shift it by a constant offset
+// belonging to this pixel, wrapping around the unit cube (a Cranley-Patterson
+// rotation). Shifting an evenly spread set of points leaves it evenly spread,
+// so each pixel still walks a well distributed sequence, but no two pixels walk
+// the same one and the leftover noise looks random instead of streaked.
+var sampleCubeSource =
+' vec3 sampleCube(vec3 sequencePoint, float dimension) {' +
+'   return fract(sequencePoint + hash33(vec3(gl_FragCoord.xy, dimension)));' +
+' }';
+
+// cosine-weighted distributed vector for the two given uniform numbers
 // from http://www.rorydriscoll.com/2009/01/07/better-sampling/
 var cosineWeightedDirectionSource =
-' vec3 cosineWeightedDirection(float seed, vec3 normal) {' +
-'   float u = random(vec3(12.9898, 78.233, 151.7182), seed);' +
-'   float v = random(vec3(63.7264, 10.873, 623.6736), seed);' +
-'   float r = sqrt(u);' +
-'   float angle = 6.283185307179586 * v;' +
+' vec3 cosineWeightedDirection(vec2 uv, vec3 normal) {' +
+'   float r = sqrt(uv.x);' +
+'   float angle = 6.283185307179586 * uv.y;' +
     // compute an orthonormal basis from the normal. sdir has to be normalized:
     // cross(normal, axis) is only unit length when the two are perpendicular,
     // so skipping this skews the distribution on any tilted surface.
@@ -289,47 +311,47 @@ var cosineWeightedDirectionSource =
 '     sdir = normalize(cross(normal, vec3(0,1,0)));' +
 '   }' +
 '   tdir = cross(normal, sdir);' +
-'   return r*cos(angle)*sdir + r*sin(angle)*tdir + sqrt(1.-u)*normal;' +
+'   return r*cos(angle)*sdir + r*sin(angle)*tdir + sqrt(1.-uv.x)*normal;' +
 ' }';
 
-// random normalized vector
+// normalized vector spread evenly over the sphere
 var uniformlyRandomDirectionSource =
-' vec3 uniformlyRandomDirection(float seed) {' +
-'   float u = random(vec3(12.9898, 78.233, 151.7182), seed);' +
-'   float v = random(vec3(63.7264, 10.873, 623.6736), seed);' +
-'   float z = 1.0 - 2.0 * u;' +
+' vec3 uniformlyRandomDirection(vec2 uv) {' +
+'   float z = 1.0 - 2.0 * uv.x;' +
 '   float r = sqrt(1.0 - z * z);' +
-'   float angle = 6.283185307179586 * v;' +
+'   float angle = 6.283185307179586 * uv.y;' +
 '   return vec3(r * cos(angle), r * sin(angle), z);' +
 ' }';
 
-// random vector in the unit sphere
+// vector inside the unit sphere, from three uniform numbers
 // note: this is probably not statistically uniform, saw raising to 1/3 power somewhere but that looks wrong?
 var uniformlyRandomVectorSource =
-' vec3 uniformlyRandomVector(float seed) {' +
-'   return uniformlyRandomDirection(seed) * sqrt(random(vec3(36.7539, 50.3658, 306.2759), seed));' +
+' vec3 uniformlyRandomVector(vec3 uvw) {' +
+'   return uniformlyRandomDirection(uvw.xy) * sqrt(uvw.z);' +
 ' }';
 
-// compute specular lighting contribution
+// compute specular lighting contribution. Independent of the outgoing ray, so
+// it stays valid on the last bounce where no outgoing ray is generated.
 var specularReflection =
-' vec3 reflectedLight = normalize(reflect(light - hit, normal));' +
+' vec3 reflectedLight = normalize(reflect(lightPos - hit, normal));' +
 ' specularHighlight = max(0.0, dot(reflectedLight, normalize(hit - origin)));';
 
-// update ray using normal and bounce according to a diffuse reflection
-var newDiffuseRay =
-' ray = cosineWeightedDirection(timeSinceStart + float(bounce), normal);';
+// the highlight a material adds at the hit point, and separately the outgoing
+// ray it scatters into. They are kept apart so that the scattered ray can be
+// skipped on the last bounce, where nothing would ever trace it.
+var materialHighlight = [
+  '',
+  specularReflection + ' specularHighlight = 2.0 * pow(specularHighlight, 20.0);',
+  specularReflection + ' specularHighlight = pow(specularHighlight, 3.0);'
+];
 
-// update ray using normal according to a specular reflection
-var newReflectiveRay =
-' ray = reflect(ray, normal);' +
-  specularReflection +
-' specularHighlight = 2.0 * pow(specularHighlight, 20.0);';
+var diffuseRay = ' ray = cosineWeightedDirection(bounceRandom.xy, normal);';
 
-// update ray using normal and bounce according to a glossy reflection
-var newGlossyRay =
-' ray = normalize(reflect(ray, normal)) + uniformlyRandomVector(timeSinceStart + float(bounce)) * glossiness;' +
-  specularReflection +
-' specularHighlight = pow(specularHighlight, 3.0);';
+var materialRay = [
+  diffuseRay,
+  ' ray = reflect(ray, normal);',
+  ' ray = normalize(reflect(ray, normal)) + uniformlyRandomVector(bounceRandom) * glossiness;'
+];
 
 var yellowBlueCornellBox =
 ' if(hit.x < -0.9999) surfaceColor = vec3(0.1, 0.5, 1.0);' + // blue
@@ -358,13 +380,27 @@ function makeEnvironment() {
 }
 
 function makeCalculateColor(objects) {
+  // the last bounce shades its hit point but nothing ever traces the ray it
+  // would scatter into, so that ray is not generated at all
+  var notLastBounce = ' if(bounce < ' + (bounces - 1).toFixed(0) + ')';
+
   return '' +
-' vec3 calculateColor(vec3 origin, vec3 ray, vec3 light) {' +
+' vec3 calculateColor(vec3 origin, vec3 ray) {' +
 '   vec3 colorMask = vec3(1.0);' +
 '   vec3 accumulatedColor = vec3(0.0);' +
-  
+
     // main raytracing loop
 '   for(int bounce = 0; bounce < ' + bounces.toFixed(0) + '; bounce++) {' +
+      // this bounce's two sample points: one to pick a point on the light, one
+      // to pick the direction the surface scatters into. Every bounce draws
+      // from its own dimensions of the sequence so that the choices stay
+      // independent of each other.
+'     vec3 lightRandom = sampleCube(lightSamples[bounce], float(bounce) * 2.0);' +
+'     vec3 bounceRandom = sampleCube(bounceSamples[bounce], float(bounce) * 2.0 + 1.0);' +
+      // jittering the light position per bounce (rather than once per path)
+      // keeps the soft shadows of successive bounces from sharing an error
+'     vec3 lightPos = light + uniformlyRandomVector(lightRandom) * ' + glFloat(lightSize) + ';' +
+
       // compute the intersection with everything
 '     vec2 tRoom = intersectCube(origin, ray, roomCubeMin, roomCubeMax);' +
       concat(objects, function(o){ return o.getIntersectCode(); }) +
@@ -379,33 +415,45 @@ function makeCalculateColor(objects) {
 '     vec3 surfaceColor = vec3(' + defaultSurfaceColorStr + ');' +
 '     float specularHighlight = 0.0;' +
 '     vec3 normal;' +
+'     bool hitRoom = false;' +
 
       // calculate the normal (and change wall color)
 '     if(t == tRoom.y) {' + // Room walls
 '       normal = -normalForCube(hit, roomCubeMin, roomCubeMax);' +
         makeEnvironment() +
-        newDiffuseRay +
+'       hitRoom = true;' +
 '     } else if(t == ' + infinity + ') {' +
 '       break;' +
 '     } else {' + // Object surfaces
 '       if(false) ;' + // hack to discard the first 'else' in 'else if'
         concat(objects, function(o){ return o.getNormalCalculationCode(); }) +
-        [newDiffuseRay, newReflectiveRay, newGlossyRay][material] +
+        materialHighlight[material] +
 '     }' +
 
       // compute diffuse lighting contribution
-'     vec3 toLight = light - hit;' +
+'     vec3 toLight = lightPos - hit;' +
 '     float diffuse = max(0.0, dot(normalize(toLight), normal));' +
 
-      // trace a shadow ray to the light
-'     float shadowIntensity = shadow(hit + normal * ' + epsilon + ', toLight);' +
+      // trace a shadow ray to the light. Both lighting terms are multiplied by
+      // the result, so when neither can contribute the ray is a whole scene
+      // traversal thrown away: that is about half of all shading points on a
+      // diffuse surface, which face away from the light.
+'     float shadowIntensity = 0.0;' +
+'     if(diffuse > 0.0 || specularHighlight > 0.0) {' +
+'       shadowIntensity = shadow(hit + normal * ' + epsilon + ', toLight);' +
+'     }' +
 
       // do light bounce
 '     colorMask *= surfaceColor;' +
 '     accumulatedColor += colorMask * (' + glFloat(lightVal) + ' * diffuse * shadowIntensity);' +
 '     accumulatedColor += colorMask * specularHighlight * shadowIntensity;' +
 
-      // calculate next origin
+      // scatter into the next ray, and calculate next origin
+'     if(hitRoom) {' + // the room is always diffuse, whatever the objects are
+        notLastBounce + '{' + diffuseRay + '}' +
+'     } else {' +
+        notLastBounce + '{' + materialRay[material] + '}' +
+'     }' +
 '     origin = hit;' +
 '   }' +
 
@@ -416,14 +464,13 @@ function makeCalculateColor(objects) {
 function makeMain() {
   return `
  void main() {
-   vec3 newLight = light + uniformlyRandomVector(timeSinceStart - 53.0) * ${glFloat(lightSize)};
-   vec3 texture = texture2D(texture, gl_FragCoord.xy / vec2(${glFloat(renderWidth)}, ${glFloat(renderHeight)})).rgb;
-   gl_FragColor = vec4(mix(calculateColor(eye, initialRay, newLight), texture, textureWeight), 1.0);
+   vec3 accumulated = texture2D(texture, gl_FragCoord.xy / vec2(${glFloat(renderWidth)}, ${glFloat(renderHeight)})).rgb;
+   gl_FragColor = vec4(mix(calculateColor(eye, initialRay), accumulated, textureWeight), 1.0);
  }`;
 }
 
 function makeTracerFragmentSource(objects) {
-  return tracerFragmentSourceHeader +
+  return makeTracerFragmentSourceHeader() +
   concat(objects, function(o){ return o.getGlobalCode(); }) +
   intersectCubeSource +
   normalForCubeSource +
@@ -433,7 +480,8 @@ function makeTracerFragmentSource(objects) {
   normalForExtrudedRectangleSource +
   intersectSphereSource +
   normalForSphereSource +
-  randomSource +
+  hashSource +
+  sampleCubeSource +
   cosineWeightedDirectionSource +
   uniformlyRandomDirectionSource +
   uniformlyRandomVectorSource +
@@ -449,6 +497,114 @@ function makeTracerFragmentSource(objects) {
 function getEyeRay(matrix, x, y) {
   return matrix.multiply(Vector.create([x, y, 0, 1])).divideByW().ensure3().subtract(eye);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// sample sequence
+////////////////////////////////////////////////////////////////////////////////
+
+// Every random choice a path makes is one coordinate of a point in a unit cube:
+// two dimensions to place the sample inside the pixel, then three to pick a
+// point on the light and three to pick a scattered direction, for each bounce.
+//
+// Drawing those points independently at random is what makes a path tracer
+// grainy, because independent points clump together and leave gaps: the error
+// only falls as 1/sqrt(samples). A low discrepancy sequence spreads its points
+// out deliberately instead, and converges considerably faster for the same
+// number of samples.
+//
+// This is a scrambled Halton sequence: coordinate d of point n is n written in
+// base p_d (the d'th prime) with its digits reflected about the decimal point,
+// which fills [0, 1) evenly for any number of samples. Writing the digits
+// straight out leaves high dimensions marching in lockstep for long stretches
+// (base 127 counts 1/127, 2/127, ... and so does base 131), so the digits are
+// pushed through a fixed random permutation per dimension first, which is what
+// keeps the dimensions independent of each other.
+//
+// The alternative, the golden ratio sequence R2, is cheaper but its per
+// dimension strides crowd together past about eight dimensions, and a path with
+// five bounces needs thirty two of them.
+var SEQUENCE_SEED = 0x9e3779b9;
+
+function sampleArrayLength() {
+  return Math.max(1, bounces);
+}
+
+function firstPrimes(count) {
+  var primes = [];
+  for(var n = 2; primes.length < count; n++) {
+    var prime = true;
+    for(var i = 0; i < primes.length && primes[i] * primes[i] <= n; i++) {
+      if(n % primes[i] == 0) { prime = false; break; }
+    }
+    if(prime) primes.push(n);
+  }
+  return primes;
+}
+
+function makeSampleSequence(dimensions) {
+  var primes = firstPrimes(dimensions);
+  // a fixed seed, so that two runs of the same scene produce the same image
+  var random = SEQUENCE_SEED;
+  function nextRandom() {
+    random = (random * 1664525 + 1013904223) >>> 0;
+    return random / 4294967296;
+  }
+
+  // digit permutation per dimension, leaving 0 in place so that the sequence
+  // still starts at the origin of each stratum
+  var permutations = [];
+  for(var d = 0; d < dimensions; d++) {
+    var base = primes[d];
+    var permutation = new Int32Array(base);
+    for(var i = 0; i < base; i++) permutation[i] = i;
+    for(var i = base - 1; i > 1; i--) {
+      var j = 1 + Math.floor(nextRandom() * i);
+      var swap = permutation[i]; permutation[i] = permutation[j]; permutation[j] = swap;
+    }
+    permutations.push(permutation);
+  }
+
+  // computed in double precision, so that the index can grow into the millions
+  // before the sequence loses resolution. A float32 shader could not do this.
+  return function(index, out) {
+    var n = index + 1; // point 0 of a Halton sequence is the origin
+    for(var d = 0; d < dimensions; d++) {
+      var base = primes[d];
+      var permutation = permutations[d];
+      var value = 0;
+      var scale = 1 / base;
+      for(var rest = n; rest > 0; rest = Math.floor(rest / base)) {
+        value += permutation[rest % base] * scale;
+        scale /= base;
+      }
+      out[d] = value;
+    }
+  };
+}
+
+// Holds one sample's worth of coordinates, in the layout the shader wants:
+// a pixel offset, plus a light point and a scatter direction per bounce.
+function SamplePoint() {
+  this.dimensions = 2 + 6 * sampleArrayLength();
+  this.sequence = makeSampleSequence(this.dimensions);
+  this.values = new Float64Array(this.dimensions);
+  this.pixel = [0, 0];
+  this.lights = new Float32Array(3 * sampleArrayLength());
+  this.bounces = new Float32Array(3 * sampleArrayLength());
+}
+
+SamplePoint.prototype.set = function(index) {
+  this.sequence(index, this.values);
+  this.pixel[0] = this.values[0];
+  this.pixel[1] = this.values[1];
+  for(var b = 0; b < bounces; b++) {
+    var base = 2 + 6 * b;
+    for(var d = 0; d < 3; d++) {
+      this.lights[b * 3 + d] = this.values[base + d];
+      this.bounces[b * 3 + d] = this.values[base + 3 + d];
+    }
+  }
+};
 
 // scratch buffer reused for every matrix upload so that the render loop does
 // not allocate a new typed array on every frame
@@ -469,6 +625,12 @@ function setUniforms(program, uniforms) {
     if(value instanceof Vector) {
       var elements = value.elements;
       gl.uniform3f(location, elements[0], elements[1], elements[2]);
+    } else if(value instanceof Float32Array) {
+      // an array of vec3, uploaded in one call. The name has to be the first
+      // element of the array ('lightSamples[0]') for the location to be found.
+      gl.uniform3fv(location, value);
+    } else if(Array.isArray(value)) {
+      gl.uniform3f(location, value[0], value[1], value[2]);
     } else if(value instanceof Matrix) {
       var flattened = value.flatten();
       for(var i = 0; i < 16; i++) {
@@ -1108,6 +1270,18 @@ function PathTracer() {
   this.objects = [];
   this.sampleCount = 0;
   this.tracerProgram = null;
+  this.samplePoint = new SamplePoint();
+  // uniforms that change from one sample to the next, kept apart from the scene
+  // uniforms so that a frame worth of samples only re-uploads what moved
+  this.sampleUniforms = {
+    ray00: [0, 0, 0],
+    ray01: [0, 0, 0],
+    ray10: [0, 0, 0],
+    ray11: [0, 0, 0],
+    textureWeight: 0,
+    'lightSamples[0]': this.samplePoint.lights,
+    'bounceSamples[0]': this.samplePoint.bounces
+  };
 }
 
 PathTracer.prototype.allocateTextures = function() {
@@ -1143,31 +1317,40 @@ PathTracer.prototype.setObjects = function(objects) {
   this.uniforms = {};
   this.sampleCount = 0;
   this.objects = objects;
+
+  // the shader declares its sample arrays with the current bounce count, so the
+  // buffers feeding them have to be rebuilt alongside it
+  this.samplePoint = new SamplePoint();
+  this.sampleUniforms['lightSamples[0]'] = this.samplePoint.lights;
+  this.sampleUniforms['bounceSamples[0]'] = this.samplePoint.bounces;
 };
 
-PathTracer.prototype.update = function(matrix, timeSinceStart) {
-  // calculate uniforms
+// Multiply the inverse modelview projection by (x, y, 0, 1), divide through by
+// w and subtract the eye. This is getEyeRay() without Sylvester: it runs four
+// times for every sample rather than once a frame now, and the generic matrix
+// code allocates half a dozen objects per call.
+function eyeRayInto(rows, x, y, out) {
+  var w = rows[3][0] * x + rows[3][1] * y + rows[3][3];
+  var eyeElements = eye.elements;
+  for(var i = 0; i < 3; i++) {
+    out[i] = (rows[i][0] * x + rows[i][1] * y + rows[i][3]) / w - eyeElements[i];
+  }
+}
+
+// Uniforms that hold still for a whole frame: the scene, the camera and the
+// material settings. Uploaded once, then left alone while the samples run.
+PathTracer.prototype.beginFrame = function() {
   for(var i = 0; i < this.objects.length; i++) {
     this.objects[i].setUniforms(this);
   }
   this.uniforms.eye = eye;
   this.uniforms.glossiness = glossiness;
-  this.uniforms.ray00 = getEyeRay(matrix, -1, -1);
-  this.uniforms.ray01 = getEyeRay(matrix, -1, +1);
-  this.uniforms.ray10 = getEyeRay(matrix, +1, -1);
-  this.uniforms.ray11 = getEyeRay(matrix, +1, +1);
-  // the seed only has to be different every frame, not monotonic. Letting it
-  // grow without bound eventually starves sin() of precision and the noise
-  // pattern freezes into visible banding during a long render.
-  this.uniforms.timeSinceStart = timeSinceStart % 1024;
-  this.uniforms.textureWeight = this.sampleCount / (this.sampleCount + 1);
 
-  // set uniforms
   gl.useProgram(this.tracerProgram);
   setUniforms(this.tracerProgram, this.uniforms);
 
-  // render to texture
   gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
+  gl.vertexAttribPointer(this.tracerVertexAttribute, 2, gl.FLOAT, false, 0, 0);
   gl.bindFramebuffer(gl.FRAMEBUFFER, this.framebuffer);
   gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.textures[1], 0);
   if (this.textureFormat.float && gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) {
@@ -1175,16 +1358,51 @@ PathTracer.prototype.update = function(matrix, timeSinceStart) {
     // fail once a real sized attachment is used. Fall back to fixed point.
     this.textureFormat = byteTextureFormat();
     this.allocateTextures();
-    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.textures[1], 0);
   }
-  gl.bindTexture(gl.TEXTURE_2D, this.textures[0]);
-  gl.vertexAttribPointer(this.tracerVertexAttribute, 2, gl.FLOAT, false, 0, 0);
-  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+};
+
+PathTracer.prototype.endFrame = function() {
   gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+};
+
+// Accumulate one more sample into the running average. `inverse` is the
+// inverted modelview projection of the frame; the sub pixel offset that
+// antialiases the image is applied to the corners of the view instead of to
+// that matrix, so the matrix only has to be inverted once per frame.
+PathTracer.prototype.sample = function(inverse) {
+  var point = this.samplePoint;
+  point.set(this.sampleCount);
+
+  // one pixel wide box filter on each axis, so that non square canvases are
+  // not stretched. The offsets come out of the same sequence as everything
+  // else, which makes the edges settle down much faster than random jitter.
+  var dx = (point.pixel[0] * 2 - 1) / renderWidth;
+  var dy = (point.pixel[1] * 2 - 1) / renderHeight;
+
+  var uniforms = this.sampleUniforms;
+  eyeRayInto(inverse, -1 - dx, -1 - dy, uniforms.ray00);
+  eyeRayInto(inverse, -1 - dx, +1 - dy, uniforms.ray01);
+  eyeRayInto(inverse, +1 - dx, -1 - dy, uniforms.ray10);
+  eyeRayInto(inverse, +1 - dx, +1 - dy, uniforms.ray11);
+  uniforms.textureWeight = this.sampleCount / (this.sampleCount + 1);
+  setUniforms(this.tracerProgram, uniforms);
+
+  // render to texture
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.textures[1], 0);
+  gl.bindTexture(gl.TEXTURE_2D, this.textures[0]);
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
   // ping pong textures
   this.textures.reverse();
   this.sampleCount++;
+};
+
+PathTracer.prototype.update = function(inverse, samples) {
+  this.beginFrame();
+  for(var i = 0; i < samples; i++) {
+    this.sample(inverse);
+  }
+  this.endFrame();
 };
 
 PathTracer.prototype.render = function() {
@@ -1253,18 +1471,10 @@ Renderer.prototype.setObjects = function(objects) {
   this.pathTracer.setObjects(objects);
 };
 
-Renderer.prototype.update = function(modelviewProjection, timeSinceStart) {
+Renderer.prototype.update = function(modelviewProjection, samples) {
   if(!this.paused) {
-    // sub pixel jitter for antialiasing, one pixel wide on each axis so that
-    // non square canvases are not stretched
-    var jitter = Matrix.Translation(Vector.create([
-      (Math.random() * 2 - 1) / renderWidth,
-      (Math.random() * 2 - 1) / renderHeight,
-      0
-    ]));
-    var inverse = jitter.multiply(modelviewProjection).inverse();
     this.modelviewProjection = modelviewProjection;
-    this.pathTracer.update(inverse, timeSinceStart);
+    this.pathTracer.update(modelviewProjection.inverse().elements, samples);
   }
 };
 
@@ -1316,13 +1526,13 @@ UI.prototype.setObjects = function(objects) {
   this.renderer.setObjects(this.objects);
 };
 
-UI.prototype.update = function(timeSinceStart) {
+UI.prototype.update = function(samples) {
   this.modelview = makeLookAt(eye.elements[0], eye.elements[1], eye.elements[2], 0, 0, 0, 0, 1, 0);
   this.projection = makePerspective(fov, canvasWidth/canvasHeight, 0.1, 100);
   this.modelviewProjection = this.projection.multiply(this.modelview);
   // cached so that picking and dragging do not invert a 4x4 matrix per event
   this.modelviewProjectionInverse = this.modelviewProjection.inverse();
-  this.renderer.update(this.modelviewProjection, timeSinceStart);
+  this.renderer.update(this.modelviewProjection, samples === undefined ? 1 : samples);
 };
 
 // convert a position in canvas pixels into a ray leaving the eye. Returns null
@@ -1514,18 +1724,89 @@ let canvasHeight;
 let renderWidth;
 let renderHeight;
 
-let start;
 let previousTimeStamp;
 let animationFrame;
+
+////////////////////////////////////////////////////////////////////////////////
+// frame budget
+////////////////////////////////////////////////////////////////////////////////
+
+// Accumulating exactly one sample per animation frame caps the path tracer at
+// the refresh rate however fast the hardware is, and a sample of a modest scene
+// takes a fraction of a frame on any recent GPU: the rest of the frame is spent
+// waiting for the next vsync. Instead, accumulate as many samples per frame as
+// fit in a frame's worth of time, measured from how long the frames actually
+// take. On hardware that was already saturated this settles back at one sample
+// per frame and behaves as it did before.
+
+// how much of a 60fps frame to spend tracing, leaving the rest of it to the
+// browser and to the page around the canvas
+const sampleBudgetMs = 13;
+const maxSamplesPerFrame = 64;
+let samplesPerFrame = 1;
+// null means adapt, a number pins the count (config.samplesPerFrame)
+let fixedSamplesPerFrame = null;
+// running estimate of what one sample costs, seeded pessimistically so that the
+// renderer starts at one sample a frame and grows into whatever time is free
+let msPerSample = sampleBudgetMs;
+
+// Wait for the frame's drawing to actually happen before timing it. WebGL calls
+// only queue work: left alone, the browser keeps calling requestAnimationFrame
+// at the refresh rate while the driver falls further and further behind, and
+// every frame looks like a comfortable 60fps no matter how much work is
+// outstanding, which is exactly the wrong signal to size the sample budget
+// from. gl.finish() is meant to do this and is a bare flush on several drivers;
+// reading a pixel has to return real data, so it cannot be skipped. This costs
+// the overlap between preparing one frame and drawing the previous one, well
+// under a millisecond against a frame of tracing.
+const syncPixel = new Uint8Array(4);
+
+function waitForFrame() {
+  gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, syncPixel);
+}
+
+function resetFrameBudget() {
+  samplesPerFrame = fixedSamplesPerFrame === null ? 1 : fixedSamplesPerFrame;
+  msPerSample = sampleBudgetMs;
+}
+
+// `workMs` is how long this frame's `samples` samples took, measured across the
+// wait at the end of them, so it is real elapsed drawing time and not just how
+// fast the commands were queued. Note that it also carries the fixed cost of
+// that wait, which is why the count is grown until the budget is exceeded
+// rather than divided out of the measurement directly: a per frame overhead
+// divided by one sample looks like an expensive sample and would keep the
+// count pinned at one forever.
+function updateFrameBudget(workMs, samples) {
+  if(fixedSamplesPerFrame !== null) {
+    samplesPerFrame = fixedSamplesPerFrame;
+    return;
+  }
+  if(!(workMs > 0)) return;
+
+  if(workMs > sampleBudgetMs) {
+    // Over budget, which finally puts a number on what a sample costs. Take it
+    // at once rather than averaging it in, so that a scene which just got
+    // heavier cannot spend several slow frames walking back down. Halving is
+    // the floor on how far the estimate may drop in one step, so a hitch
+    // elsewhere on the page cannot collapse the budget either.
+    msPerSample = Math.max(workMs / samples, msPerSample * 0.5);
+  } else {
+    // Under budget, but that only says a sample costs at most this much, never
+    // how much of the frame was left over: assume a little more room each time
+    // and let the branch above catch the overshoot. Going over the budget is
+    // not the same as dropping a frame, the budget leaves room to spare, so the
+    // few percent this oscillates by stays invisible.
+    msPerSample *= 0.92;
+  }
+  samplesPerFrame = Math.max(1, Math.min(maxSamplesPerFrame, Math.floor(sampleBudgetMs / msPerSample)));
+}
 
 function tick(timeStamp) {
   // always queue the next frame first: bailing out early used to stop the
   // render loop for good instead of just skipping a frame
   animationFrame = window.requestAnimationFrame(tick);
 
-  if (start === undefined) {
-    start = timeStamp;
-  }
   if (previousTimeStamp === timeStamp) {
     return;
   }
@@ -1541,8 +1822,12 @@ function tick(timeStamp) {
   eye.elements[1] = zoomZ * Math.sin(angleX);
   eye.elements[2] = zoomZ * Math.cos(angleY) * Math.cos(angleX);
 
-  ui.update((timeStamp - start) * 0.001);
+  var samples = samplesPerFrame;
+  var startedAt = performance.now();
+  ui.update(samples);
   ui.render();
+  waitForFrame();
+  updateFrameBudget(performance.now() - startedAt, samples);
 }
 
 // none of these buffers are ever read back or blended with the page, and the
@@ -1578,7 +1863,7 @@ function createContext(canvas) {
  * Initialize the path tracer on the given canvas
  * @param {HTMLCanvasElement} canvas - Canvas to render to
  * @param {Object[]} objects - Array of Sphere, Cube and ExtrudedRectangle objects
- * @param {Object} [config] - Specify: material, glossiness (0-1), environment, bounces (light bounces per ray), zoom (in distance from center), fov (field of view, in degrees), lightPosition ([x,y,z]), lightSize, lightVal (0-1)
+ * @param {Object} [config] - Specify: material, glossiness (0-1), environment, bounces (light bounces per ray), zoom (in distance from center), fov (field of view, in degrees), lightPosition ([x,y,z]), lightSize, lightVal (0-1), samplesPerFrame (samples accumulated per animation frame, adaptive by default)
  * @param {bool} [interactive=true] - if the user should be able to interact with the scene
  * @param {function} [log] - a function to print log messages to, defaults to console.log
  * @returns {UI}
@@ -1606,6 +1891,14 @@ function makePathTracer(canvas, objects, config = {}, interactive = true, log) {
   if(config.lightVal !== undefined) {
     lightVal = config.lightVal;
   }
+  // how many samples to accumulate per animation frame. Left alone the
+  // renderer measures the frame time and picks the largest count that still
+  // holds the refresh rate; a number pins it, which is what a benchmark or a
+  // deliberately light background animation wants.
+  fixedSamplesPerFrame = null;
+  if(typeof config.samplesPerFrame === 'number') {
+    fixedSamplesPerFrame = Math.max(1, Math.round(config.samplesPerFrame));
+  }
 
   log = log || console.log;
 
@@ -1616,8 +1909,8 @@ function makePathTracer(canvas, objects, config = {}, interactive = true, log) {
     animationFrame = undefined;
   }
   ui = undefined;
-  start = undefined;
   previousTimeStamp = undefined;
+  resetFrameBudget();
 
   gl = createContext(canvas);
 
