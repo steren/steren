@@ -10,15 +10,8 @@ const opacityTransition = '0.5s';
 // Pause the renderer after this period of inactivity (in ms).
 const pauseAfter = 10 * 1000;
 
-// Camera. The field of view and this zoom, the distance of the camera to the scene, are
-// picked so that a square canvas frames exactly [-1, 1] on both axes.
-const squareZoom = 76;
-const fov = 1.5;
-
 const lightElevation = 1.5;
-// Light position, normalized between -1 and 1 within the background element.
-// Scaled to the extent of the scene to get scene coordinates.
-const defaultLightPosition = [0.75, 0.75, lightElevation];
+const lightPosition = [0.75, 0.75, 1.5];
 const lightSize = 0.75;
 const lightValLightMode = 0.6;
 const lightValDarkMode = 0.15;
@@ -37,96 +30,31 @@ const borderRadiusProperties = [
 
 const rtxGreen = '#76b900';
 
-// Largest dimension of the canvas, in pixels. Bigger elements are rendered into a
-// smaller canvas that CSS scales back up.
 // TODO: adjust this based some hardware capabilities?
 // navigator.deviceMemory
 // GPUSupportedLimits ?
 const maxSize = 2048;
-// Sides of the drawing buffer are rounded up to a ladder of sizes with this many steps per
-// doubling, so that resizing only rebuilds the path tracer when a side crosses a step instead
-// of on every pixel. The canvas is stretched back to the exact size of the element, so a
-// buffer whose proportions are off by a step stretches the image by as much: more steps means
-// a more faithful image, fewer steps means fewer rebuilds.
-const sizeStepsPerDoubling = 8;
-// The drawing buffer covers the element at this many pixels per CSS pixel. Tracing cost grows
-// with the square of it, and what is being drawn is a soft shadow rather than fine detail, so
-// it stays at one rather than following the pixel density of the screen: on a high density
-// screen the buffer is stretched over more device pixels, which is hard to notice on a
-// gradient and much cheaper to trace.
-const pixelRatio = 1;
 
 let initialized = false;
-let enabled = false;
 let backgroundElement;
 let backgroundCanvas;
 let raisedElements = [];
 let ui;
-let lightVal;
-let lightPosition = [...defaultLightPosition];
 let pauseTimer;
 
 /**
- * Round a size up to the next step of the ladder of drawing buffer sizes.
- * @param {number} size in pixels
- * @returns {number} rounded size, in whole pixels
+ * Round a size up to the closest power of two.
+ * Sizes come from getBoundingClientRect() and can be fractional: the fractional part is
+ * dropped, as a canvas can only be an integer number of pixels wide.
+ * @param {number} size
+ * @returns {number} a power of two
  */
-function bucketSize(size) {
-  const steps = Math.ceil(Math.log2(Math.max(1, size)) * sizeStepsPerDoubling);
-
-  return Math.ceil(2 ** (steps / sizeStepsPerDoubling));
-}
-
-/**
- * Size of the canvas drawing buffer for a background element of the given size.
- * The path tracer renders at any canvas size, so the buffer covers the element at pixelRatio,
- * rounded up to the next step of the ladder and never above maxSize.
- * Sizes come from getBoundingClientRect() and can be fractional: a canvas can only be an
- * integer number of pixels wide.
- * @param {DOMRect} rect size of the background element
- * @returns {{width: number, height: number}} size of the drawing buffer, in pixels
- */
-function canvasSize({ width, height }) {
-  const scale = Math.min(pixelRatio, maxSize / Math.max(width, height));
-
-  return {
-    width: Math.min(maxSize, bucketSize(width * scale)),
-    height: Math.min(maxSize, bucketSize(height * scale)),
-  };
-}
-
-/**
- * How much of the scene the canvas frames, and the matching camera zoom.
- * The path tracer keeps the vertical field of view of its camera and widens the horizontal one
- * to match the aspect ratio of the drawing buffer, and it renders inside a room, a cube
- * spanning [-1, 1] on every axis. So the scene is normalized to [-1, 1] along the largest side
- * of the buffer, to keep it within the room, and the camera is moved closer by as much so that
- * the scene still fills the canvas. This has to follow the drawing buffer rather than the
- * element: the two only have the same proportions until the buffer is rounded up to a step.
- * @param {HTMLCanvasElement} canvas
- * @returns {{halfWidth: number, halfHeight: number, zoom: number}} half extent of the scene, and camera zoom
- */
-function sceneExtent({ width, height }) {
-  const aspect = height > 0 ? width / height : 1;
-  const scale = Math.max(1, aspect);
-
-  return {
-    halfWidth: aspect / scale,
-    halfHeight: 1 / scale,
-    zoom: squareZoom / scale,
-  };
-}
-
-/**
- * Position of the light in scene coordinates.
- * @param {HTMLCanvasElement} canvas
- * @returns {number[]} [x, y, z]
- */
-function sceneLightPosition(canvas) {
-  const { halfWidth, halfHeight } = sceneExtent(canvas);
-  const [x, y, z] = lightPosition;
-
-  return [x * halfWidth, y * halfHeight, z];
+function closestPowerOfTwo(size) {
+  const pixels = Math.floor(size);
+  if (pixels <= 1) {
+    return 1;
+  }
+  return 2 ** Math.ceil(Math.log2(pixels));
 }
 
 /**
@@ -239,18 +167,16 @@ function restoreStyle(element) {
 }
 
 /**
- * Build the scene: the background plane, plus one cube per raised element.
+ * Build the scene: the background plane, plus one box per raised element.
  * @param {HTMLElement} background
  * @param {Iterable<HTMLElement>} elements raised elements
- * @returns {Cube[]} the objects of the scene
+ * @returns {Array<Cube|ExtrudedRectangle>} the objects of the scene
  */
 function makeScene(background, elements) {
   const backgroundRect = background.getBoundingClientRect();
-  // the scene is framed by the canvas, and the element is mapped onto that frame below
-  const { halfWidth, halfHeight } = sceneExtent(backgroundCanvas);
   let nextObjectId = 0;
 
-  // Background element, covering the entire floor of the room.
+  // Background element.
   // For now, always make it white, for a better effect.
   // TODO: Retain the hue
   const objects = [
@@ -262,13 +188,16 @@ function makeScene(background, elements) {
     ),
   ];
 
-  // Viewport coordinates, normalized to the extent of the scene within the background element.
+  // Viewport coordinates, normalized between -1 and 1 within the background element.
   // TODO: should we also handle scroll position?
-  const toSceneX = (x) => halfWidth * ((2 * (x - backgroundRect.left)) / backgroundRect.width - 1);
-  const toSceneY = (y) => halfHeight * (1 - (2 * (y - backgroundRect.top)) / backgroundRect.height);
-  // Lengths keep their proportions: the scene is normalized by the same factor on both axes.
-  const toSceneLength = (length) => (backgroundRect.height > 0
-    ? (2 * halfHeight * length) / backgroundRect.height
+  const toSceneX = (x) => (2 * (x - backgroundRect.left)) / backgroundRect.width - 1;
+  const toSceneY = (y) => 1 - (2 * (y - backgroundRect.top)) / backgroundRect.height;
+  // Each axis is normalized by its own side of the element, so a pixel is worth a different
+  // scene length along x and y unless the element is square. A corner radius is a single
+  // number, so it converts with the geometric mean of the two, which splits the difference:
+  // on a wide element the rendered corners come out a little taller than they are wide.
+  const toSceneLength = (length) => (backgroundRect.width > 0 && backgroundRect.height > 0
+    ? (2 * length) / Math.sqrt(backgroundRect.width * backgroundRect.height)
     : 0);
 
   for (const element of elements) {
@@ -314,17 +243,13 @@ function styleCanvas(canvas, element, startDisplayed = false) {
   const rect = element.getBoundingClientRect();
   const { borderTopWidth, borderLeftWidth } = window.getComputedStyle(element);
 
-  // the canvas can be of any size, so give it the size of the element it covers
-  const { width, height } = canvasSize(rect);
+  // canvas must be square and of power of two
+  // use the element largest width / height and round it up to the next power of two
+  const size = Math.min(closestPowerOfTwo(Math.max(rect.width, rect.height)), maxSize);
 
   canvas.inert = true;
-  // only assign when the size actually changes: assigning resets the drawing buffer
-  if (canvas.width !== width) {
-    canvas.width = width;
-  }
-  if (canvas.height !== height) {
-    canvas.height = height;
-  }
+  canvas.width = size;
+  canvas.height = size;
 
   Object.assign(canvas.style, {
     position: 'absolute',
@@ -353,82 +278,17 @@ function schedulePause() {
 }
 
 /**
- * Start the path tracer on the current canvas.
- */
-function startPathTracer() {
-  const config = {
-    zoom: sceneExtent(backgroundCanvas).zoom,
-    fov,
-    lightPosition: sceneLightPosition(backgroundCanvas),
-    lightSize,
-    lightVal,
-  };
-
-  ui = makePathTracer(backgroundCanvas, makeScene(backgroundElement, raisedElements), config, false);
-  schedulePause();
-}
-
-/**
- * The WebGL context a canvas was initialized with, or null if it has none.
- * @param {HTMLCanvasElement} canvas
- * @returns {?WebGLRenderingContext}
- */
-function canvasContext(canvas) {
-  // getContext() returns the context the canvas already has, and null for the types it was
-  // not initialized with, so this never creates one
-  for (const type of ['webgl2', 'webgl', 'experimental-webgl']) {
-    const gl = canvas.getContext(type);
-    if (gl) {
-      return gl;
-    }
-  }
-  return null;
-}
-
-/**
- * Restart the path tracer after the drawing buffer was resized.
- * The renderer bakes the size of the buffer into its shaders and its accumulation textures,
- * and neither can be resized, so it has to be built again. It is rebuilt on the same canvas:
- * makePathTracer() reads the new size off it and reuses its WebGL context, which is by far
- * the most expensive thing to create.
- */
-function restartPathTracer() {
-  startPathTracer();
-
-  // the viewport of a context is only ever set when the context is created, so it still
-  // covers the previous size of the drawing buffer
-  canvasContext(backgroundCanvas)?.viewport(0, 0, backgroundCanvas.width, backgroundCanvas.height);
-}
-
-/**
  * Rebuild and render the scene, for example after the page was resized.
  */
 function reset() {
-  const { width, height } = canvasSize(backgroundElement.getBoundingClientRect());
-  const resized = width !== backgroundCanvas.width || height !== backgroundCanvas.height;
-
-  // the canvas has to carry its new size before the path tracer reads it back
+  ui.setObjects(makeScene(backgroundElement, raisedElements));
+  ui.renderer.resume();
   styleCanvas(backgroundCanvas, backgroundElement, true);
-
-  if (resized) {
-    restartPathTracer();
-  } else {
-    // the buffer still fits, so only the scene has to be rebuilt, which is much cheaper
-    ui.setObjects(makeScene(backgroundElement, raisedElements));
-  }
-
-  if (enabled) {
-    ui.renderer.resume();
-  } else {
-    ui.renderer.pause();
-  }
   schedulePause();
 }
 
 /**
  * Rebuild the scene when the background element or any raised element is resized.
- * Rebuilding is immediate, so that the effect follows the layout: a ResizeObserver already
- * reports at most once per animation frame, however many changes went into that frame.
  */
 function observeResize() {
   const resizeObserver = new ResizeObserver(reset);
@@ -453,9 +313,7 @@ function enableMoveLightOnClick() {
     const x = (2 * (event.clientX - rect.left)) / rect.width - 1;
     const y = 1 - (2 * (event.clientY - rect.top)) / rect.height;
 
-    // stored normalized, so that the light stays under the cursor when the page is resized
-    lightPosition = [x, y, lightElevation];
-    ui.setLightPosition(sceneLightPosition(backgroundCanvas));
+    ui.setLightPosition([x, y, lightElevation]);
     reset();
   });
 }
@@ -507,7 +365,7 @@ function initRTX({ background, raised, disableIfDarkMode = false, forceLightMode
     console.warn('Not applying RTX, user has dark mode enabled.');
     return false;
   }
-  lightVal = darkMode && !forceLightMode ? lightValDarkMode : lightValLightMode;
+  const lightVal = darkMode && !forceLightMode ? lightValDarkMode : lightValLightMode;
 
   if (background) {
     backgroundElement = background;
@@ -525,10 +383,7 @@ function initRTX({ background, raised, disableIfDarkMode = false, forceLightMode
 
   raisedElements = raised ?? getBoxShadowDescendants(backgroundElement);
 
-  // The canvas can be of any size, but the height of the raised elements and the elevation of
-  // the light are fixed in scene units, and the scene shrinks along the smallest side of the
-  // background element: extreme aspect ratios would make the elements look like towers.
-  // So if height is more than 3x width or width is more than 3x height, skip
+  // if height is more than 3x width or width is more than 3x height, skip
   const { width, height } = backgroundElement.getBoundingClientRect();
   if (height > width * 3 || width > height * 3) {
     console.warn(`Not applying RTX, background element is too wide or too tall. height: ${height}, width: ${width}`);
@@ -542,7 +397,17 @@ function initRTX({ background, raised, disableIfDarkMode = false, forceLightMode
   styleCanvas(backgroundCanvas, backgroundElement);
   backgroundElement.appendChild(backgroundCanvas);
 
-  startPathTracer();
+  const config = {
+    zoom: 76,
+    fov: 1.5,
+    lightPosition,
+    lightSize,
+    lightVal,
+  };
+
+  ui = makePathTracer(backgroundCanvas, makeScene(backgroundElement, raisedElements), config, false);
+
+  schedulePause();
   backgroundCanvas.style.opacity = '1';
 
   observeResize();
@@ -571,7 +436,6 @@ function on(options) {
     ui.renderer.resume();
     backgroundCanvas.style.opacity = '1';
   }
-  enabled = true;
 
   // remove drop shadow and background color from elements, store them in data attributes
   for (const element of [...raisedElements, backgroundElement]) {
@@ -587,8 +451,6 @@ function off() {
   if (!initialized) {
     return;
   }
-
-  enabled = false;
 
   // hide canvas
   backgroundCanvas.style.opacity = '0';
