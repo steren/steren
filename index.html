@@ -192,13 +192,10 @@
     }
 
     #intro {
-      display: flex;
-      margin-inline: 1em;
-
-      .card {
-        width: 400px;
-        margin-inline: auto;
-      }
+      /* a centered 400px column, keeping the card gutter when the viewport is
+         narrower than that (margin-inline: auto replaces the .card margin) */
+      max-width: min(400px, 100% - 2rem);
+      margin-inline: auto;
 
       h1 {
         text-align: center;
@@ -219,14 +216,8 @@
       list-style: none;
 
       li {
-        /* only featured works are shown */
-        display: none;
         width: 400px;
         margin-inline: 1rem;
-
-        &[data-featured="true"] {
-          display: block;
-        }
 
         &:hover {
           background-color: light-dark(#DDDDDD, rgb(255 255 255 / 7%));
@@ -290,19 +281,17 @@
 
 <body>
   <main>
-    <section id="intro">
-      <div class="card">
-        <img class="logo avatar" src="img/avatar.webp" alt="Steren's profile picture">
-        <h1>Steren Giannini</h1>
-        <p class="bio">
-          I am an engineer turned Product Manager.
-          <br>
-          I started and lead <a href="https://cloud.google.com/run" target="_blank" rel="noopener">Google Cloud Run</a>.
-          <br>
-          <br>
-          I <a href="https://twitter.com/steren" target="_blank" rel="noopener">tweet</a>, <a href="https://talks.steren.fr" target="_blank" rel="noopener">talk</a>, <a href="https://labs.steren.fr" target="_blank" rel="noopener">experiment</a>, <a href="https://blog.steren.fr" target="_blank" rel="noopener">blog</a>, and build:
-        </p>
-      </div>
+    <section id="intro" class="card">
+      <img class="logo avatar" src="img/avatar.webp" alt="Steren's profile picture">
+      <h1>Steren Giannini</h1>
+      <p class="bio">
+        I am an engineer turned Product Manager.
+        <br>
+        I started and lead <a href="https://cloud.google.com/run" target="_blank" rel="noopener">Google Cloud Run</a>.
+        <br>
+        <br>
+        I <a href="https://twitter.com/steren" target="_blank" rel="noopener">tweet</a>, <a href="https://talks.steren.fr" target="_blank" rel="noopener">talk</a>, <a href="https://labs.steren.fr" target="_blank" rel="noopener">experiment</a>, <a href="https://blog.steren.fr" target="_blank" rel="noopener">blog</a>, and build:
+      </p>
     </section>
 
     <section id="works">
@@ -336,39 +325,11 @@
             <p>Multi-device application platform.</p>
           </a>
         </li>
-        <li class="card" data-id="sketchfab" data-featured="false" data-size="4" data-completion="wip" data-seriousness="serious" data-type="code" data-participation="contribution" data-category="startup" data-date="2013">
-          <a href="https://sketchfab.com/" title="Sketchfab website" target="_blank" rel="noopener">
-            <img class="logo" data-src="img/logos/sketchfab.svg" alt="Sketchfab logo">
-            <h3>Sketchfab</h3>
-            <p>3D Platform.</p>
-          </a>
-        </li>
-        <li class="card" data-id="hackdayparis" data-featured="false" data-size="5" data-completion="done" data-seriousness="serious" data-type="event" data-participation="lead" data-category="hackathon" data-date="2011">
-          <a href="http://skylar.github.io/hackdayparis/" title="Website" target="_blank" rel="noopener">
-            <img class="image" loading="lazy" src="img/icons/hackdayparis.webp" alt="Hack Day Paris picture">
-            <h3>Hack Day Paris</h3>
-            <p>Organization of Hackathons in Paris.</p>
-          </a>
-        </li>
-        <li class="card" data-id="beansight" data-featured="false" data-size="10" data-completion="done" data-seriousness="serious" data-type="code" data-participation="lead" data-category="web" data-date="2011">
-          <a href="https://github.com/beansight/beansight-website" title="Beansight source code" target="_blank" rel="noopener">
-            <img class="logo" data-src="img/logos/beansight.svg" alt="Beansight logo">
-            <h3>Beansight</h3>
-            <p>Co-founder of a web start-up that predicts the future.</p>
-          </a>
-        </li>
         <li class="card" data-id="cadeaux" data-featured="true" data-size="3" data-completion="wip" data-seriousness="notsoserious" data-type="code" data-participation="lead" data-category="web" data-date="2010">
           <a href="http://www.cadeaux-entre-nous.fr" title="cadeaux-entre-nous.fr" target="_blank" rel="noopener">
             <img class="image full" loading="lazy" src="img/icons/cadeaux.svg" alt="Cadeaux entre nous principle">
             <h3>Cadeaux entre nous</h3>
             <p>Secret Santa website.</p>
-          </a>
-        </li>
-        <li class="card" data-id="remixthem" data-featured="false" data-size="4" data-completion="done" data-seriousness="notsoserious" data-type="code" data-participation="lead" data-category="Android application" data-date="2009">
-          <a href="https://play.google.com/store/apps/details?id=fr.steren.remixthem.market" title="Remixthem on Google Play" target="_blank" rel="noopener">
-            <img class="image" loading="lazy" data-src="img/icons/remixthem.png" alt="RemixThem picture">
-            <h3>RemixThem</h3>
-            <p>Android app to mix and remix faces from pictures.</p>
           </a>
         </li>
         <li class="card" data-id="capoda" data-featured="true" data-size="5" data-completion="done" data-seriousness="serious" data-type="graphic" data-participation="lead" data-category="Animation" data-date="2008">
@@ -377,48 +338,6 @@
             <video class="loop" loading="lazy" autoplay loop muted playsinline src="img/loops/capoda.mp4#t=26" alt="CAPODA movie"></video>
             <h3>CAPODA</h3>
             <p>Animated short movie.</p>
-          </a>
-        </li>
-        <li class="card" data-id="inkscape" data-featured="false" data-size="5" data-completion="done" data-seriousness="serious" data-type="code" data-participation="contribution" data-category="Graphic software" data-date="2008">
-          <a href="http://www.inkscape.org" title="inkscape.org" target="_blank" rel="noopener">
-            <img class="logo" data-src="img/logos/inkscape.svg" alt="Inkscape logo">
-            <h3>Inkscape</h3>
-            <p>Envelope Live Path Effect, Live Path Effects stacking and Live Path Effects for groups of shapes.</p>
-          </a>
-        </li>
-        <li class="card" data-id="chauffeur" data-featured="" data-size="2" data-completion="done" data-seriousness="notsoserious" data-type="graphic" data-participation="lead" data-category="Short movie" data-date="2008">
-          <a href="http://www.youtube.com/watch?v=LXyYy5UiyVE" title="Le Chauffeur a des gants on Youtube" target="_blank" rel="noopener">
-            <img class="image" loading="lazy" data-src="img/icons/chauffeur.png" alt="Le Chauffeur a des gants picture">
-            <h3>Le Chauffeur a des gants</h3>
-            <p>Black and white short movie.</p>
-          </a>
-        </li>
-        <li class="card" data-id="starwarspi" data-featured="" data-size="6" data-completion="done" data-seriousness="notsoserious" data-type="graphic" data-participation="lead" data-category="Short movie" data-date="2005">
-          <a href="https://www.youtube.com/watch?v=H_qpR7ZTvZQ&amp;list=PL901335F3E591DDDF" title="Star Wars : Episode π on Youtube" target="_blank" rel="noopener">
-            <img class="image" loading="lazy" data-src="img/icons/starwarspi.jpg" alt="Star Wars : Episode π picture">
-            <h3>Star Wars: Episode π</h3>
-            <p>A Star Wars fan film.</p>
-          </a>
-        </li>
-        <li class="card" data-id="jambon" data-featured="" data-size="3" data-completion="done" data-seriousness="stupid" data-type="graphic" data-participation="lead" data-category="Short movies" data-date="2008">
-          <a href="http://www.youtube.com/view_play_list?p=1EF78AC82296661C" title="Episodes as a Youtube playlist" target="_blank" rel="noopener">
-            <img class="image" loading="lazy" data-src="img/icons/jambon.png" alt="The Attack Of The Jambon Volant picture">
-            <h3>The Attack Of The Jambon Volant</h3>
-            <p>Absurd american trailer parodies</p>
-          </a>
-        </li>
-        <li class="card" data-id="holytupperware" data-featured="" data-size="3" data-completion="done" data-seriousness="stupid" data-type="graphic" data-participation="lead" data-category="Short movies" data-date="2004">
-          <a href="http://www.youtube.com/view_play_list?p=E144529EA9F01696" title="Episodes as a Youtube playlist" target="_blank" rel="noopener">
-            <img class="image" loading="lazy" data-src="img/icons/holytupperware.png" alt="The Holy Tupperware picture">
-            <h3>The Holy Tupperware</h3>
-            <p></p>
-          </a>
-        </li>
-        <li class="card" data-id="mobileinfantry" data-featured="" data-size="6" data-completion="done" data-seriousness="serious" data-type="graphic" data-participation="contribution" data-category="Half-life Mod" data-date="2002">
-          <a href="http://www.youtube.com/watch?v=1LC1Ud0rVnI" title="Mobile Infantry - Training Camp on Youtube" target="_blank" rel="noopener">
-            <img class="image" loading="lazy" data-src="img/icons/mobileinfantry.png" alt="Mobile Infantry picture">
-            <h3>Mobile Infantry</h3>
-            <p>Level Design for an Half Life modification based on the Starship Troopers universe.</p>
           </a>
         </li>
       </ol>
