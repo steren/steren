@@ -105,6 +105,12 @@
       align-items: center;
       margin-top: 2em;
 
+      /* the links wrap into columns, so the bar grows to fit them */
+      @media (width <= 600px) {
+        height: auto;
+        padding-block: 1.5rem;
+      }
+
       nav {
         font-size: 1.5em;
 
@@ -117,6 +123,14 @@
           align-items: center;
           justify-content: space-between;
           list-style: none;
+
+          /* six links in one row are too cramped on a narrow screen */
+          @media (width <= 600px) {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            justify-items: center;
+            gap: 1rem;
+          }
         }
 
         a, a:visited {
