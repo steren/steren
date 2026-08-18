@@ -85,8 +85,8 @@
       color: light-dark(var(--primary-dark), var(--primary-light));
     }
 
-    /* Page gutters, shared by the header content and the page content */
-    header nav, main {
+    /* Page gutters, shared by the footer content and the page content */
+    footer nav, main {
       width: calc(100% - 2 * 1rem);
       margin-inline: auto;
       padding-inline: 1rem;
@@ -96,14 +96,14 @@
       }
     }
 
-    header {
+    footer {
       color: white;
       background: var(--primary-dark);
-      box-shadow: 0 2px 5px 0 rgb(0 0 0 / 26%);
+      box-shadow: 0 -2px 5px 0 rgb(0 0 0 / 26%);
       height: 6rem;
       display: flex;
       align-items: center;
-      margin-bottom: 2em;
+      margin-top: 2em;
 
       nav {
         font-size: 1.5em;
@@ -122,6 +122,13 @@
         a, a:visited {
           color: white;
         }
+      }
+    }
+
+    /* on desktop, let the page breathe above the first card */
+    @media (width > 600px) {
+      main {
+        padding-block-start: 3rem;
       }
     }
 
@@ -278,7 +285,7 @@
     
     window.onload = function() {
         rtx.on({
-          raised: [...document.querySelectorAll(".card"), ...document.querySelectorAll("header")],
+          raised: [...document.querySelectorAll(".card"), ...document.querySelectorAll("footer")],
           moveLightOnClick: true,
         });
     }
@@ -286,20 +293,6 @@
 </head>
 
 <body>
-  <header>
-    <nav id="links">
-      <ul>
-        <li><a href="http://blog.steren.fr" target="_blank" rel="me">Blog</a></li>
-        <li><a href="http://labs.steren.fr" target="_blank" rel="me">Labs</a></li>
-        <li><a href="http://talks.steren.fr" target="_blank" rel="me">Talks</a></li>
-        <li><a href="https://twitter.com/steren" target="_blank" rel="me">Twitter</a></li>
-        <!-- <li><a href="https://bsky.app/profile/steren.fr" target="_blank" rel="me">Bluesky</a></li> -->
-        <li><a href="https://www.linkedin.com/in/steren" target="_blank" rel="me">LinkedIn</a></li>
-        <li><a href="https://github.com/steren" target="_blank" rel="me">GitHub</a></li>
-      </ul>
-    </nav>
-  </header>
-
   <main>
     <section id="intro">
       <div class="card">
@@ -436,4 +429,18 @@
       </ol>
     </section>
   </main>
+
+  <footer>
+    <nav id="links">
+      <ul>
+        <li><a href="http://blog.steren.fr" target="_blank" rel="me">Blog</a></li>
+        <li><a href="http://labs.steren.fr" target="_blank" rel="me">Labs</a></li>
+        <li><a href="http://talks.steren.fr" target="_blank" rel="me">Talks</a></li>
+        <li><a href="https://twitter.com/steren" target="_blank" rel="me">Twitter</a></li>
+        <!-- <li><a href="https://bsky.app/profile/steren.fr" target="_blank" rel="me">Bluesky</a></li> -->
+        <li><a href="https://www.linkedin.com/in/steren" target="_blank" rel="me">LinkedIn</a></li>
+        <li><a href="https://github.com/steren" target="_blank" rel="me">GitHub</a></li>
+      </ul>
+    </nav>
+  </footer>
 </body></html>
