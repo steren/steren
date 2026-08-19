@@ -1,6 +1,6 @@
 👋 Hi,  
 
-I am [Steren](https://steren.fr), [engineer](https://www.ec-lyon.fr/) turned [Product Manager](https://www.linkedin.com/in/steren).
+I am [Steren](https://steren.fr), engineer turned [Product Manager](https://www.linkedin.com/in/steren).
 I started and lead [Google Cloud Run](https://cloud.google.com/run).
 
 I [tweet](https://twitter.com/steren), [talk](https://talks.steren.fr), [experiment](https://labs.steren.fr), [blog](https://blog.steren.fr), and [build](https://github.com/steren):
