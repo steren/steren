@@ -10,10 +10,19 @@ const opacityTransition = '0.5s';
 // Pause the renderer after this period of inactivity (in ms).
 const pauseAfter = 10 * 1000;
 
-// Camera. The field of view and this zoom, the distance of the camera to the scene, are
-// picked so that a square canvas frames exactly [-1, 1] on both axes.
-const squareZoom = 76;
-const fov = 1.5;
+// Camera. An orthographic one: its rays are parallel, so a raised element covers exactly the
+// rectangle of the page element it stands for, wherever that element sits on the page, and the
+// height it is raised by neither widens it nor turns its sides towards the camera. A
+// perspective camera would only get there in the limit of a very long lens.
+// The distance of the camera to the scene, which an orthographic projection uses to place the
+// plane its rays start from rather than to frame anything: what the camera frames is the
+// height of its view, see sceneExtent().
+const cameraDistance = 2.5;
+
+// How far the backdrop extends past the room. The camera frames the scene right up to the
+// walls along the largest side of the canvas, and a parallel ray landing exactly on the edge
+// of the backdrop would graze its side rather than hit its face, and come back black.
+const backdropMargin = 0.05;
 
 const lightElevation = 1.5;
 // Light position, normalized between -1 and 1 within the background element.
@@ -71,17 +80,16 @@ function canvasSize({ width, height }) {
 }
 
 /**
- * How much of the scene the canvas frames, and the matching camera zoom.
- * The path tracer keeps the vertical field of view of its camera and widens the horizontal one
- * to match the aspect ratio of the drawing buffer, and it renders inside a room, a cube
- * spanning [-1, 1] on every axis. So the scene is normalized to [-1, 1] along the largest side
- * of the buffer, to keep it within the room, and the camera is moved closer by as much so that
- * the scene still fills the canvas.
+ * How much of the scene the canvas frames.
+ * The path tracer takes the height of the view of its orthographic camera and widens it to
+ * match the aspect ratio of the drawing buffer, and it renders inside a room, a cube spanning
+ * [-1, 1] on every axis. So the scene is normalized to [-1, 1] along the largest side of the
+ * buffer, to keep it within the room, and the view is given the height that frames it.
  * This follows the drawing buffer rather than the element: the buffer is given the proportions
  * of the element once, when the effect starts, and keeps them from then on, while the element
  * is free to be resized to any others.
  * @param {HTMLCanvasElement} canvas
- * @returns {{halfWidth: number, halfHeight: number, zoom: number}} half extent of the scene, and camera zoom
+ * @returns {{halfWidth: number, halfHeight: number, viewHeight: number}} half extent of the scene, and height of the camera view
  */
 function sceneExtent({ width, height }) {
   const aspect = height > 0 ? width / height : 1;
@@ -90,7 +98,7 @@ function sceneExtent({ width, height }) {
   return {
     halfWidth: aspect / scale,
     halfHeight: 1 / scale,
-    zoom: squareZoom / scale,
+    viewHeight: 2 / scale,
   };
 }
 
@@ -232,8 +240,8 @@ function makeScene(background, elements) {
   // TODO: Retain the hue
   const objects = [
     new Cube(
-      Vector.create([-1, -1, zBase - 1]),
-      Vector.create([1, 1, zBase]),
+      Vector.create([-1 - backdropMargin, -1 - backdropMargin, zBase - 1]),
+      Vector.create([1 + backdropMargin, 1 + backdropMargin, zBase]),
       nextObjectId++,
       Vector.create([...white]),
     ),
@@ -470,8 +478,9 @@ function initRTX({ background, raised, disableIfDarkMode = false, forceLightMode
   backgroundElement.appendChild(backgroundCanvas);
 
   const config = {
-    zoom: sceneExtent(backgroundCanvas).zoom,
-    fov,
+    projection: 'orthographic',
+    orthoHeight: sceneExtent(backgroundCanvas).viewHeight,
+    zoom: cameraDistance,
     lightPosition: sceneLightPosition(backgroundCanvas),
     lightSize,
     lightVal,
