@@ -1,6 +1,6 @@
 👋 Hi,  
 
-I am Steren, <a href="https://www.ec-lyon.fr/" target="_blank" rel="noopener">engineer</a> turned <a href="https://www.linkedin.com/in/steren" target="_blank" rel="noopener">Product Manager</a>.
+I am <a href="https://steren.fr" target="_blank" rel="noopener">Steren</a>, <a href="https://www.ec-lyon.fr/" target="_blank" rel="noopener">engineer</a> turned <a href="https://www.linkedin.com/in/steren" target="_blank" rel="noopener">Product Manager</a>.
 I started and lead <a href="https://cloud.google.com/run" target="_blank" rel="noopener">Google Cloud Run</a>.
 
 I [tweet](https://twitter.com/steren), [talk](https://talks.steren.fr), [experiment](https://labs.steren.fr), [blog](https://blog.steren.fr), and [build](https://github.com/steren):
