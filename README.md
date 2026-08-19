@@ -1,9 +1,9 @@
 👋 Hi,  
 
-I am Steren, <a href="https://www.ec-lyon.fr/" target="_blank" rel="noopener">engineer</a> turned <a href="https://www.linkedin.com/in/steren" target="_blank" rel="me nofollow">Product Manager</a>.
+I am Steren, <a href="https://www.ec-lyon.fr/" target="_blank" rel="noopener">engineer</a> turned <a href="https://www.linkedin.com/in/steren" target="_blank" rel="noopener">Product Manager</a>.
 I started and lead <a href="https://cloud.google.com/run" target="_blank" rel="noopener">Google Cloud Run</a>.
 
-I <a href="https://twitter.com/steren" target="_blank" rel="me nofollow">tweet</a>, <a href="https://talks.steren.fr" target="_blank" rel="me nofollow">talk</a>, <a href="https://labs.steren.fr" target="_blank" rel="me nofollow">experiment</a>, <a href="https://blog.steren.fr" target="_blank" rel="me nofollow">blog</a>, and <a href="https://github.com/steren" target="_blank" rel="me nofollow">build</a>:
+I [tweet](https://twitter.com/steren), [talk](https://talks.steren.fr), [experiment](https://labs.steren.fr), [blog](https://blog.steren.fr), and [build](https://github.com/steren):
 
 <a href="https://cloud.run"><img src="img/icons/carbon-footprint-screenshot.webp" width="200" height="152"></a>  
 **[Cloud Carbon Footprint](https://cloud.google.com/carbon-footprint)**  
