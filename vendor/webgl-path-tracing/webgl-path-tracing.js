@@ -26,7 +26,7 @@
  OTHER DEALINGS IN THE SOFTWARE.
 */
 
-import {Vector, Matrix, makeLookAt, makePerspective} from './glUtils.js';
+import {Vector, Matrix, makeLookAt, makeOrtho, makePerspective} from './glUtils.js';
 
 ////////////////////////////////////////////////////////////////////////////////
 // shader strings
@@ -81,13 +81,19 @@ function glFloat(value) {
   return /[.eE]/.test(text) ? text : text + '.0';
 }
 
-// vertex shader, interpolate ray per-pixel
+// vertex shader, interpolate the ray per-pixel. Both ends of the ray are
+// interpolated across the image rather than just the direction: a perspective
+// camera starts every ray at the eye and varies the direction, an orthographic
+// camera keeps the direction fixed and varies the origin instead.
 var tracerVertexSource =
 ' attribute vec3 vertex;' +
-' uniform vec3 eye, ray00, ray01, ray10, ray11;' +
+' uniform vec3 origin00, origin01, origin10, origin11;' +
+' uniform vec3 ray00, ray01, ray10, ray11;' +
+' varying vec3 initialOrigin;' +
 ' varying vec3 initialRay;' +
 ' void main() {' +
 '   vec2 percent = vertex.xy * 0.5 + 0.5;' +
+'   initialOrigin = mix(mix(origin00, origin01, percent.y), mix(origin10, origin11, percent.y), percent.x);' +
 '   initialRay = mix(mix(ray00, ray01, percent.y), mix(ray10, ray11, percent.y), percent.x);' +
 '   gl_Position = vec4(vertex, 1.0);' +
 ' }';
@@ -100,7 +106,7 @@ var tracerVertexSource =
 function makeTracerFragmentSourceHeader() {
   return '' +
 ' precision highp float;' +
-' uniform vec3 eye;' +
+' varying vec3 initialOrigin;' +
 ' varying vec3 initialRay;' +
 ' uniform float textureWeight;' +
 ' uniform sampler2D texture;' +
@@ -465,7 +471,7 @@ function makeMain() {
   return `
  void main() {
    vec3 accumulated = texture2D(texture, gl_FragCoord.xy / vec2(${glFloat(renderWidth)}, ${glFloat(renderHeight)})).rgb;
-   gl_FragColor = vec4(mix(calculateColor(eye, initialRay), accumulated, textureWeight), 1.0);
+   gl_FragColor = vec4(mix(calculateColor(initialOrigin, initialRay), accumulated, textureWeight), 1.0);
  }`;
 }
 
@@ -494,8 +500,10 @@ function makeTracerFragmentSource(objects) {
 // utility functions
 ////////////////////////////////////////////////////////////////////////////////
 
-function getEyeRay(matrix, x, y) {
-  return matrix.multiply(Vector.create([x, y, 0, 1])).divideByW().ensure3().subtract(eye);
+// The world space point that (x, y) on the image plane sits at, given an
+// inverted modelview projection.
+function unprojectPoint(matrix, x, y) {
+  return matrix.multiply(Vector.create([x, y, 0, 1])).divideByW().ensure3();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1274,6 +1282,10 @@ function PathTracer() {
   // uniforms that change from one sample to the next, kept apart from the scene
   // uniforms so that a frame worth of samples only re-uploads what moved
   this.sampleUniforms = {
+    origin00: [0, 0, 0],
+    origin01: [0, 0, 0],
+    origin10: [0, 0, 0],
+    origin11: [0, 0, 0],
     ray00: [0, 0, 0],
     ray01: [0, 0, 0],
     ray10: [0, 0, 0],
@@ -1325,15 +1337,26 @@ PathTracer.prototype.setObjects = function(objects) {
   this.sampleUniforms['bounceSamples[0]'] = this.samplePoint.bounces;
 };
 
-// Multiply the inverse modelview projection by (x, y, 0, 1), divide through by
-// w and subtract the eye. This is getEyeRay() without Sylvester: it runs four
-// times for every sample rather than once a frame now, and the generic matrix
-// code allocates half a dozen objects per call.
-function eyeRayInto(rows, x, y, out) {
+// Where one corner of the view starts and which way it points. Multiplying the
+// inverse modelview projection by (x, y, 0, 1) and dividing through by w gives
+// the world space point that corner of the image plane sits at: a perspective
+// camera shoots from the eye through it, an orthographic camera shoots from it
+// along the fixed view direction. This is unprojectPoint() without Sylvester:
+// it runs four times for every sample rather than once a frame, and the
+// generic matrix code allocates half a dozen objects per call.
+function cameraCornerInto(camera, x, y, origin, ray) {
+  var rows = camera.inverse;
   var w = rows[3][0] * x + rows[3][1] * y + rows[3][3];
   var eyeElements = eye.elements;
   for(var i = 0; i < 3; i++) {
-    out[i] = (rows[i][0] * x + rows[i][1] * y + rows[i][3]) / w - eyeElements[i];
+    var point = (rows[i][0] * x + rows[i][1] * y + rows[i][3]) / w;
+    if(camera.orthographic) {
+      origin[i] = point;
+      ray[i] = camera.forward[i];
+    } else {
+      origin[i] = eyeElements[i];
+      ray[i] = point - eyeElements[i];
+    }
   }
 }
 
@@ -1343,7 +1366,6 @@ PathTracer.prototype.beginFrame = function() {
   for(var i = 0; i < this.objects.length; i++) {
     this.objects[i].setUniforms(this);
   }
-  this.uniforms.eye = eye;
   this.uniforms.glossiness = glossiness;
 
   gl.useProgram(this.tracerProgram);
@@ -1365,11 +1387,11 @@ PathTracer.prototype.endFrame = function() {
   gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 };
 
-// Accumulate one more sample into the running average. `inverse` is the
-// inverted modelview projection of the frame; the sub pixel offset that
-// antialiases the image is applied to the corners of the view instead of to
-// that matrix, so the matrix only has to be inverted once per frame.
-PathTracer.prototype.sample = function(inverse) {
+// Accumulate one more sample into the running average. `camera` describes the
+// frame's camera (see makeCamera()); the sub pixel offset that antialiases the
+// image is applied to the corners of the view instead of to its matrix, so the
+// matrix only has to be inverted once per frame.
+PathTracer.prototype.sample = function(camera) {
   var point = this.samplePoint;
   point.set(this.sampleCount);
 
@@ -1380,10 +1402,10 @@ PathTracer.prototype.sample = function(inverse) {
   var dy = (point.pixel[1] * 2 - 1) / renderHeight;
 
   var uniforms = this.sampleUniforms;
-  eyeRayInto(inverse, -1 - dx, -1 - dy, uniforms.ray00);
-  eyeRayInto(inverse, -1 - dx, +1 - dy, uniforms.ray01);
-  eyeRayInto(inverse, +1 - dx, -1 - dy, uniforms.ray10);
-  eyeRayInto(inverse, +1 - dx, +1 - dy, uniforms.ray11);
+  cameraCornerInto(camera, -1 - dx, -1 - dy, uniforms.origin00, uniforms.ray00);
+  cameraCornerInto(camera, -1 - dx, +1 - dy, uniforms.origin01, uniforms.ray01);
+  cameraCornerInto(camera, +1 - dx, -1 - dy, uniforms.origin10, uniforms.ray10);
+  cameraCornerInto(camera, +1 - dx, +1 - dy, uniforms.origin11, uniforms.ray11);
   uniforms.textureWeight = this.sampleCount / (this.sampleCount + 1);
   setUniforms(this.tracerProgram, uniforms);
 
@@ -1397,10 +1419,10 @@ PathTracer.prototype.sample = function(inverse) {
   this.sampleCount++;
 };
 
-PathTracer.prototype.update = function(inverse, samples) {
+PathTracer.prototype.update = function(camera, samples) {
   this.beginFrame();
   for(var i = 0; i < samples; i++) {
-    this.sample(inverse);
+    this.sample(camera);
   }
   this.endFrame();
 };
@@ -1474,7 +1496,7 @@ Renderer.prototype.setObjects = function(objects) {
 Renderer.prototype.update = function(modelviewProjection, samples) {
   if(!this.paused) {
     this.modelviewProjection = modelviewProjection;
-    this.pathTracer.update(modelviewProjection.inverse().elements, samples);
+    this.pathTracer.update(makeCamera(modelviewProjection), samples);
   }
 };
 
@@ -1497,6 +1519,64 @@ Renderer.prototype.render = function() {
     }
   }
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// camera
+////////////////////////////////////////////////////////////////////////////////
+
+// Height of the orthographic view volume, in world units. Left unset it frames
+// the room: parallel rays do not spread out with distance, so any part of the
+// view wider than the room is filled with rays that pass the room by and hit
+// nothing at all. The margin keeps the corners of the view, and the sub pixel
+// jitter around them, off the edges of the room where those rays run along a
+// wall instead of into it.
+function orthoViewHeight() {
+  if(orthoHeight !== null) return orthoHeight;
+  var aspect = canvasWidth / canvasHeight;
+  return 2 * 0.95 * Math.min(1, 1 / aspect);
+}
+
+// A perspective camera converges its rays on the eye, so objects shrink with
+// distance. An orthographic one keeps them parallel: parallel edges stay
+// parallel and an object is the same size wherever it sits, which is what
+// technical and isometric looking renders want.
+function makeProjectionMatrix() {
+  if(projection !== PROJECTION_ORTHOGRAPHIC) {
+    return makePerspective(fov, canvasWidth/canvasHeight, 0.1, 100);
+  }
+
+  var halfHeight = orthoViewHeight() / 2;
+  var halfWidth = halfHeight * canvasWidth / canvasHeight;
+  // The view volume is centred on the eye rather than pushed out in front of
+  // it, so unprojecting the image plane lands on the plane through the eye:
+  // that is where the parallel rays start, outside the room like the eye of
+  // the perspective camera. It reaches far enough either way to hold the whole
+  // room whatever the zoom is.
+  var depth = zoomZ + 2;
+  return makeOrtho(-halfWidth, halfWidth, -halfHeight, halfHeight, -depth, depth);
+}
+
+// The camera a frame is traced through: the inverted modelview projection,
+// which turns a point on the image into a point in the world, plus the single
+// ray direction an orthographic camera uses for every pixel.
+function makeCamera(modelviewProjection) {
+  var camera = {
+    orthographic: projection === PROJECTION_ORTHOGRAPHIC,
+    inverse: modelviewProjection.inverse().elements,
+    forward: [0, 0, 0]
+  };
+
+  if(camera.orthographic) {
+    // the camera always looks at the origin, so it faces back down the eye
+    var elements = eye.elements;
+    var length = Math.sqrt(elements[0] * elements[0] + elements[1] * elements[1] + elements[2] * elements[2]) || 1;
+    for(var i = 0; i < 3; i++) {
+      camera.forward[i] = -elements[i] / length;
+    }
+  }
+
+  return camera;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // class UI
@@ -1528,25 +1608,33 @@ UI.prototype.setObjects = function(objects) {
 
 UI.prototype.update = function(samples) {
   this.modelview = makeLookAt(eye.elements[0], eye.elements[1], eye.elements[2], 0, 0, 0, 0, 1, 0);
-  this.projection = makePerspective(fov, canvasWidth/canvasHeight, 0.1, 100);
+  this.projection = makeProjectionMatrix();
   this.modelviewProjection = this.projection.multiply(this.modelview);
   // cached so that picking and dragging do not invert a 4x4 matrix per event
   this.modelviewProjectionInverse = this.modelviewProjection.inverse();
   this.renderer.update(this.modelviewProjection, samples === undefined ? 1 : samples);
 };
 
-// convert a position in canvas pixels into a ray leaving the eye. Returns null
-// until the first frame has run and the camera matrices exist.
-UI.prototype.getRayForPixel = function(x, y) {
+// convert a position in canvas pixels into the ray the camera shoots through
+// it, as an {origin, ray} pair: an orthographic camera starts every ray at a
+// different point, so the origin is not always the eye. Returns null until the
+// first frame has run and the camera matrices exist.
+UI.prototype.getCameraRay = function(x, y) {
   if(!this.modelviewProjectionInverse) return null;
-  return getEyeRay(this.modelviewProjectionInverse, (x / canvasWidth) * 2 - 1, 1 - (y / canvasHeight) * 2);
+
+  var point = unprojectPoint(this.modelviewProjectionInverse, (x / canvasWidth) * 2 - 1, 1 - (y / canvasHeight) * 2);
+  if(projection === PROJECTION_ORTHOGRAPHIC) {
+    return { origin: point, ray: eye.toUnitVector().multiply(-1) };
+  }
+  return { origin: eye, ray: point.subtract(eye) };
 };
 
 UI.prototype.mouseDown = function(x, y) {
   var t;
-  var origin = eye;
-  var ray = this.getRayForPixel(x, y);
-  if(ray === null) return false;
+  var camera = this.getCameraRay(x, y);
+  if(camera === null) return false;
+  var origin = camera.origin;
+  var ray = camera.ray;
 
   // test the selection box first
   if(this.renderer.selectedObject != null) {
@@ -1588,9 +1676,10 @@ UI.prototype.mouseDown = function(x, y) {
 
 UI.prototype.mouseMove = function(x, y) {
   if(this.moving) {
-    var origin = eye;
-    var ray = this.getRayForPixel(x, y);
-    if(ray === null) return;
+    var camera = this.getCameraRay(x, y);
+    if(camera === null) return;
+    var origin = camera.origin;
+    var ray = camera.ray;
 
     var t = (this.movementDistance - this.movementNormal.dot(origin)) / this.movementNormal.dot(ray);
     var hit = origin.add(ray.multiply(t));
@@ -1603,9 +1692,10 @@ UI.prototype.mouseMove = function(x, y) {
 
 UI.prototype.mouseUp = function(x, y) {
   if(this.moving) {
-    var origin = eye;
-    var ray = this.getRayForPixel(x, y);
-    if(ray === null) return;
+    var camera = this.getCameraRay(x, y);
+    if(camera === null) return;
+    var origin = camera.origin;
+    var ray = camera.ray;
 
     var t = (this.movementDistance - this.movementNormal.dot(origin)) / this.movementNormal.dot(ray);
     var hit = origin.add(ray.multiply(t));
@@ -1671,6 +1761,31 @@ UI.prototype.updateEnvironment = function(newEnvironment) {
   }
 };
 
+// Switch between the perspective and the orthographic camera. `newProjection`
+// is 'perspective' or 'orthographic'.
+UI.prototype.updateProjection = function(newProjection) {
+  newProjection = (newProjection === PROJECTION_ORTHOGRAPHIC) ? PROJECTION_ORTHOGRAPHIC : PROJECTION_PERSPECTIVE;
+  if(projection != newProjection) {
+    projection = newProjection;
+    // every pixel now looks somewhere else, so what has been accumulated so
+    // far belongs to a different image
+    this.renderer.pathTracer.sampleCount = 0;
+  }
+};
+
+// Set the height of the orthographic view volume in world units, which is what
+// zooming means without a vanishing point. Pass null to go back to framing the
+// room.
+UI.prototype.updateOrthoHeight = function(newHeight) {
+  newHeight = (typeof newHeight === 'number' && newHeight > 0) ? newHeight : null;
+  if(orthoHeight != newHeight) {
+    orthoHeight = newHeight;
+    if(projection === PROJECTION_ORTHOGRAPHIC) {
+      this.renderer.pathTracer.sampleCount = 0;
+    }
+  }
+};
+
 UI.prototype.updateGlossiness = function(newGlossiness) {
 
   if(isNaN(newGlossiness)) newGlossiness = 0;
@@ -1694,6 +1809,13 @@ let angleY = 0;
 let zoomZ = 2.5
 let fov = 55
 let eye = Vector.create([0, 0, 0]);
+
+const PROJECTION_PERSPECTIVE = 'perspective';
+const PROJECTION_ORTHOGRAPHIC = 'orthographic';
+let projection = PROJECTION_PERSPECTIVE;
+// null sizes the orthographic view to the room, see orthoViewHeight()
+let orthoHeight = null;
+
 var light = Vector.create([0.4, 0.5, -0.6]);
 let lightSize = 0.1;
 let lightVal = 0.5;
@@ -1863,7 +1985,7 @@ function createContext(canvas) {
  * Initialize the path tracer on the given canvas
  * @param {HTMLCanvasElement} canvas - Canvas to render to
  * @param {Object[]} objects - Array of Sphere, Cube and ExtrudedRectangle objects
- * @param {Object} [config] - Specify: material, glossiness (0-1), environment, bounces (light bounces per ray), zoom (in distance from center), fov (field of view, in degrees), lightPosition ([x,y,z]), lightSize, lightVal (0-1), samplesPerFrame (samples accumulated per animation frame, adaptive by default)
+ * @param {Object} [config] - Specify: material, glossiness (0-1), environment, bounces (light bounces per ray), zoom (in distance from center), projection ('perspective' or 'orthographic'), fov (field of view, in degrees, perspective only), orthoHeight (height of the orthographic view in world units, defaults to framing the room), lightPosition ([x,y,z]), lightSize, lightVal (0-1), samplesPerFrame (samples accumulated per animation frame, adaptive by default)
  * @param {bool} [interactive=true] - if the user should be able to interact with the scene
  * @param {function} [log] - a function to print log messages to, defaults to console.log
  * @returns {UI}
@@ -1882,6 +2004,8 @@ function makePathTracer(canvas, objects, config = {}, interactive = true, log) {
   if(config.fov) {
     fov = config.fov;
   }
+  projection = (config.projection === PROJECTION_ORTHOGRAPHIC) ? PROJECTION_ORTHOGRAPHIC : PROJECTION_PERSPECTIVE;
+  orthoHeight = (typeof config.orthoHeight === 'number' && config.orthoHeight > 0) ? config.orthoHeight : null;
   if(config.lightPosition) {
     light = Vector.create(config.lightPosition);
   }
