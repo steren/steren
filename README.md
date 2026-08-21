@@ -7,15 +7,15 @@ I [tweet](https://twitter.com/steren), [talk](https://talks.steren.fr), [experim
 
 <a href="https://cloud.run"><img src="img/icons/carbon-footprint-screenshot.webp" width="200" height="152"></a>  
 **[Cloud Carbon Footprint](https://cloud.google.com/carbon-footprint)**  
-Understand and reduce your Google Cloud carbon emissions.
+Greenhouse gas reporting.
 
 <a href="https://cloud.run"><img src="img/icons/cloud-run.svg" width="200" height="100"></a>  
-**[Cloud Run](https://cloud.run)**  
-Google Cloud's serverless runtime.
+**[Google Cloud Run](https://cloud.run)**  
+Serverless runtime.
 
-<a href="https://cloud.google.com/error-reporting/"><img src="img/icons/error-reporting-screenshot.webp" width="200" height="100"></a>  
-**[Cloud Error Reporting](https://cloud.google.com/error-reporting/)**  
-Identify and understand application errors.
+<a href="https://www.beansight.com"><img src="img/logos/beansight.svg" width="100" height="100"></a>  
+**[Beansight](https://www.beansight.com)**  
+Prediction market.
 
 <a href="https://www.dailymotion.com/video/xuy6pq"><img src="img/logos/factory.svg" width="100" height="100"></a>  
 **[Joshfire Factory](https://www.dailymotion.com/video/xuy6pq)**  
