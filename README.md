@@ -13,9 +13,9 @@ Understand and reduce your Google Cloud carbon emissions.
 **[Cloud Run](https://cloud.run)**  
 Google Cloud's serverless runtime.
 
-<a href="https://cloud.google.com/error-reporting/"><img src="img/icons/error-reporting-screenshot.webp" width="200" height="100"></a>  
-**[Cloud Error Reporting](https://cloud.google.com/error-reporting/)**  
-Identify and understand application errors.
+<a href="https://www.beansight.com"><img src="img/logos/beansight.svg" width="100" height="100"></a>  
+**[Beansight](https://www.beansight.com)**  
+Prediction market.
 
 <a href="https://www.dailymotion.com/video/xuy6pq"><img src="img/logos/factory.svg" width="100" height="100"></a>  
 **[Joshfire Factory](https://www.dailymotion.com/video/xuy6pq)**  
