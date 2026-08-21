@@ -10,8 +10,8 @@ I [tweet](https://twitter.com/steren), [talk](https://talks.steren.fr), [experim
 Greenhouse gas reporting.
 
 <a href="https://cloud.run"><img src="img/icons/cloud-run.svg" width="200" height="100"></a>  
-**[Cloud Run](https://cloud.run)**  
-Google Cloud's serverless runtime.
+**[Google Cloud Run](https://cloud.run)**  
+Serverless runtime.
 
 <a href="https://www.beansight.com"><img src="img/logos/beansight.svg" width="100" height="100"></a>  
 **[Beansight](https://www.beansight.com)**  
