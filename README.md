@@ -7,7 +7,7 @@ I [tweet](https://twitter.com/steren), [talk](https://talks.steren.fr), [experim
 
 <a href="https://cloud.run"><img src="img/icons/carbon-footprint-screenshot.webp" width="200" height="152"></a>  
 **[Cloud Carbon Footprint](https://cloud.google.com/carbon-footprint)**  
-Understand and reduce your Google Cloud carbon emissions.
+Greenhouse gas reporting.
 
 <a href="https://cloud.run"><img src="img/icons/cloud-run.svg" width="200" height="100"></a>  
 **[Cloud Run](https://cloud.run)**  
