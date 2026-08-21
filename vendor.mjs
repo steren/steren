@@ -13,9 +13,19 @@ import { join } from 'node:path';
 
 const PACKAGES = {
   'rtx-on': ['rtx-on.js', 'LICENSE'],
-  // webgl-path-tracing.js imports ./glUtils.js, which imports ./sylvester.src.js,
-  // so those three have to stay next to each other.
-  'webgl-path-tracing': ['webgl-path-tracing.js', 'glUtils.js', 'sylvester.src.js', 'LICENSE'],
+  // webgl-path-tracing.js imports ./path-tracer-core.js, which imports
+  // ./glUtils.js, which imports ./sylvester.src.js; the tracer also loads
+  // ./path-tracer-worker.js as a module worker at runtime. All of them have to
+  // stay next to each other: the worker is fetched by URL, and import maps do
+  // not apply inside one, so it resolves its own imports relatively.
+  'webgl-path-tracing': [
+    'webgl-path-tracing.js',
+    'path-tracer-core.js',
+    'path-tracer-worker.js',
+    'glUtils.js',
+    'sylvester.src.js',
+    'LICENSE',
+  ],
 };
 
 // Report the files whose content actually changed. vendor/ is committed, so an
