@@ -1,315 +1,500 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
   <title>Steren Giannini</title>
   <link rel="canonical" href="https://steren.fr">
-  
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Personal works">
+  <meta name="description" content="Steren Giannini — Product Manager at Vercel, ex-Google (12 years). Personal works and projects.">
   <meta name="author" content="Steren Giannini">
-  <meta name="theme-color" content="#00796B">
-  <meta name="color-scheme" content="light dark">
-  <link rel="icon" type="image/svg+xml" href="icon.svg">
-  
-  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#080808">
+  <meta name="color-scheme" content="dark">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="img/favicon/favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="img/favicon/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png">
+  <link rel="manifest" href="img/favicon/site.webmanifest">
+
+  <!-- Open Graph & Twitter Meta -->
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:creator" content="@steren">
   <meta name="twitter:title" content="Steren Giannini">
-  <meta name="twitter:description" content="Works">
-  <meta name="twitter:image" content="http://steren.fr/icon.png">
+  <meta name="twitter:description" content="Product Manager at Vercel. 12 years at Google Cloud. Portfolio & Selected Works.">
+  <meta name="twitter:image" content="https://steren.fr/img/favicon/og.png">
 
   <meta property="og:type" content="profile">
   <meta property="og:title" content="Steren Giannini">
-  <meta property="og:description" content="Works">
-  <meta property="og:url" content="http://steren.fr">
-  <meta property="og:image" content="http://steren.fr/icon.png">
+  <meta property="og:description" content="Product Manager at Vercel. 12 years at Google Cloud. Portfolio & Selected Works.">
+  <meta property="og:url" content="https://steren.fr">
+  <meta property="og:image" content="https://steren.fr/img/favicon/og.png">
   <meta property="og:profile:first_name" content="Steren">
   <meta property="og:profile:last_name" content="Giannini">
 
+  <!-- Schema.org Person JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "http://schema.org",
     "@type": "Person",
-    "url": "http://steren.fr",
+    "url": "https://steren.fr",
     "name": "Steren Giannini",
     "givenName": "Steren",
     "familyName": "Giannini",
-    "image": "http://steren.fr/icon.png"
+    "jobTitle": "Product Manager",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Vercel"
+    },
+    "image": "https://steren.fr/img/avatar.jpg"
   }
   </script>
 
-  <link rel="preload" href="img/avatar.webp" as="image" fetchpriority="high">
-  <!-- TODO: Keep these updated with visible items -->
-  <link rel="preload" href="img/icons/carbon-footprint-screenshot.webp" as="image" fetchpriority="high">
-  <link rel="preload" href="img/icons/cloud-run.svg" as="image" fetchpriority="high">
-  <link rel="preload" href="img/loops/cloud-run.svg" as="image">
-  <link rel="preload" href="img/logos/beansight.svg" as="image" fetchpriority="high">
-  <link rel="preload" href="img/logos/factory.svg" as="image" fetchpriority="high">
-  <link rel="preload" href="img/icons/cadeaux.svg" as="image" fetchpriority="high">
-  <link rel="preload" href="img/icons/capoda.webp" as="image" fetchpriority="high">
+  <!-- Sitemap & Asset Preloading -->
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+  <link rel="preload" href="img/avatar.jpg" as="image" type="image/jpeg" fetchpriority="high">
 
-  <!--
-    Colors
-    (picked from http://sankk.in/material-mixer/, following http://www.google.com/design/spec/style/color.html)
-
-    Primary Shade: #009688
-    Primary Light: #B2DFDB
-    Primary Dark: #00796B
-    Accent Shade: #FFAB40
-    Accent Light (Fallback): #FFD180
-  -->
+  <!-- Non-blocking Defer for Squircle Script -->
+  <script src="js/squircle.js" defer></script>
 
   <style>
     :root {
-      --primary-light: hsl(173 100% 40%);
-      --primary-dark: hsl(173 100% 24%);
-      color-scheme: light dark;
+      --bg-color: #080808;
+      --card-bg: #141414;
+      --card-hover-bg: #1e1e1e;
+      --text-main: #f2f2f7;
+      --text-muted: #98989d;
+      --text-subtle: #636366;
+      --accent: #ffffff;
+      --container-max-width: 900px;
     }
 
-    ::selection {
-      background-color: var(--primary-light);
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     html {
-      background-color: light-dark(#E5E5E5, #121212);
-      color: light-dark(#000000, #FFFFFF);
-      margin: 0;
-      font-family: sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-size-adjust: 100%;
     }
 
-    body, h1, h2, h3, h4, h5, h6, p, ol, ul {
-      margin: 0;
-      padding: 0;
-      font-weight: 300;
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
-    a, a:visited {
-      color: light-dark(var(--primary-dark), var(--primary-light));
-    }
-
-    /* Page gutters */
-    main {
-      width: calc(100% - 2 * 1rem);
-      margin-inline: auto;
-      padding-inline: 1rem;
-
-      @media (width >= 1400px) {
-        max-width: 1300px;
-      }
-    }
-
-    /* on desktop, let the page breathe above the first card */
-    @media (width > 600px) {
-      main {
-        padding-block-start: 3rem;
-      }
-    }
-
-    .card {
-      display: block;
-      background-color: light-dark(white, rgb(255 255 255 / 5%));
-      box-shadow: 0 2px 5px 0 rgb(0 0 0 / 26%);
-      margin: 1rem;
-      border-radius: 8px;
-      /* clip the media, which fills the card edge to edge, to the rounded corners */
-      overflow: hidden;
-    }
-
-    /* aspect-ratio reserves the image box before the image is downloaded */
-    .image, .loop {
-      display: block;
+    /* Container Capped at 900px */
+    .container {
       width: 100%;
-      aspect-ratio: 280 / 140;
-      object-fit: cover;
-      object-position: center;
+      max-width: var(--container-max-width);
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
     }
 
-    .image.full {
-      object-fit: contain;
+    /* Borderless Profile Header Section */
+    .profile-header {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-bottom: 3.5rem;
     }
 
-    .screenshot {
-      object-position: center top;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      .image {
-        opacity: .9;
-        background-color: white;
-      }
-    }
-
-    .loop {
-      display: none;
-      background-color: white;
-      /* stack above the still image, which in dark mode is a stacking context
-         of its own because of its opacity */
-      z-index: 1;
-    }
-    .card:hover .loop {
-      display: block;
-    }
-
-    .logo {
-      display: block;
-      width: 40%;
-      aspect-ratio: 1;
-      object-fit: cover;
-      object-position: center;
-      margin-block: 1rem;
-      margin-inline: auto;
+    .profile-top {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
     }
 
     .avatar {
+      width: 84px;
+      height: 84px;
       border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      flex-shrink: 0;
     }
 
-    #intro {
-      /* a centered 400px column, keeping the card gutter when the viewport is
-         narrower than that (margin-inline: auto replaces the .card margin) */
-      max-width: min(400px, 100% - 2rem);
-      margin-inline: auto;
-
-      h1 {
-        text-align: center;
-        font-size: 2.5em;
-      }
-
-      .bio {
-        padding: 1rem;
-        line-height: 1.3em;
-        text-wrap: balance;
-      }
+    .profile-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
     }
 
-    #work-list {
+    .profile-titles h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    /* Experience Badges */
+    .experience-badges {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.1rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background-color: #18181a;
+      color: #e5e5ea;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.3rem 0.75rem;
+      border-radius: 100px;
+      text-decoration: none;
+    }
+
+    .badge-link:hover {
+      background-color: #242428;
+      color: var(--accent);
+    }
+
+    .badge-icon {
+      width: 14px;
+      height: 14px;
+      object-fit: contain;
+    }
+
+    .profile-bio {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 720px;
+    }
+
+    .text-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .text-link:hover {
+      opacity: 0.8;
+    }
+
+    .profile-bio strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    /* Borderless Social Link Pills */
+    .social-links {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-evenly;
-      list-style: none;
-
-      li {
-        width: 400px;
-        margin-inline: 1rem;
-
-        &:hover {
-          background-color: light-dark(#DDDDDD, rgb(255 255 255 / 7%));
-        }
-
-        &:active {
-          background-color: light-dark(#CCCCCC, rgb(255 255 255 / 10%));
-        }
-      }
-
-      /* the media fills the card, the text sits in a 1rem gutter */
-      a {
-        display: grid;
-        grid-template-columns: 1rem 1fr 1rem;
-        grid-template-areas:
-          "media media media"
-          ".     title ."
-          ".     text  .";
-        row-gap: 1rem;
-        padding-bottom: 1rem;
-        text-decoration: none;
-        color: light-dark(black, #FFFFFF);
-      }
-
-      :is(.image, .loop, .logo) {
-        grid-area: media;
-      }
-
-      h3 {
-        grid-area: title;
-        font-size: 2rem;
-      }
-
-      p {
-        grid-area: text;
-      }
+      gap: 0.5rem;
+      margin-top: 0.25rem;
     }
 
+    .pill-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background-color: #18181a;
+      color: #c7c7cc;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.4rem 0.85rem;
+      border-radius: 100px;
+    }
+
+    .pill-link:hover {
+      background-color: #242428;
+      color: var(--accent);
+    }
+
+    /* Section Heading */
+    .section-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+
+    /* Borderless Squircle Project Cards */
+    .project-card {
+      background-color: var(--card-bg);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .project-card:hover {
+      background-color: var(--card-hover-bg);
+    }
+
+    /* Media Container inside Card */
+    .card-media {
+      position: relative;
+      width: 100%;
+      height: 160px;
+      background-color: #0b0b0c;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-media img.screenshot {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .card-media img.full-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 1rem;
+    }
+
+    .card-media img.logo-img {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+    }
+
+    /* Card Content Body */
+    .card-body {
+      padding: 1.2rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .card-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.35rem;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: -0.01em;
+    }
+
+    .external-arrow {
+      color: var(--text-subtle);
+      font-size: 0.85rem;
+    }
+
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: auto;
+      padding: 3rem 0 1rem 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-subtle);
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 640px) {
+      .container {
+        padding: 2.5rem 1.25rem;
+      }
+
+      .profile-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .profile-titles h1 {
+        font-size: 1.85rem;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
-
-  <script type="importmap">
-    {
-      "imports": {
-        "webgl-path-tracing": "./vendor/webgl-path-tracing/webgl-path-tracing.js",
-        "sylvester": "./vendor/webgl-path-tracing/sylvester.src.js",
-        "rtx-on": "./vendor/rtx-on/rtx-on.js"
-      }
-    }
-    </script>
-    <script type="module">
-    import * as rtx from 'rtx-on';
-    
-    window.onload = function() {
-        rtx.on({
-          raised: [...document.querySelectorAll(".card")],
-          moveLightOnClick: true,
-        });
-    }
-  </script>
 </head>
 
 <body>
-  <main>
-    <section id="intro" class="card">
-      <img class="logo avatar" src="img/avatar.webp" alt="Steren's profile picture">
-      <h1>Steren Giannini</h1>
-      <p class="bio">
-        I am an engineer turned <a href="https://www.linkedin.com/in/steren" target="_blank" rel="me noopener">Product Manager</a>.
-        <br>
-        <br>
-        I <a href="https://twitter.com/steren" target="_blank" rel="me noopener">tweet</a>, <a href="https://talks.steren.fr" target="_blank" rel="me noopener">talk</a>, <a href="https://labs.steren.fr" target="_blank" rel="me noopener">experiment</a>, <a href="https://blog.steren.fr" target="_blank" rel="me noopener">blog</a>, and <a href="https://github.com/steren" target="_blank" rel="me noopener">build</a>:
+  <main class="container">
+    <!-- Clean Borderless Profile Header -->
+    <header class="profile-header">
+      <div class="profile-top">
+        <img class="avatar" src="img/avatar.jpg" width="84" height="84" alt="Steren Giannini profile photo" fetchpriority="high" decoding="async">
+        <div class="profile-titles">
+          <h1>Steren Giannini</h1>
+          <div class="experience-badges">
+            <a class="badge badge-link" href="https://vercel.com" target="_blank" rel="noopener">
+              <img src="img/icons/vercel.svg" width="14" height="14" alt="Vercel logo" class="badge-icon" decoding="async">
+              Vercel
+            </a>
+            <a class="badge badge-link" href="https://cloud.google.com" target="_blank" rel="noopener">
+              <img src="img/icons/google.svg" width="14" height="14" alt="Google logo" class="badge-icon" decoding="async">
+              Ex-Google (12 yrs)
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <p class="profile-bio">
+        Product Manager at <a href="https://vercel.com" target="_blank" rel="noopener" class="text-link">Vercel</a>, leading the <strong>Fluid</strong> family of compute products (<a href="https://vercel.com/docs/functions" target="_blank" rel="noopener" class="text-link">Functions</a>, <a href="https://vercel.com/docs/containers" target="_blank" rel="noopener" class="text-link">Containers</a>, <a href="https://vercel.com/docs/sandbox" target="_blank" rel="noopener" class="text-link">Sandbox</a>, <a href="https://vercel.com/docs/builds" target="_blank" rel="noopener" class="text-link">Builds</a>).
+        <br><br>
+        Previously spent 12 years at <a href="https://cloud.google.com" target="_blank" rel="noopener" class="text-link">Google</a> building serverless runtime platforms including <a href="https://cloud.google.com/run" target="_blank" rel="noopener" class="text-link">Google Cloud Run</a> and <a href="https://cloud.google.com/carbon-footprint" target="_blank" rel="noopener" class="text-link">Cloud Carbon Footprint</a>.
       </p>
+
+      <nav class="social-links" aria-label="Social Links">
+        <a class="pill-link" href="https://x.com/steren" target="_blank" rel="me noopener">
+          <span>X (Twitter)</span> ↗
+        </a>
+        <a class="pill-link" href="https://www.linkedin.com/in/steren" target="_blank" rel="me noopener">
+          <span>LinkedIn</span> ↗
+        </a>
+        <a class="pill-link" href="https://github.com/steren" target="_blank" rel="me noopener">
+          <span>GitHub</span> ↗
+        </a>
+        <a class="pill-link" href="https://blog.steren.fr" target="_blank" rel="me noopener">
+          <span>Blog</span> ↗
+        </a>
+        <a class="pill-link" href="https://talks.steren.fr" target="_blank" rel="me noopener">
+          <span>Talks</span> ↗
+        </a>
+        <a class="pill-link" href="https://labs.steren.fr" target="_blank" rel="me noopener">
+          <span>Labs</span> ↗
+        </a>
+      </nav>
+    </header>
+
+    <!-- Works Grid Section -->
+    <section>
+      <div class="section-header">
+        <h2 class="section-title">Selected Works</h2>
+      </div>
+
+      <div class="projects-grid">
+        <!-- Google Cloud Run -->
+        <a class="project-card" href="https://cloud.google.com/run/" target="_blank" rel="noopener" data-squircle-radius="22" data-squircle-smoothing="75">
+          <div class="card-media">
+            <img class="logo-img" src="img/icons/gcrun.svg" width="72" height="72" alt="Google Cloud Run logo" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <h3 class="card-title">Google Cloud Run</h3>
+              <span class="external-arrow">↗</span>
+            </div>
+            <p class="card-desc">Fully managed serverless runtime platform for containerized applications.</p>
+          </div>
+        </a>
+
+        <!-- Cloud Carbon Footprint -->
+        <a class="project-card" href="https://cloud.google.com/carbon-footprint/" target="_blank" rel="noopener" data-squircle-radius="22" data-squircle-smoothing="75">
+          <div class="card-media">
+            <img class="screenshot" src="img/icons/carbon-footprint-screenshot.webp" width="300" height="160" alt="Cloud Carbon Footprint preview" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <h3 class="card-title">Cloud Carbon Footprint</h3>
+              <span class="external-arrow">↗</span>
+            </div>
+            <p class="card-desc">Greenhouse gas emission reporting and analytics for cloud infrastructure.</p>
+          </div>
+        </a>
+
+        <!-- Beansight -->
+        <a class="project-card" href="https://www.beansight.com" target="_blank" rel="noopener" data-squircle-radius="22" data-squircle-smoothing="75">
+          <div class="card-media">
+            <img class="logo-img" src="img/logos/beansight.svg" width="72" height="72" alt="Beansight logo" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <h3 class="card-title">Beansight</h3>
+              <span class="external-arrow">↗</span>
+            </div>
+            <p class="card-desc">Crowdsourced prediction market platform for future trends and events.</p>
+          </div>
+        </a>
+
+        <!-- Joshfire Factory -->
+        <a class="project-card" href="https://www.dailymotion.com/video/xuy6pq" target="_blank" rel="noopener" data-squircle-radius="22" data-squircle-smoothing="75">
+          <div class="card-media">
+            <img class="logo-img" src="img/logos/factory.svg" width="72" height="72" alt="Joshfire Factory logo" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <h3 class="card-title">Joshfire Factory</h3>
+              <span class="external-arrow">↗</span>
+            </div>
+            <p class="card-desc">Multi-device application development platform for connected devices.</p>
+          </div>
+        </a>
+
+        <!-- Cadeaux entre nous -->
+        <a class="project-card" href="https://cadeaux-entre-nous.fr" target="_blank" rel="noopener" data-squircle-radius="22" data-squircle-smoothing="75">
+          <div class="card-media">
+            <img class="full-img" src="img/icons/cadeaux.svg" width="200" height="100" alt="Cadeaux entre nous preview" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <h3 class="card-title">Cadeaux entre nous</h3>
+              <span class="external-arrow">↗</span>
+            </div>
+            <p class="card-desc">Simple Secret Santa organization web application for friends and families.</p>
+          </div>
+        </a>
+
+        <!-- CAPODA -->
+        <a class="project-card" href="https://www.youtube.com/watch?v=khWXdkryBE4" target="_blank" rel="noopener" data-squircle-radius="22" data-squircle-smoothing="75">
+          <div class="card-media">
+            <img class="screenshot" src="img/icons/capoda.webp" width="300" height="160" alt="CAPODA animated short film" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <h3 class="card-title">CAPODA</h3>
+              <span class="external-arrow">↗</span>
+            </div>
+            <p class="card-desc">Award-winning animated short movie production and visual direction.</p>
+          </div>
+        </a>
+      </div>
     </section>
 
-    <section id="works">
-      <ol id="work-list">
-        <li class="card" data-id="cloud-run" data-featured="true" data-size="50" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="lead" data-category="" data-date="2019">
-          <a href="https://cloud.google.com/run/" title="Google Cloud Run website" target="_blank" rel="noopener">
-            <img class="image screenshot" src="img/icons/cloud-run.svg" alt="Cloud Run command line">
-            <img class="loop screenshot" loading="lazy" src="img/loops/cloud-run.svg" alt="Cloud Run command line">
-            <h3>Google Cloud Run</h3>
-            <p>Serverless runtime.</p>
-          </a>
-        </li>
-        <li class="card" data-id="carbon-footprint" data-featured="true" data-size="20" data-completion="in-progress" data-seriousness="serious" data-type="product" data-participation="lead" data-category="" data-date="2021">
-          <a href="https://cloud.google.com/carbon-footprint/" title="Cloud Carbon Footprint website" target="_blank" rel="noopener">
-            <img class="image screenshot" loading="lazy" src="img/icons/carbon-footprint-screenshot.webp" alt="Cloud Carbon Footprint screenshot">
-            <h3>Cloud Carbon Footprint</h3>
-            <p>Greenhouse gas reporting.</p>
-          </a>
-        </li>
-        <li class="card" data-id="beansight" data-featured="true" data-size="10" data-completion="done" data-seriousness="serious" data-type="code" data-participation="lead" data-category="web" data-date="2011">
-          <a href="https://www.beansight.com" title="Beansight website" target="_blank" rel="noopener">
-            <img class="logo" src="img/logos/beansight.svg" alt="Beansight logo">
-            <h3>Beansight</h3>
-            <p>Prediction market.</p>
-          </a>
-        </li>
-        <li class="card" data-id="factory" data-featured="true" data-size="15" data-completion="done" data-seriousness="serious" data-type="product" data-participation="lead" data-category="web" data-date="2012">
-          <a href="https://www.dailymotion.com/video/xuy6pq" title="Joshfire Factory tour" target="_blank" rel="noopener">
-            <img class="logo" src="img/logos/factory.svg" alt="Joshfire Factory logo">
-            <h3>Joshfire Factory</h3>
-            <p>Multi-device application platform.</p>
-          </a>
-        </li>
-        <li class="card" data-id="cadeaux" data-featured="true" data-size="3" data-completion="wip" data-seriousness="notsoserious" data-type="code" data-participation="lead" data-category="web" data-date="2010">
-          <a href="http://www.cadeaux-entre-nous.fr" title="cadeaux-entre-nous.fr" target="_blank" rel="noopener">
-            <img class="image full" loading="lazy" src="img/icons/cadeaux.svg" alt="Cadeaux entre nous principle">
-            <h3>Cadeaux entre nous</h3>
-            <p>Secret Santa website.</p>
-          </a>
-        </li>
-        <li class="card" data-id="capoda" data-featured="true" data-size="5" data-completion="done" data-seriousness="serious" data-type="graphic" data-participation="lead" data-category="Animation" data-date="2008">
-          <a href="https://www.youtube.com/watch?v=khWXdkryBE4" title="Watch CAPODA" target="_blank" rel="noopener">
-            <img class="image" loading="lazy" src="img/icons/capoda.webp" alt="CAPODA picture">
-            <video class="loop" loading="lazy" autoplay loop muted playsinline src="img/loops/capoda.mp4#t=26" alt="CAPODA movie"></video>
-            <h3>CAPODA</h3>
-            <p>Animated short movie.</p>
-          </a>
-        </li>
-      </ol>
-    </section>
+    <!-- Footer -->
+    <footer>
+      <p>© Steren Giannini</p>
+    </footer>
   </main>
-</body></html>
+</body>
+</html>
